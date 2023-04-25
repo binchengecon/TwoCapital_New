@@ -163,15 +163,15 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     
     h = - 1/ xi_c * sigma_y * ee * G
     
-    # h[h<=1e-16] = 1e-16
+    h[h<=1e-16] = 1e-16
     h[h>=1] = 1
     
     
     h_k = -1/xi_c *sigma_k * dK 
     h_j = -1/xi_c *sigma_g * dL 
     
-    # h_k[h_k>=-1e-16]=-1e-16
-    # h_j[h_j>=-1e-16]=-1e-16
+    h_k[h_k>=-1e-16]=-1e-16
+    h_j[h_j>=-1e-16]=-1e-16
     
     
     # gg[gg >= 1] = 1
@@ -184,19 +184,19 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     
     A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(varrho) ) * gg
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
-    # B_1 += sigma_k*h_k
+    B_1 += sigma_k*h_k
     B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
     B_2 += sigma_y * h * ee
     B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
-    # B_3 += sigma_g*h_j
+    B_3 += sigma_g*h_j
 
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
     D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(varrho))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(varrho)) ) * gg * V_post_tech
     D += 1/2 * xi_c * h**2
-    # D += 1/2 * xi_c * h_k**2
-    # D += 1/2 * xi_c * h_j**2
+    D += 1/2 * xi_c * h_k**2
+    D += 1/2 * xi_c * h_j**2
     
     return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h, h_k, h_j
 
