@@ -88,7 +88,10 @@ psi1arr=(0.5)
 
 
 
-python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity_newlabel_stocpath.py"
+# python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity_newlabel_stocpath.py"
+# python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity_newlabel_stocpath_nostop.py"
+python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity_newlabel_stocpath_nostop_lars.py"
+
 server_name="mercury"
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
@@ -102,7 +105,8 @@ fstr_SG="NearestNDInterpolator"
 
 auto=1
 # year=25
-year=40
+# year=40
+year=50
 
 # scheme_array=("macroannual" "newway" "newway" "newway" "check")
 # HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
@@ -110,7 +114,8 @@ scheme_array=("direct")
 HJBsolution_array=("direct")
 LENGTH_scheme=$((${#scheme_array[@]} - 1))
 
-SimPathNum=10000
+# SimPathNum=10000
+SimPathNum=9600
 
 
 
@@ -151,8 +156,9 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=16G
+#SBATCH --mem=100G
 #SBATCH --time=7-00:00:00
+#SBATCH --exclude=mcn01
 
 ####### load modules
 module load python/booth/3.8  gcc/9.2.0

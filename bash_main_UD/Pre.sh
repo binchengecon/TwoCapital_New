@@ -39,8 +39,8 @@ declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.2)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
-hXarrays=(hXarr2)
+hXarrays=(hXarr1)
+# hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
@@ -84,16 +84,16 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 
-xi_a=(100000. 100000. 100000.)
-xi_c=(0.050 100000. 100000.)
-xi_d=(100000. 0.050 100000.)
-xi_g=(100000. 100000. 0.050)
-
-
 # xi_a=(100000. 100000. 100000.)
-# xi_c=(0.025 0.050 100000.)
-# xi_d=(0.025 0.050 100000.)
-# xi_g=(0.025 0.050 100000.)
+# xi_c=(0.050 100000. 100000.)
+# xi_d=(100000. 0.050 100000.)
+# xi_g=(100000. 100000. 0.050)
+
+
+xi_a=(100000. 100000. 100000.)
+xi_c=(0.025 0.050 100000.)
+xi_d=(0.025 0.050 100000.)
+xi_g=(0.025 0.050 100000.)
 
 
 
@@ -136,7 +136,8 @@ for epsilon in ${epsilonarraypre[@]}; do
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_globalmiss2"			
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_globalmiss2_varrho1120"			
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_globalmiss_varrho1120"			
-			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_presentation"			
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_presentation"			
+			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_newmodel"			
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_presentation448"			
 
 			epsilonarr=(0.05 ${epsilon})

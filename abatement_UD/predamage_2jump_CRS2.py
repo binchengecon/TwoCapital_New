@@ -84,12 +84,15 @@ delta   = 0.010
 alpha   = 0.115
 kappa   = 6.667
 mu_k    = -0.043
-sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
+# sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
+sigma_k = 0.100
+
 # Technology
 theta        = 3
 lambda_bar   = 0.1206
 # vartheta_bar = 0.0453
-vartheta_bar = 0.05
+# vartheta_bar = 0.05
+vartheta_bar = 0.056
 # Damage function
 gamma_1 = 1.7675/10000
 gamma_2 = 0.0022 * 2
@@ -111,7 +114,8 @@ beta_f    = 1.86 / 1000
 zeta      = 0.00
 psi_0     = args.psi_0
 psi_1     = args.psi_1
-sigma_g   = 0.016
+# sigma_g   = 0.016
+sigma_g   = 0.078
 # Tech jump
 lambda_bar_first = lambda_bar / 2
 vartheta_bar_first = vartheta_bar / 2

@@ -30,7 +30,11 @@ parser.add_argument("--num_gamma",type=int,default=6)
 
 
 parser.add_argument("--xiaarr",nargs='+', type=float)
+parser.add_argument("--xicarr",nargs='+', type=float)
+parser.add_argument("--xidarr",nargs='+', type=float)
 parser.add_argument("--xigarr",nargs='+', type=float)
+
+parser.add_argument("--varrhoarr",nargs='+', type=float)
 
 parser.add_argument("--psi0arr",nargs='+',type=float)
 parser.add_argument("--psi1arr",nargs='+',type=float)
@@ -64,7 +68,10 @@ psi0arr = args.psi0arr
 psi1arr = args.psi1arr
 psi2arr = args.psi2arr
 xiaarr = args.xiaarr
+xicarr = args.xicarr 
+xidarr = args.xidarr 
 xigarr = args.xigarr 
+varrhoarr = args.varrhoarr
 
 
 Xminarr = args.Xminarr
@@ -192,7 +199,8 @@ def simulate_post(
     ii, ee, xx, g_tech, pi_c, v = controls
     ME_base = ME
     # dvdL_dis, dvdL_undis = FK
-    dvdL_dis, dvdL_undis, dvdL_dis_HJB, dvdL_Undis_HJB, dvdL_Undis_HJB_New, dvdY_dis, ddvddY_dis, dvdY_undis, ddvddY_undis  = FK
+    # dvdL_dis, dvdL_undis, dvdL_dis_HJB, dvdL_Undis_HJB, dvdL_Undis_HJB_New, dvdY_dis, ddvddY_dis, dvdY_undis, ddvddY_undis  = FK
+    dvdL_dis, dvdL_undis, dvdL_dis_HJB, dvdL_Undis_HJB, dvdY_dis, ddvddY_dis, dvdY_undis, ddvddY_undis  = FK
     n_bar = n_bar
     K_0, Y_0, L_0 = initial
 
@@ -249,7 +257,7 @@ def simulate_post(
     dvdL_undis_func   = RegularGridInterpolator(gridpoints, dvdL_undis)
     dvdL_dis_HJB_func   = RegularGridInterpolator(gridpoints, dvdL_dis_HJB)
     dvdL_Undis_HJB_func   = RegularGridInterpolator(gridpoints, dvdL_Undis_HJB)
-    dvdL_Undis_HJB_New_func   = RegularGridInterpolator(gridpoints, dvdL_Undis_HJB_New)
+    # dvdL_Undis_HJB_New_func   = RegularGridInterpolator(gridpoints, dvdL_Undis_HJB_New)
     dvdY_dis_func   = RegularGridInterpolator(gridpoints, dvdY_dis)
     ddvddY_dis_func   = RegularGridInterpolator(gridpoints, ddvddY_dis)
     dvdY_undis_func   = RegularGridInterpolator(gridpoints, dvdY_undis)
@@ -346,7 +354,7 @@ def simulate_post(
             dvdL_undis_hist[tm]    = dvdL_undis_func(hist[0,:])
             dvdL_dis_HJB_hist[tm]    = dvdL_dis_HJB_func(hist[0,:])
             dvdL_Undis_HJB_hist[tm]    = dvdL_Undis_HJB_func(hist[0,:])
-            dvdL_Undis_HJB_New_hist[tm]    = dvdL_Undis_HJB_New_func(hist[0,:])
+            # dvdL_Undis_HJB_New_hist[tm]    = dvdL_Undis_HJB_New_func(hist[0,:])
 
             dvdY_dis_hist[tm]    = dvdY_dis_func(hist[0,:])
             ddvddY_dis_hist[tm]    = ddvddY_dis_func(hist[0,:])
@@ -389,7 +397,7 @@ def simulate_post(
             
             dvdL_dis_HJB_hist[tm]    = dvdL_dis_HJB_func(hist[tm-1,:])
             dvdL_Undis_HJB_hist[tm]    = dvdL_Undis_HJB_func(hist[tm-1,:])
-            dvdL_Undis_HJB_New_hist[tm]    = dvdL_Undis_HJB_New_func(hist[tm-1,:])
+            # dvdL_Undis_HJB_New_hist[tm]    = dvdL_Undis_HJB_New_func(hist[tm-1,:])
 
             dvdY_dis_hist[tm]    = dvdY_dis_func(hist[tm-1,:])
             ddvddY_dis_hist[tm]    = ddvddY_dis_func(hist[tm-1,:])
@@ -530,11 +538,11 @@ def Damage_Intensity(Yt, y_bar_lower=1.5):
 
 
 
-def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
+def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
 
     Output_Dir = "/scratch/bincheng/"
     Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
-    File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
+    File_Dir = "xi_a_{}_xi_c_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_" .format(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho)
     
 
 
@@ -613,7 +621,7 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     with open(Data_Dir + File_Dir+"FK_Distorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
         FK_Dis_tech1 = pickle.load(f)
     
-    with open(Data_Dir + File_Dir+"FK_Undistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    with open(Data_Dir + File_Dir+"FK_BaselineUndistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
         FK_Undis_tech1 = pickle.load(f)
 
     with open(Data_Dir + File_Dir+"FK_Y_Distorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
@@ -629,12 +637,13 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     with open(Data_Dir + File_Dir+"HJB_Undistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
         HJB_Undis_tech1 = pickle.load(f)
     
-    with open(Data_Dir + File_Dir+"HJB_NewUndistortedFull_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
-        HJB_NewUndis_tech1 = pickle.load(f)
+    # with open(Data_Dir + File_Dir+"HJB_NewUndistortedFull_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+    #     HJB_NewUndis_tech1 = pickle.load(f)
     
     
     # FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL']
-    FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL'], HJB_Dis_tech1['dvdL'], HJB_Undis_tech1['dvdL'], HJB_NewUndis_tech1['dvdL'], FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']
+    # FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL'], HJB_Dis_tech1['dvdL'], HJB_Undis_tech1['dvdL'], HJB_NewUndis_tech1['dvdL'], FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']
+    FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL'], HJB_Dis_tech1['dvdL'], HJB_Undis_tech1['dvdL'], FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']
 
     res = simulate_post(grid = (K, Y, L), 
                        model_args = model_args, 
@@ -657,7 +666,8 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
 
-            res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],varrhoarr[id_varrho])
 
 

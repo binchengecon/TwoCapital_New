@@ -163,8 +163,16 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     
     h = - 1/ xi_c * sigma_y * ee * G
     
-    h[h<=1e-16] = 1e-16
+    # h[h<=1e-16] = 1e-16
     h[h>=1] = 1
+    
+    
+    h_k = -1/xi_c *sigma_k * dK 
+    h_j = -1/xi_c *sigma_g * dL 
+    
+    # h_k[h_k>=-1e-16]=-1e-16
+    # h_j[h_j>=-1e-16]=-1e-16
+    
     
     # gg[gg >= 1] = 1
     jj =  alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
@@ -176,18 +184,21 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     
     A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(varrho) ) * gg
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
+    # B_1 += sigma_k*h_k
     B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
     B_2 += sigma_y * h * ee
     B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
-    # B_3 = - zeta + psi_0 * xx** psi_1 * np.exp( psi_1 * K_mat ) * np.sum(pi_c * np.exp( -( 1-psi_2) * L_mat  ), axis=0 )- 0.5 * sigma_g**2
+    # B_3 += sigma_g*h_j
 
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
     D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(varrho))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(varrho)) ) * gg * V_post_tech
-    D += 1/2 *xi_c *h**2
+    D += 1/2 * xi_c * h**2
+    # D += 1/2 * xi_c * h_k**2
+    # D += 1/2 * xi_c * h_j**2
     
-    return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h
+    return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h, h_k, h_j
 
 
 def hjb_pre_tech(
@@ -300,7 +311,7 @@ def hjb_pre_tech(
         FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_c, xi_d, xi_g, varrho)
 
         start_ep = time.time()
-        A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, g_tech, h = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
+        A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, g_tech, h, h_k, h_j = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
 
         if model == "Pre damage":
             g_damage = np.exp(- (v_i-v0)/xi_d)
@@ -329,6 +340,9 @@ def hjb_pre_tech(
             print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
             print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
             print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
+            print("min h: {},\t max h: {}\t".format(h.min(), h.max()))
+            print("min hk: {},\t max hk: {}\t".format(h_k.min(), h_k.max()))
+            print("min hj: {},\t max hj: {}\t".format(h_j.min(), h_j.max()))
             print("petsc total: {:.3f}s, Residual Norm is {:g}".format((end_ksp - bpoint1),ksp.getResidualNorm()))
             print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
@@ -340,6 +354,9 @@ def hjb_pre_tech(
             print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
             print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
             print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
+            print("min h: {},\t max h: {}\t".format(h.min(), h.max()))
+            print("min hk: {},\t max hk: {}\t".format(h_k.min(), h_k.max()))
+            print("min hj: {},\t max hj: {}\t".format(h_j.min(), h_j.max()))
             print("petsc total: {:.3f}s, Residual Norm is {:g}".format((end_ksp - bpoint1),ksp.getResidualNorm()))
             print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
@@ -411,6 +428,8 @@ def hjb_pre_tech(
             "pi_c"  : pi_c,
             "g_tech": g_tech,
             "h": h,
+            "h_k": h_k,
+            "h_j": h_j,
             "ME": ME,
             "FC_Err": FC_Err,
             }
@@ -424,6 +443,8 @@ def hjb_pre_tech(
                 "pi_c"  : pi_c,
                 "g_tech": g_tech,
                 "h": h,
+                "h_k": h_k,
+                "h_j": h_j,
                 "ME": ME,
                 "g_damage": g_damage,
                 "FC_Err": FC_Err,

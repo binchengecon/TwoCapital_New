@@ -308,15 +308,10 @@ def fk_pre_tech_petsc(
         C_2 = 0.5 * sigma_y**2 * e**2
         C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
         
-        # D = np.zeros(A.shape)
-
         A += - np.exp(L_mat - np.log(varrho)) * g_tech
         D = np.exp(L_mat - np.log(varrho)) * g_tech * (Phi_m_II - Phi_m)+ np.exp(L_mat - np.log(varrho)) * g_tech * F_m_II
         D += xi_g * np.exp(L_mat - np.log(varrho)) * (1-g_tech +g_tech *np.log(g_tech))
         
-        # A += - np.exp(L_mat - np.log(varrho)) * g_tech
-        # D =  np.exp(L_mat - np.log(varrho)) * g_tech * F_m_II
-        # D += xi_g * np.exp(L_mat - np.log(varrho)) * (1-np.exp(-(Phi_m_II-Phi_m)/xi_g))
 
         bpoint1 = time.time()
         A_1d   = A.ravel(order = 'F')

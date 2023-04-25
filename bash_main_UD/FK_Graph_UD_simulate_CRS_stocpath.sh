@@ -68,16 +68,16 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_g=(100000. 100000. 0.050)
 
 
-# xi_a=(100000. 100000. 100000.)
-# xi_c=(0.025 0.050 100000.)
-# xi_d=(0.025 0.050 100000.)
-# xi_g=(0.025 0.050 100000.)
+xi_a=(100000. 100000. 100000.)
+xi_c=(0.025 0.050 100000.)
+xi_d=(0.025 0.050 100000.)
+xi_g=(0.025 0.050 100000.)
 
 
-xi_a=(100000. 100000. 100000. 100000. 100000. 100000.)
-xi_c=(0.025 0.050 100000. 0.050 100000. 100000.)
-xi_d=(0.025 0.050 100000. 100000. 0.050 100000.)
-xi_g=(0.025 0.050 100000. 100000. 100000. 0.050)
+# xi_a=(100000. 100000. 100000. 100000. 100000. 100000.)
+# xi_c=(0.025 0.050 100000. 0.050 100000. 100000.)
+# xi_d=(0.025 0.050 100000. 100000. 0.050 100000.)
+# xi_g=(0.025 0.050 100000. 100000. 100000. 0.050)
 
 
 varrhoarr=(1120)
@@ -99,7 +99,8 @@ psi1arr=(0.5)
 
 
 # python_name_unit="Result_2jump_UD_simulate_CRS_FK.py"
-python_name_unit="Result_2jump_UD_simulate_CRS_FK_stoc.py"
+# python_name_unit="Result_2jump_UD_simulate_CRS_FK_stoc.py"
+python_name_unit="Result_2jump_UD_simulate_CRS_FK_stocdistorted.py"
 
 
 server_name="mercury"
@@ -115,7 +116,8 @@ fstr_SG="NearestNDInterpolator"
 
 auto=1
 # year=25
-year=40
+# year=40
+year=50
 
 # scheme_array=("macroannual" "newway" "newway" "newway" "check")
 # HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
@@ -137,8 +139,8 @@ HJBsolution_array=("direct")
 LENGTH_scheme=$((${#scheme_array[@]} - 1))
 
 
-SimEpoch=50
-SimEpisode=200
+SimEpoch=80
+SimEpisode=120
 ID_SimEpoch=$((SimEpoch - 1))
 
 
@@ -168,7 +170,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
                             for k in $(seq 0 $LENGTH_scheme); do
                                 for sim in $(seq 0 $ID_SimEpoch); do
 
-                                    mkdir -p ./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/
+                                    mkdir -p ./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}_${python_name_unit}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/
 
                                     if [ -f ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph_Sim_${sim}.sh ]; then
                                         rm ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph_Sim_${sim}.sh
@@ -182,14 +184,14 @@ for epsilonpost in ${epsilonarraypost[@]}; do
 
 
 ######## login 
-#SBATCH --job-name=sim_${year}_${sim}
-#SBATCH --output=./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/graph_simulate_${year}_${python_name_unit}_${sim}.out
-#SBATCH --error=./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/graph_simulate_${year}_${python_name_unit}_${sim}.err
+#SBATCH --job-name=xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_${sim}
+#SBATCH --output=./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}_${python_name_unit}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/graph_simulate_${year}_${python_name_unit}_${sim}.out
+#SBATCH --error=./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}_${python_name_unit}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/graph_simulate_${year}_${python_name_unit}_${sim}.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=16G
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
 #SBATCH --time=7-00:00:00
 
 ####### load modules

@@ -708,39 +708,39 @@ plt.close()
 
 
 
-# for id_xiag in range(len(xiaarr)): 
-#     for id_psi0 in range(len(psi0arr)):
-#         for id_psi1 in range(len(psi1arr)):
-#             for id_varrho in range(len(varrhoarr)):
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
 
-#                 color_one = colors[id_xiag % len(xiaarr)]
+                color_one = colors[id_xiag % len(xiaarr)]
                 
-#                 res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
-#                 if xiaarr[id_xiag]>10:
+                if xiaarr[id_xiag]>10:
 
-#                     plt.plot(res["years"], np.log(res["scc_dis"]),label='FK: Infinity',linewidth=5.0,linestyle = 'dashed',color=color_one)
-#                 else:
-#                     plt.plot(res["years"], np.log(res["scc_dis"]),label='FK: $\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]) ,linewidth=5.0,linestyle = 'dashed',color=color_one)
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label=labellist[id_xiag],linewidth=5.0,linestyle = 'dashed',color=color_one)
+                else:
+                    plt.plot(res["years"], np.log(res["scc_dis"]),label=labellist[id_xiag],linewidth=5.0,linestyle = 'dashed',color=color_one)
                 
-#                 if xiaarr[id_xiag]>10:
+                if xiaarr[id_xiag]>10:
 
-#                     plt.plot(res["years"], np.log(res["scc"]),label=labellist[id_xiag],linewidth=5.0,color=color_one)
-#                 else:
-#                     plt.plot(res["years"], np.log(res["scc"]),label=labellist[id_xiag] ,linewidth=5.0,color=color_one)
+                    plt.plot(res["years"], np.log(res["scc"]),label=labellist[id_xiag],linewidth=5.0,color=color_one)
+                else:
+                    plt.plot(res["years"], np.log(res["scc"]),label=labellist[id_xiag] ,linewidth=5.0,color=color_one)
 
-#                 plt.xlabel("Years")
-#                 plt.ticklabel_format(useOffset=False)
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
 
-#                 # plt.title("Log of Social Cost of Crabon: Comparison")
-#                 if auto==0:   
-#                     plt.ylim(6.5,8.0)
-#                 plt.xlim(0,30)
-#                 plt.legend(loc='upper left')
+                plt.title("Solid (HJB) Dashed(FK)")
+                if auto==0:   
+                    plt.ylim(6.5,8.0)
+                plt.xlim(0,30)
+                plt.legend(loc='upper left')
 
-# plt.savefig(Plot_Dir+"/logSCC_orig_dis_"+Filename+".pdf")
-# plt.savefig(Plot_Dir+"/logSCC_orig_dis_"+Filename+".png")
-# plt.close()
+plt.savefig(Plot_Dir+"/logSCC_orig_dis_"+Filename+".pdf")
+plt.savefig(Plot_Dir+"/logSCC_orig_dis_"+Filename+".png")
+plt.close()
 
 
 for id_xiag in range(len(xiaarr)): 
@@ -770,6 +770,37 @@ for id_xiag in range(len(xiaarr)):
 plt.savefig(Plot_Dir+"/logSVRD_"+Filename+".pdf")
 plt.savefig(Plot_Dir+"/logSVRD_"+Filename+".png")
 plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+                color_one = colors[id_xiag % len(xiaarr)]   
+
+                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["e"]/(lambda_bar * alpha * np.exp(res["states"][:,0])))[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0,color=color_one)
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["e"]/(lambda_bar * alpha * np.exp(res["states"][:,0])))[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0,color=color_one)
+
+                plt.xlabel("Years")
+                plt.ticklabel_format(useOffset=False)
+
+                # plt.title("Log of Social Value of R&D")
+                # if auto==0:   
+                plt.ylim(0.0,1.0)
+                plt.xlim(0,30)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/Abatement_"+Filename+".pdf")
+plt.savefig(Plot_Dir+"/Abatement_"+Filename+".png")
+plt.close()
+
+
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -863,7 +894,7 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.title("Solid(HJB) Dashed(FK) ")
                 # if auto==0:   
-                plt.ylim(5.0,8.0)
+                # plt.ylim(5.0,8.0)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
