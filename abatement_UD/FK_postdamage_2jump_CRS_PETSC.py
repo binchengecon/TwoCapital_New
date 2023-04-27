@@ -250,12 +250,14 @@ x = model_tech1_post_damage['x_star']
 pi_c = model_tech1_post_damage['pi_c']
 g_tech = model_tech1_post_damage['g_tech']
 h  = model_tech1_post_damage['h']
+h_k  = model_tech1_post_damage['h_k']
+h_j  = model_tech1_post_damage['h_j']
 
 
 res = fk_y_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_c, xi_d, xi_g, varrho),
-        controls=(i,e,x,pi_c,g_tech, h),
+        controls=(i,e,x,pi_c,g_tech, h, h_k, h_j),
         VF = (Phi_m_II_3D, Phi_m),
         FFK = (F_m_II),
         # n_bar = 50,
@@ -298,11 +300,17 @@ g_tech = model_tech1_post_damage['g_tech']
 g_tech = np.ones(g_tech.shape)
 h  = model_tech1_post_damage['h']
 h = np.zeros(h.shape)
+h_k  = model_tech1_post_damage['h_k']
+h_k = np.zeros(h_k.shape)
+h_j  = model_tech1_post_damage['h_j']
+h_j = np.zeros(h_j.shape)
+
+
 
 res = fk_y_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_c, xi_d, xi_g, varrho),
-        controls=(i,e,x,pi_c,g_tech, h),
+        controls=(i,e,x,pi_c,g_tech, h, h_k, h_j),
         VF = (Phi_m_II_3D, Phi_m),
         FFK = (F_m_II),
         # n_bar = 50,
@@ -343,12 +351,15 @@ x = model_tech1_post_damage['x_star']
 pi_c = model_tech1_post_damage['pi_c']
 g_tech = model_tech1_post_damage['g_tech']
 h  = model_tech1_post_damage['h']
+h_k  = model_tech1_post_damage['h_k']
+h_j  = model_tech1_post_damage['h_j']
+
 
 
 res = fk_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_c, xi_d, xi_g, varrho),
-        controls=(i,e,x,pi_c,g_tech, h),
+        controls=(i,e,x,pi_c,g_tech, h, h_k, h_j),
         VF = (Phi_m_II_3D, Phi_m),
         FFK = (F_m_II),
         V_post_damage=None,
@@ -402,6 +413,12 @@ g_tech = model_tech1_post_damage['g_tech']
 g_tech = np.ones(Phi_m.shape)
 h  = model_tech1_post_damage['h']
 h  = np.zeros(h.shape)
+h_k  = model_tech1_post_damage['h_k']
+h_k = np.zeros(h_k.shape)
+h_j  = model_tech1_post_damage['h_j']
+h_j = np.zeros(h_j.shape)
+
+
 
 pi_c_o    = np.ones_like(theta_ell)/len(theta_ell)
 pi_c_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
@@ -414,7 +431,7 @@ theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
 res = fk_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_c, xi_d, xi_g, varrho),
-        controls=(i,e,x,pi_c,g_tech,h),
+        controls=(i,e,x,pi_c,g_tech,h, h_k, h_j),
         VF = (Phi_m_II_3D, Phi_m),
         FFK = (F_m_II),
         V_post_damage=None,
@@ -466,6 +483,9 @@ x = model_tech1_post_damage['x_star']
 pi_c = model_tech1_post_damage['pi_c']
 g_tech = model_tech1_post_damage['g_tech']
 h  = model_tech1_post_damage['h']
+h_k  = model_tech1_post_damage['h_k']
+h_j  = model_tech1_post_damage['h_j']
+
 
 theta_ell = pd.read_csv('./data/model144.csv', header=None).to_numpy()[:, 0]/1000.
 pi_c_o    = np.ones_like(theta_ell)/len(theta_ell)
@@ -478,7 +498,7 @@ theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
 res = hjb_pre_tech_check(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, Phi_m_II_3D, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_c, xi_d, xi_g, varrho),
-        controls=(i,e,x, pi_c, g_tech, h, Phi_m),
+        controls=(i,e,x, pi_c, g_tech, h, h_k, h_j, Phi_m),
         V_post_damage=None,
         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
         max_iter=maxiterarr[1],

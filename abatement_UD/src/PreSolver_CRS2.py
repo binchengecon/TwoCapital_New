@@ -197,6 +197,10 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     D += 1/2 * xi_c * h**2
     D += 1/2 * xi_c * h_k**2
     D += 1/2 * xi_c * h_j**2
+    # D += - 1/(2*xi_c) *(sigma_k * dK)**2
+    # D += - 1/(2*xi_c) * (sigma_y * ee * G)**2
+    # D += - 1/(2*xi_c) *(sigma_g * dL)**2
+    
     
     return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h, h_k, h_j
 

@@ -50,7 +50,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
     hX1, hX2, hX3 = steps
     K_mat, Y_mat, L_mat = states
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g = args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_c, xi_d, xi_g, varrho = args
 
     i_star, e_star, x_star = controls
     # First order derivative
@@ -158,24 +158,40 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     # Technology
     gg = np.exp(1 / xi_g * (v0 - V_post_tech))
     gg[gg <=1e-16] = 1e-16
+    
+    # Climate 
+    
+    h = - 1/ xi_c * sigma_y * ee * G
+    
+    h[h<=1e-16] = 1e-16
+    h[h>=1] = 1
+    
+    
+    # h_k = -1/xi_c *sigma_k * dK 
+    # h_j = -1/xi_c *sigma_g * dL 
+    
+    
     # gg[gg >= 1] = 1
     jj =  alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
     jj[jj <= 1e-16] = 1e-16
     consumption = alpha - ii - jj - xx
     consumption[consumption <= 1e-16] = 1e-16
     # Step (2), solve minimization problem in HJB and calculate drift distortion
-    A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(448) ) * gg
+    
+    
+    A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(varrho) ) * gg
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
     B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
+    B_2 += sigma_y * h * ee
     B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
-    # B_3 = - zeta + psi_0 * xx** psi_1 * np.exp( psi_1 * K_mat ) * np.sum(pi_c * np.exp( -( 1-psi_2) * L_mat  ), axis=0 )- 0.5 * sigma_g**2
 
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
-    D = delta * np.log(consumption) + delta * K_mat  - dG * np.sum(theta_ell * pi_c, axis=0) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(448))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(448)) ) * gg * V_post_tech
-
-    return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg
+    D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(varrho))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(varrho)) ) * gg * V_post_tech
+    D += 1/2 *xi_c *h**2
+    
+    return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h
 
 
 def hjb_pre_tech(
@@ -189,7 +205,7 @@ def hjb_pre_tech(
     current_time = now.strftime("%d-%H:%M")
     K, Y, L = state_grid
 
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_g, xi_p = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_c, xi_d, xi_g, varrho = model_args
 
 
     X1     = K
@@ -238,9 +254,10 @@ def hjb_pre_tech(
         ddG = gamma_2 
     else:
         model = "Post damage"
+        # dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) * (Y_mat >= y_bar)
+        # ddG = gamma_2 + gamma_3 * (Y_mat >= y_bar)
         dG  = gamma_1 + gamma_2 * Y_mat + gamma_3 * (Y_mat - y_bar) 
         ddG = gamma_2 + gamma_3 
-
     # Initial setup of HJB
     FC_Err   = 1
     epoch    = 0
@@ -249,7 +266,7 @@ def hjb_pre_tech(
         v0 = K_mat + L_mat - np.average(pi_c_o, axis=0) * Y_mat
 
     i_star = np.zeros(K_mat.shape)
-    e_star = 0.01*np.ones(K_mat.shape)
+    e_star = np.ones(K_mat.shape)
     # e_star = np.zeros(K_mat.shape)
     x_star = np.zeros(K_mat.shape)
     
@@ -262,6 +279,8 @@ def hjb_pre_tech(
         g_tech = smart_guess['g_tech']
         if model == "Pre damage":
             g_damage = smart_guess['g_damage']
+            
+    
 
     dVec = np.array([hX1, hX2, hX3])
     increVec = np.array([1, nX1, nX1 * nX2],dtype=np.int32)
@@ -282,15 +301,15 @@ def hjb_pre_tech(
     # Enter the optimization
     while FC_Err > tol and epoch < max_iter:
         
-        FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_g )
+        FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_c, xi_d, xi_g, varrho)
 
         start_ep = time.time()
-        A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, g_tech = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
+        A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, g_tech, h = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)
 
         if model == "Pre damage":
-            g_damage = np.exp(- (v_i-v0)/xi_p)
+            g_damage = np.exp(- (v_i-v0)/xi_d)
 
-            D += xi_p * Intensity * np.sum( pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0) +Intensity*np.sum(pi_d_o*g_damage*v_i,axis=0)
+            D += xi_d * Intensity * np.sum( pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0) +Intensity*np.sum(pi_d_o*g_damage*v_i,axis=0)
             A -=  Intensity*np.sum(pi_d_o*g_damage,axis=0)
 
 
@@ -328,14 +347,53 @@ def hjb_pre_tech(
             print("petsc total: {:.3f}s, Residual Norm is {:g}".format((end_ksp - bpoint1),ksp.getResidualNorm()))
             print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
-            
+        
+
         v0     = out_comp
         i_star = ii
         e_star = ee
         x_star = xx
         epoch += 1
 
+    dX1  = finiteDiff_3D(v0,0,1,hX1)
+    dX1[dX1 <= 1e-16] = 1e-16
+    dK = dX1
+    dX2  = finiteDiff_3D(v0,1,1,hX2)
+    dY = dX2
+    dX3  = finiteDiff_3D(v0,2,1,hX3)
+    dX3[dX3 <= 1e-16] = 1e-16
+    dL = dX3
+    ######## second order
+    ddX1 = finiteDiff_3D(v0,0,2,hX1)
+    ddX2 = finiteDiff_3D(v0,1,2,hX2)
+    ddY = ddX2
+    ddX3 = finiteDiff_3D(v0,2,2,hX3)
+    
+    G = dY -  dG
+    F = ddY - ddG
+    j_star = alpha * vartheta_bar * (1 - e_star / (alpha * lambda_bar * np.exp(K_mat)))**theta
+    j_star[j_star <= 1e-16] = 1e-16
+    consumption = alpha - i_star - j_star - x_star
+    consumption[consumption <= 1e-16] = 1e-16
+    mc  = delta / consumption
+    temp = mc * vartheta_bar * theta / (lambda_bar * np.exp(K_mat))
+    a = temp / (alpha * lambda_bar * np.exp(K_mat))**(theta - 1)
+    b = - 2 * temp / (alpha * lambda_bar * np.exp(K_mat)) +  F * sigma_y**2
+    c = temp + G * np.sum(theta_ell * pi_c, axis=0)
+    temp = b ** 2 - 4 * a * c
+    temp = temp * (temp > 0)
+    root1 = (- b - np.sqrt(temp)) / (2 * a)
+    root2 = (- b + np.sqrt(temp)) / (2 * a)
+    if root1.all() > 0 :
+        # print("use root1")
+        e_new = root1
+    else:
+        # print("use root2")
+        e_new = root2
         
+        
+    print("e_new=[{},{}]".format(e_new.min(),e_new.max()))    
+    
     ME = - dX2 * np.sum(pi_c * theta_ell, axis=0) - ddX2 * sigma_y**2 * ee + dG * np.sum(theta_ell * pi_c, axis=0) +  ddG * sigma_y**2 * ee
     jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
     
@@ -352,9 +410,11 @@ def hjb_pre_tech(
             "v0"    : v0,
             "i_star": i_star,
             "e_star": e_star,
+            "e_orig": e_new,
             "x_star": x_star,
             "pi_c"  : pi_c,
             "g_tech": g_tech,
+            "h": h,
             "ME": ME,
             "FC_Err": FC_Err,
             }
@@ -363,9 +423,11 @@ def hjb_pre_tech(
                 "v0"    : v0,
                 "i_star": i_star,
                 "e_star": e_star,
+                "e_orig": e_new,
                 "x_star": x_star,
                 "pi_c"  : pi_c,
                 "g_tech": g_tech,
+                "h": h,
                 "ME": ME,
                 "g_damage": g_damage,
                 "FC_Err": FC_Err,

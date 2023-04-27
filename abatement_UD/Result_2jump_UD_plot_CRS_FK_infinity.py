@@ -991,111 +991,111 @@ plt.close()
 
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
-            for id_varrho in range(len(varrhoarr)):
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
+#             for id_varrho in range(len(varrhoarr)):
 
-                color_one = colors[id_xiag % len(xiaarr)]   
+#                 color_one = colors[id_xiag % len(xiaarr)]   
 
-                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+#                 res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
-                if xiaarr[id_xiag]>10:
+#                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_cundis"])[res["states"][:, 1]<1.5],label='Only Climate Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
-                else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_cundis"])[res["states"][:, 1]<1.5],label='Only Climate Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_cundis"])[res["states"][:, 1]<1.5],label='Only Climate Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                 else:
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_cundis"])[res["states"][:, 1]<1.5],label='Only Climate Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
 
-                if xiaarr[id_xiag]>10:
+#                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_tundis"])[res["states"][:, 1]<1.5],label='Only Technology Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
-                else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_tundis"])[res["states"][:, 1]<1.5],label='Only Technology Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_tundis"])[res["states"][:, 1]<1.5],label='Only Technology Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                 else:
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_tundis"])[res["states"][:, 1]<1.5],label='Only Technology Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
                 
-                if xiaarr[id_xiag]>10:
+#                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_dundis"])[res["states"][:, 1]<1.5],label='Only Damage Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
-                else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_dundis"])[res["states"][:, 1]<1.5],label='Only Damage Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_dundis"])[res["states"][:, 1]<1.5],label='Only Damage Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                 else:
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_dundis"])[res["states"][:, 1]<1.5],label='Only Damage Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
                 
-                if xiaarr[id_xiag]>10:
+#                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_bundis"])[res["states"][:, 1]<1.5],label='All Undistorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
-                else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_bundis"])[res["states"][:, 1]<1.5],label='All Undistorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_bundis"])[res["states"][:, 1]<1.5],label='All Undistorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                 else:
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_bundis"])[res["states"][:, 1]<1.5],label='All Undistorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
                 
-                if xiaarr[id_xiag]>10:
+#                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_dis"])[res["states"][:, 1]<1.5],label='All Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
-                else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_dis"])[res["states"][:, 1]<1.5],label='All Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_dis"])[res["states"][:, 1]<1.5],label='All Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+#                 else:
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd_dis"])[res["states"][:, 1]<1.5],label='All Distorted' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
                                 
 
-                plt.xlabel("Years")
-                plt.ticklabel_format(useOffset=False)
+#                 plt.xlabel("Years")
+#                 plt.ticklabel_format(useOffset=False)
 
-                # plt.title("Log of Social Value of R&D")
-                plt.title("Log of Social Value of R&D")
-                # if auto==0:   
-                plt.ylim(5.5,7.5)
-                plt.xlim(0,30)
-                plt.legend(loc='upper left')
+#                 # plt.title("Log of Social Value of R&D")
+#                 plt.title("Log of Social Value of R&D")
+#                 # if auto==0:   
+#                 plt.ylim(5.5,7.5)
+#                 plt.xlim(0,30)
+#                 plt.legend(loc='upper left')
 
-    plt.savefig(Plot_Dir+"/logSVRD_decomp_FK,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.pdf".format(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr,psi1arr,varrhoarr))
-    plt.savefig(Plot_Dir+"/logSVRD_decomp_FK,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr,psi1arr,varrhoarr))
-    plt.close()
-
-
-
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
-            for id_varrho in range(len(varrhoarr)):
+#     plt.savefig(Plot_Dir+"/logSVRD_decomp_FK,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.pdf".format(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr,psi1arr,varrhoarr))
+#     plt.savefig(Plot_Dir+"/logSVRD_decomp_FK,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr,psi1arr,varrhoarr))
+#     plt.close()
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
-                if xigarr[id_xiag]>10:
-
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000)[res["states"][:, 1]<1.5],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]))
-                else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000)[res["states"][:, 1]<1.5],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag]))
-
-                plt.xlabel("Years")
-                plt.title("Mean Difference")
-                plt.ylim(0,0.8)   
-                plt.legend()
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
+#             for id_varrho in range(len(varrhoarr)):
 
 
-plt.savefig(Plot_Dir+"/MeanDiff,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.pdf".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/MeanDiff,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.close()
+#                 res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+
+#                 if xigarr[id_xiag]>10:
+
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000)[res["states"][:, 1]<1.5],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]))
+#                 else:
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["Ambiguity_mean_dis"]-res["Ambiguity_mean_undis"])*1000)[res["states"][:, 1]<1.5],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag]))
+
+#                 plt.xlabel("Years")
+#                 plt.title("Mean Difference")
+#                 plt.ylim(0,0.8)   
+#                 plt.legend()
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
-            for id_varrho in range(len(varrhoarr)):
+# plt.savefig(Plot_Dir+"/MeanDiff,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.pdf".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+# plt.savefig(Plot_Dir+"/MeanDiff,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+# plt.close()
+
+
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
+#             for id_varrho in range(len(varrhoarr)):
 
                 
-                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+#                 res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
-                if xigarr[id_xiag]>10:
+#                 if xigarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["ME_total"],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]))
-                else:
-                    plt.plot(res["years"], res["ME_total"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag]))
+#                     plt.plot(res["years"], res["ME_total"],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]))
+#                 else:
+#                     plt.plot(res["years"], res["ME_total"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag]))
                     
-                plt.xlabel("Years")
+#                 plt.xlabel("Years")
 
-                plt.title("ME_total")
-                plt.xlim(0,30)
-                if auto==0:   
-                    plt.ylim(0,0.000110)   
-                plt.legend(loc='upper left')
+#                 plt.title("ME_total")
+#                 plt.xlim(0,30)
+#                 if auto==0:   
+#                     plt.ylim(0,0.000110)   
+#                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/ME_total,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.close()
+# plt.savefig(Plot_Dir+"/ME_total,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+# plt.close()
 
 # for id_xiag in range(len(xiaarr)): 
 #     for id_psi0 in range(len(psi0arr)):
@@ -1147,29 +1147,29 @@ plt.close()
 # plt.savefig(Plot_Dir+"/ME_total2,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 # plt.close()
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
-            for id_varrho in range(len(varrhoarr)):
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
+#             for id_varrho in range(len(varrhoarr)):
 
-                    res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+#                     res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
-                    if xigarr[id_xiag]>10:
+#                     if xigarr[id_xiag]>10:
 
-                        plt.plot(res["years"], res["ME_base"],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]))
-                    else:
-                        plt.plot(res["years"], res["ME_base"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag]))
+#                         plt.plot(res["years"], res["ME_base"],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]))
+#                     else:
+#                         plt.plot(res["years"], res["ME_base"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag]))
                         
-                    plt.xlabel("Years")
+#                     plt.xlabel("Years")
 
-                    plt.title("ME_base")
-                    plt.xlim(0,30)
-                    if auto==0:   
-                        plt.ylim(0,0.000050)   
-                    plt.legend(loc='upper left')
+#                     plt.title("ME_base")
+#                     plt.xlim(0,30)
+#                     if auto==0:   
+#                         plt.ylim(0,0.000050)   
+#                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/ME_base,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.close()
+# plt.savefig(Plot_Dir+"/ME_base,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+# plt.close()
 
 
 # for id_xiag in range(len(xiaarr)): 
@@ -1224,29 +1224,29 @@ plt.close()
 # plt.close()
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
-            for id_varrho in range(len(varrhoarr)):
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
+#             for id_varrho in range(len(varrhoarr)):
 
-                    res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+#                     res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
-                    if xigarr[id_xiag]>10:
+#                     if xigarr[id_xiag]>10:
 
-                        plt.plot(res["years"], res["ME_total_base"],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]))
-                    else:
-                        plt.plot(res["years"], res["ME_total_base"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag]))
+#                         plt.plot(res["years"], res["ME_total_base"],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]))
+#                     else:
+#                         plt.plot(res["years"], res["ME_total_base"],label='$\\xi_a={:.1f}$,$\\xi_r={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag]))
                         
-                    plt.xlabel("Years")
+#                     plt.xlabel("Years")
 
-                    plt.title("ME_total_base")
-                    plt.xlim(0,30)
-                    # if auto==0:   
-                    #     plt.ylim(0,150)   
-                    plt.legend()
+#                     plt.title("ME_total_base")
+#                     plt.xlim(0,30)
+#                     # if auto==0:   
+#                     #     plt.ylim(0,150)   
+#                     plt.legend()
 
-plt.savefig(Plot_Dir+"/ME_total_base,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.close()
+# plt.savefig(Plot_Dir+"/ME_total_base,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+# plt.close()
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -1258,17 +1258,17 @@ for id_xiag in range(len(xiaarr)):
                 
                 if xigarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='Baseline'  )
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["ht"][res["states"][:, 1]<1.5],label='Baseline'  )
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["Ambiguity_mean_dis_h"][res["states"][:, 1]<1.5]-res["Ambiguity_mean_undis"][res["states"][:, 1]<1.5])*1000,label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag])  )
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["ht"][res["states"][:, 1]<1.5],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xigarr[id_xiag], xigarr[id_xiag], xigarr[id_xiag],xigarr[id_xiag])  )
 
                 plt.xlabel("Years")
                 plt.title("Mean Difference")
                 plt.ylim(0,0.10)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/MeanDiff_h_{},xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/MeanDiff_h_{},xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/h_{},xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/h_{},xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
 

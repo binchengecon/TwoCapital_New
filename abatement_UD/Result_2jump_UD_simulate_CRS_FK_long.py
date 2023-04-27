@@ -83,13 +83,15 @@ delta = 0.01
 alpha = 0.115
 kappa = 6.667
 mu_k  = -0.043
-sigma_k = 0.0095
+# sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
+sigma_k = 0.100
 beta_f = 1.86/1000
 sigma_y = 1.2 * 1.86 / 1000
 zeta = 0.0
 # psi_0 = 0.00025
 # psi_1 = 1/2
-sigma_g = 0.016
+# sigma_g   = 0.016
+sigma_g   = 0.078
 gamma_1 = 1.7675 / 1000
 gamma_2 = 0.0022 * 2
 
@@ -104,7 +106,8 @@ y_bar_lower = 1.5
 theta = 3
 lambda_bar = 0.1206
 # vartheta_bar = 0.0453
-vartheta_bar = 0.05
+# vartheta_bar = 0.05
+vartheta_bar = 0.056
 
 lambda_bar_first = lambda_bar / 2.
 vartheta_bar_first = vartheta_bar / 2.
@@ -187,11 +190,11 @@ def simulate_pre(
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
 
     delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho = model_args
-    ii, ee, xx, g_tech, g_damage, pi_c, h, v = controls
+    ii, ee, xx, g_tech, g_damage, pi_c, h, h_k, h_j, v = controls
     ME_base = ME
     # dvdL_dis, dvdL_undis = FK
     # dvdL_dis, dvdL_undis, dvdL_dis_HJB, dvdL_Undis_HJB, dvdL_Undis_HJB_New, dvdY_dis, ddvddY_dis, dvdY_undis, ddvddY_undis  = FK
-    dvdL_dis, dvdL_cundis, dvdL_tundis, dvdL_dundis, dvdL_bundis, dvdL_dis_HJB, dvdL_Undis_HJB, dvdY_dis, ddvddY_dis, dvdY_undis, ddvddY_undis  = FK
+    dvdL_dis, dvdL_bundis, dvdL_dis_HJB, dvdY_dis, ddvddY_dis, dvdY_undis, ddvddY_undis  = FK
     n_bar = n_bar
     K_0, Y_0, L_0 = initial
 
@@ -205,6 +208,8 @@ def simulate_pre(
     g_damage = g_damage[:,:,:n_bar+1,:]
     pi_c = pi_c[:,:,:n_bar+1,:]
     h = h[:,:n_bar+1,:]
+    h_k = h_k[:,:n_bar+1,:]
+    h_j = h_j[:,:n_bar+1,:]
     v = v[:,:n_bar+1,:]
     
 
@@ -243,19 +248,15 @@ def simulate_pre(
     x_func = RegularGridInterpolator(gridpoints, xx)
     tech_func = RegularGridInterpolator(gridpoints, g_tech)
     h_func = RegularGridInterpolator(gridpoints, h)
+    h_k_func = RegularGridInterpolator(gridpoints, h_k)
+    h_j_func = RegularGridInterpolator(gridpoints, h_j)
     
     dL_func   = RegularGridInterpolator(gridpoints, dL)
     dY_func   = RegularGridInterpolator(gridpoints, dY)
     dvdL_dis_func   = RegularGridInterpolator(gridpoints, dvdL_dis)
-    # dvdL_undis_func   = RegularGridInterpolator(gridpoints, dvdL_undis)
-    dvdL_cundis_func   = RegularGridInterpolator(gridpoints, dvdL_cundis)
-    dvdL_tundis_func   = RegularGridInterpolator(gridpoints, dvdL_tundis)
-    dvdL_dundis_func   = RegularGridInterpolator(gridpoints, dvdL_dundis)
     dvdL_bundis_func   = RegularGridInterpolator(gridpoints, dvdL_bundis)
     
     dvdL_dis_HJB_func   = RegularGridInterpolator(gridpoints, dvdL_dis_HJB)
-    dvdL_Undis_HJB_func   = RegularGridInterpolator(gridpoints, dvdL_Undis_HJB)
-    # dvdL_Undis_HJB_New_func   = RegularGridInterpolator(gridpoints, dvdL_Undis_HJB_New)
     dvdY_dis_func   = RegularGridInterpolator(gridpoints, dvdY_dis)
     ddvddY_dis_func   = RegularGridInterpolator(gridpoints, ddvddY_dis)
     dvdY_undis_func   = RegularGridInterpolator(gridpoints, dvdY_undis)
@@ -307,6 +308,8 @@ def simulate_pre(
     scc_hist  = np.zeros([pers])
     gt_tech   = np.zeros([pers])
     ht   = np.zeros([pers])
+    hkt   = np.zeros([pers])
+    hjt   = np.zeros([pers])
     dL_hist    = np.zeros([pers])
     dY_hist    = np.zeros([pers])
     dvdL_dis_hist    = np.zeros([pers])
@@ -354,18 +357,15 @@ def simulate_pre(
             mu_L_hist[0] = mu_L(x_hist[0], hist[0,:])
             gt_tech[0] = tech_func(hist[0, :])
             ht[0] = h_func(hist[0, :])
+            hkt[0] = h_k_func(hist[0, :])
+            hjt[0] = h_j_func(hist[0, :])
             dL_hist[tm] = dL_func(hist[0,:])
             dY_hist[tm] = dY_func(hist[0,:])
             dvdL_dis_hist[tm]    = dvdL_dis_func(hist[0,:])
             # dvdL_undis_hist[tm]    = dvdL_undis_func(hist[0,:])
-            dvdL_cundis_hist[tm]    = dvdL_cundis_func(hist[0,:])
-            dvdL_tundis_hist[tm]    = dvdL_tundis_func(hist[0,:])
-            dvdL_dundis_hist[tm]    = dvdL_dundis_func(hist[0,:])
             dvdL_bundis_hist[tm]    = dvdL_bundis_func(hist[0,:])
             
             dvdL_dis_HJB_hist[tm]    = dvdL_dis_HJB_func(hist[0,:])
-            dvdL_Undis_HJB_hist[tm]    = dvdL_Undis_HJB_func(hist[0,:])
-            # dvdL_Undis_HJB_New_hist[tm]    = dvdL_Undis_HJB_New_func(hist[0,:])
 
             dvdY_dis_hist[tm]    = dvdY_dis_func(hist[0,:])
             ddvddY_dis_hist[tm]    = ddvddY_dis_func(hist[0,:])
@@ -399,18 +399,15 @@ def simulate_pre(
             x_hist[tm] = get_x(hist[tm-1,:])
             gt_tech[tm] = tech_func(hist[tm-1,:])
             ht[tm] = h_func(hist[tm-1, :])
+            hkt[tm] = h_k_func(hist[tm-1, :])
+            hjt[tm] = h_j_func(hist[tm-1, :])
             dL_hist[tm] = dL_func(hist[tm-1,:])
             dY_hist[tm] = dY_func(hist[tm-1,:])
             dvdL_dis_hist[tm]    = dvdL_dis_func(hist[tm-1,:])
             # dvdL_undis_hist[tm]    = dvdL_undis_func(hist[tm-1,:])
-            dvdL_cundis_hist[tm]    = dvdL_cundis_func(hist[tm-1,:])
-            dvdL_tundis_hist[tm]    = dvdL_tundis_func(hist[tm-1,:])
-            dvdL_dundis_hist[tm]    = dvdL_dundis_func(hist[tm-1,:])
             dvdL_bundis_hist[tm]    = dvdL_bundis_func(hist[tm-1,:])
             
             dvdL_dis_HJB_hist[tm]    = dvdL_dis_HJB_func(hist[tm-1,:])
-            dvdL_Undis_HJB_hist[tm]    = dvdL_Undis_HJB_func(hist[tm-1,:])
-            # dvdL_Undis_HJB_New_hist[tm]    = dvdL_Undis_HJB_New_func(hist[tm-1,:])
 
             dvdY_dis_hist[tm]    = dvdY_dis_func(hist[tm-1,:])
             ddvddY_dis_hist[tm]    = ddvddY_dis_func(hist[tm-1,:])
@@ -433,7 +430,7 @@ def simulate_pre(
             mu_L_hist[tm] = mu_L(x_hist[tm], hist[tm-1, :])
 
             hist[tm,0] = hist[tm-1,0] + mu_K_hist[tm] * dt #logK
-            hist[tm,1] = hist[tm-1,1] + (beta_f + sigma_y * ht[tm] ) * e_hist[tm] * dt
+            hist[tm,1] = hist[tm-1,1] + beta_f * e_hist[tm] * dt
             hist[tm,2] = hist[tm-1,2] + mu_L_hist[tm] * dt # logλ
             Ambiguity_mean_undis[tm] = np.mean(theta_ell)
             Ambiguity_mean_dis[tm] = np.average(theta_ell,weights=pi_c_t[:,tm])
@@ -473,20 +470,17 @@ def simulate_pre(
     scc_dis_hist = RHS_dis * 1000
     scc_undis_hist = RHS_undis * 1000
 
+
+    scgw_hist = - dY_hist/ MC * np.exp(hist[:,0]) * 1000
     # MU_RD = dL_hist * psi_0* psi_1 * x_hist**(psi_1-1) * np.exp(psi_1*(hist[:,0]-hist[:,2]))
 
     # scrd_hist = MU_RD/MC*1000
 
     scrd_hist = np.exp(hist[:,2]) * dL_hist / MC * np.exp(hist[:, 0])
     scrd_dis_hist = np.exp(hist[:,2]) * dvdL_dis_hist / MC * np.exp(hist[:, 0])
-    # scrd_undis_hist = np.exp(hist[:,2]) * dvdL_undis_hist / MC * np.exp(hist[:, 0])
-    scrd_cundis_hist = np.exp(hist[:,2]) * dvdL_cundis_hist / MC * np.exp(hist[:, 0])
-    scrd_tundis_hist = np.exp(hist[:,2]) * dvdL_tundis_hist / MC * np.exp(hist[:, 0])
-    scrd_dundis_hist = np.exp(hist[:,2]) * dvdL_dundis_hist / MC * np.exp(hist[:, 0])
     scrd_bundis_hist = np.exp(hist[:,2]) * dvdL_bundis_hist / MC * np.exp(hist[:, 0])
     
     scrd_dis_hist_HJB = np.exp(hist[:,2]) * dvdL_dis_HJB_hist / MC * np.exp(hist[:, 0])
-    scrd_undis_hist_HJB = np.exp(hist[:,2]) * dvdL_Undis_HJB_hist / MC * np.exp(hist[:, 0])
 
     distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech/varrho
 
@@ -511,18 +505,16 @@ def simulate_pre(
         scc = scc_hist,
         scc_dis = scc_dis_hist,
         scc_undis = scc_undis_hist,
+        scgw = scgw_hist,
         scrd = scrd_hist,
         scrd_dis = scrd_dis_hist,
-        # scrd_undis = scrd_undis_hist,
-        scrd_cundis = scrd_cundis_hist,
-        scrd_tundis = scrd_tundis_hist,
-        scrd_dundis = scrd_dundis_hist,
         scrd_bundis = scrd_bundis_hist,
         scrd_dis_HJB = scrd_dis_hist_HJB,
-        scrd_undis_HJB = scrd_undis_hist_HJB,
         gt_tech = gt_tech,
         gt_dmg = gt_dmg,
         ht = ht,
+        hkt = hkt,
+        hjt = hjt,
         distorted_damage_prob=distorted_damage_prob,
         distorted_tech_prob=distorted_tech_prob,
         pic_t = pi_c_t,
@@ -605,6 +597,8 @@ def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
     g_tech = model_tech1_pre_damage_ME_base["g_tech"]
     g_damage =  model_tech1_pre_damage_ME_base["g_damage"]
     h =  model_tech1_pre_damage_ME_base["h"]
+    h_k =  model_tech1_pre_damage_ME_base["h_k"]
+    h_j =  model_tech1_pre_damage_ME_base["h_j"]
 
 
 
@@ -639,17 +633,6 @@ def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
     with open(Data_Dir + File_Dir+"FK_Distorted_model_tech1_pre_damage", "rb") as f:
         FK_Dis_tech1 = pickle.load(f)
     
-    # with open(Data_Dir + File_Dir+"FK_Undistorted_model_tech1_pre_damage", "rb") as f:
-    #     FK_Undis_tech1 = pickle.load(f)
-        
-    with open(Data_Dir + File_Dir+"FK_ClimateUndistorted_model_tech1_pre_damage", "rb") as f:
-        FK_ClimateUndis_tech1 = pickle.load(f)
-        
-    with open(Data_Dir + File_Dir+"FK_TechUndistorted_model_tech1_pre_damage", "rb") as f:
-        FK_TechUndis_tech1 = pickle.load(f)
-        
-    with open(Data_Dir + File_Dir+"FK_DamageUndistorted_model_tech1_pre_damage", "rb") as f:
-        FK_DamageUndis_tech1 = pickle.load(f)
         
     with open(Data_Dir + File_Dir+"FK_BaselineUndistorted_model_tech1_pre_damage", "rb") as f:
         FK_BasleineUndis_tech1 = pickle.load(f)
@@ -665,21 +648,15 @@ def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
     with open(Data_Dir + File_Dir+"HJB_Distorted_model_tech1_pre_damage", "rb") as f:
         HJB_Dis_tech1 = pickle.load(f)
     
-    with open(Data_Dir + File_Dir+"HJB_Undistorted_model_tech1_pre_damage", "rb") as f:
-        HJB_Undis_tech1 = pickle.load(f)
-    
-    # with open(Data_Dir + File_Dir+"HJB_NewUndistortedFull_model_tech1_pre_damage", "rb") as f:
-    #     HJB_NewUndis_tech1 = pickle.load(f)
-    
     
     # FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL']
     # FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL'], HJB_Dis_tech1['dvdL'], HJB_Undis_tech1['dvdL'], HJB_NewUndis_tech1['dvdL'], FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']
     # FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL'], HJB_Dis_tech1['dvdL'], HJB_Undis_tech1['dvdL'],  FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']
-    FK_family = FK_Dis_tech1['dvdL'], FK_ClimateUndis_tech1['dvdL'], FK_TechUndis_tech1['dvdL'], FK_DamageUndis_tech1['dvdL'], FK_BasleineUndis_tech1['dvdL'], HJB_Dis_tech1['dvdL'], HJB_Undis_tech1['dvdL'],  FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']
+    FK_family = FK_Dis_tech1['dvdL'], FK_BasleineUndis_tech1['dvdL'], HJB_Dis_tech1['dvdL'],  FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']
 
     res = simulate_pre(grid = (K, Y_short, L), 
                        model_args = model_args, 
-                       controls = (i,e,x, g_tech, g_damage, pi_c, h, v),
+                       controls = (i,e,x, g_tech, g_damage, pi_c, h, h_k, h_j, v),
                        ME = ME_family,
                        FK = FK_family,
                        n_bar = n_bar,  
@@ -687,10 +664,10 @@ def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
                        T=IntPeriod, 
                        dt=timespan,printing=True)
 
-    with open(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_FK_simul2_{}".format(IntPeriod)+ scheme + "_" +HJB_solution, "wb") as f:
+    with open(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_FK_simul_{}".format(IntPeriod)+ scheme + "_" +HJB_solution, "wb") as f:
         pickle.dump(res,f)
 
-    print(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_FK_simul2_{}".format(IntPeriod)+ scheme + "_" +HJB_solution)
+    print(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_FK_simul_{}".format(IntPeriod)+ scheme + "_" +HJB_solution)
     
     return res
 

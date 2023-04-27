@@ -84,7 +84,8 @@ alpha   = 0.115
 kappa   = 6.667
 mu_k    = -0.043
 # sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
-sigma_k = 0.100
+sigma_k = 0.0100
+
 # Technology
 theta        = 3
 lambda_bar   = 0.1206

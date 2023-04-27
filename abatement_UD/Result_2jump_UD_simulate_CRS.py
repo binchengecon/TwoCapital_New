@@ -26,7 +26,11 @@ parser.add_argument("--dataname",type=str)
 parser.add_argument("--pdfname",type=str)
 
 parser.add_argument("--xiaarr",nargs='+', type=float)
+parser.add_argument("--xicarr",nargs='+', type=float)
+parser.add_argument("--xidarr",nargs='+', type=float)
 parser.add_argument("--xigarr",nargs='+', type=float)
+
+parser.add_argument("--varrhoarr",nargs='+', type=float)
 
 parser.add_argument("--psi0arr",nargs='+',type=float)
 parser.add_argument("--psi1arr",nargs='+',type=float)
@@ -60,7 +64,11 @@ psi0arr = args.psi0arr
 psi1arr = args.psi1arr
 psi2arr = args.psi2arr
 xiaarr = args.xiaarr
+xicarr = args.xicarr 
+xidarr = args.xidarr 
 xigarr = args.xigarr 
+varrhoarr = args.varrhoarr
+ 
 
 
 Xminarr = args.Xminarr
@@ -77,13 +85,15 @@ delta = 0.01
 alpha = 0.115
 kappa = 6.667
 mu_k  = -0.043
-sigma_k = 0.0095
+# sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
+sigma_k = 0.100
 beta_f = 1.86/1000
 sigma_y = 1.2 * 1.86 / 1000
 zeta = 0.0
 # psi_0 = 0.00025
 # psi_1 = 1/2
-sigma_g = 0.016
+# sigma_g   = 0.016
+sigma_g   = 0.078
 gamma_1 = 1.7675 / 1000
 gamma_2 = 0.0022 * 2
 
@@ -97,7 +107,9 @@ y_bar_lower = 1.5
 # Tech
 theta = 3
 lambda_bar = 0.1206
-vartheta_bar = 0.0453
+# vartheta_bar = 0.0453
+# vartheta_bar = 0.05
+vartheta_bar = 0.056
 
 lambda_bar_first = lambda_bar / 2.
 vartheta_bar_first = vartheta_bar / 2.
@@ -178,8 +190,8 @@ def simulate_pre(
     K_min, K_max, Y_min, Y_max, L_min, L_max = min(K), max(K), min(Y), max(Y), min(L), max(L)
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
 
-    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar = model_args
-    ii, ee, xx, g_tech, g_damage, pi_c, v = controls
+    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho = model_args
+    ii, ee, xx, g_tech, g_damage, pi_c, h, v = controls
     ME_base = ME
     n_bar = n_bar
     K_0, Y_0, L_0 = initial
@@ -204,6 +216,8 @@ def simulate_pre(
     g_tech = g_tech[:,:n_bar+1,:]
     g_damage = g_damage[:,:,:n_bar+1,:]
     pi_c = pi_c[:,:,:n_bar+1,:]
+    h = h[:,:n_bar+1,:]
+
     v = v[:,:n_bar+1,:]
     
 
@@ -240,6 +254,7 @@ def simulate_pre(
     e_func = RegularGridInterpolator(gridpoints, ee)
     x_func = RegularGridInterpolator(gridpoints, xx)
     tech_func = RegularGridInterpolator(gridpoints, g_tech)
+    h_func = RegularGridInterpolator(gridpoints, h)
     dL_func   = RegularGridInterpolator(gridpoints, dL)
     ME_total_func = RegularGridInterpolator(gridpoints, ME_total)
     ME_base_func = RegularGridInterpolator(gridpoints, ME_base)
@@ -286,6 +301,7 @@ def simulate_pre(
     x_hist    = np.zeros([pers])
     scc_hist  = np.zeros([pers])
     gt_tech   = np.zeros([pers])
+    ht   = np.zeros([pers])
     dL_hist    = np.zeros([pers])
 
     gt_dmg    = np.zeros([n_damage, pers])
@@ -311,6 +327,7 @@ def simulate_pre(
             mu_K_hist[0] = mu_K(i_hist[0])
             mu_L_hist[0] = mu_L(x_hist[0], hist[0,:])
             gt_tech[0] = tech_func(hist[0, :])
+            ht[0] = h_func(hist[0, :])
             dL_hist[tm] = dL_func(hist[0,:])
 
             for i in range(n_damage):
@@ -333,6 +350,7 @@ def simulate_pre(
             e_hist[tm] = get_e(hist[tm-1,:])
             x_hist[tm] = get_x(hist[tm-1,:])
             gt_tech[tm] = tech_func(hist[tm-1,:])
+            ht[tm] = h_func(hist[tm-1, :])
             dL_hist[tm] = dL_func(hist[tm-1,:])
 
             for i in range(n_damage):
@@ -378,11 +396,11 @@ def simulate_pre(
 
     scrd_hist = np.exp(hist[:,2]) * dL_hist / MC
 
-    distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech/448
+    distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech/varrho
 
     distorted_tech_prob = 1 - np.exp(- np.cumsum(np.insert(distorted_tech_intensity * dt, 0, 0) ))[:-1]
 
-    true_tech_intensity = np.exp(hist[:, 2]) /448
+    true_tech_intensity = np.exp(hist[:, 2]) /varrho
     true_tech_prob = 1 - np.exp(- np.cumsum(np.insert(true_tech_intensity * dt, 0, 0) ))[:-1]
         
     damage_intensity = Damage_Intensity(hist[:, 1])
@@ -402,6 +420,7 @@ def simulate_pre(
         scc = scc_hist,
         scrd = scrd_hist,
         gt_tech = gt_tech,
+        ht = ht,
         gt_dmg = gt_dmg,
         distorted_damage_prob=distorted_damage_prob,
         distorted_tech_prob=distorted_tech_prob,
@@ -433,11 +452,11 @@ def Damage_Intensity(Yt, y_bar_lower=1.5):
 
 
 
-def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
+def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
 
     Output_Dir = "/scratch/bincheng/"
     Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
-    File_Dir = "xi_a_{}_xi_g_{}_psi_0_{}_psi_1_{}_" .format(xi_a,xi_g,psi_0,psi_1)
+    File_Dir = "xi_a_{}_xi_c_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_" .format(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho)
     
 
 
@@ -482,6 +501,7 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     pi_c = model_tech1_pre_damage_ME_base["pi_c"]
     g_tech = model_tech1_pre_damage_ME_base["g_tech"]
     g_damage =  model_tech1_pre_damage_ME_base["g_damage"]
+    h =  model_tech1_pre_damage_ME_base["h"]
 
 
 
@@ -507,19 +527,13 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
     
     ME_family = ME_base
     
-    model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar)
-
-    # FKPDE = FKPDEsolver(grid = (K, Y_short, L),
-    #                     model_args = model_args,
-    #                     controls = (i,e,x, g_tech, g_damage, pi_c, v)
-    #                   )
-
+    model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho)
 
 
 
     res = simulate_pre(grid = (K, Y_short, L), 
                        model_args = model_args, 
-                       controls = (i,e,x, g_tech, g_damage, pi_c, v),
+                       controls = (i,e,x, g_tech, g_damage, pi_c, h, v),
                        ME = ME_family,
                        n_bar = n_bar,  
                        T0=0, 
@@ -537,7 +551,8 @@ def model_simulation_generate(xi_a,xi_g,psi_0,psi_1):
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
 
-            res = model_simulation_generate(xiaarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1])
+                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],varrhoarr[id_varrho])
 
 

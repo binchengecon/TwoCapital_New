@@ -5,8 +5,8 @@ actiontime=1
 epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
 
-# NUM_DAMAGE=3
-NUM_DAMAGE=20
+NUM_DAMAGE=3
+# NUM_DAMAGE=20
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
@@ -34,26 +34,6 @@ Xminarr=(4.00 1.2 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
-# xi_a=(0.0004 0.0002 0.0001 0.00005 0.0004 0.0002 0.0001 0.00005 1000.)
-# xi_p=(0.025 0.025 0.025 0.025 0.050 0.050 0.050 0.050 1000.)
-
-# xi_a=(0.0004 0.0002 0.0001 0.00005)
-# xi_p=(0.025 0.025 0.025 0.025)
-
-# xi_a=(0.0004 0.0002 0.0001 0.00005)
-# xi_p=(0.050 0.050 0.050 0.050)
-
-# xi_a=(1000. 0.0002 0.0002)
-# xi_p=(1000. 0.050 0.025)
-
-
-
-# xi_a=(100000. 100000. 100000.)
-# xi_p=(0.050 0.025 100000.)
-
-# xi_a=(100000.)
-# xi_p=(100000.)
-
 
 
 
@@ -69,13 +49,25 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_g=(100000. 100000. 0.050)
 
 
-xi_a=(100000. 100000. 100000.)
-xi_c=(0.025 0.050 100000.)
-xi_d=(0.025 0.050 100000.)
-xi_g=(0.025 0.050 100000.)
+# xi_a=(100000. 100000. 100000.)
+# xi_c=(0.025 0.050 100000.)
+# xi_d=(0.025 0.050 100000.)
+# xi_g=(0.025 0.050 100000.)
 
-# varrhoarr=(1120)
-varrhoarr=(448)
+# xi_a=(100000. 100000. 100000.)
+# xi_c=(0.250 0.500 1.000)
+# xi_d=(0.025 0.025 0.025)
+# xi_g=(0.025 0.025 0.025)
+
+
+xi_a=(100000. 100000. 100000.)
+xi_c=(0.025 0.050 0.100)
+xi_d=(0.025 0.025 0.025)
+xi_g=(0.025 0.025 0.025)
+
+
+varrhoarr=(1120)
+# varrhoarr=(448)
 
 psi0arr=(0.105830)
 
@@ -89,10 +81,11 @@ psi1arr=(0.5)
 
 
 # python_name_unit="Result_2jump_UD_plot_CRS.py"
+python_name_unit="Result_2jump_UD_plot_CRS_long.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity2.py"
-python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity_newlabel.py"
+# python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity_newlabel.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity2_newlabel.py"
 server_name="mercury"
 
@@ -124,19 +117,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         declare -n hXarr="$hXarri"
 
 
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_PETSCFK"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_PETSCFK_20dmg"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testpostivee"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_globalmiss"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_globalmiss2"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_globalmiss2_varrho1120"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_globalmiss_varrho1120"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_presentation"
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_presentation448"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_smallgamma"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS2_PETSCFK_simulate2"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_hj_h"
+        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_oldmodel"
 
 
         for PSI_0 in ${psi0arr[@]}; do

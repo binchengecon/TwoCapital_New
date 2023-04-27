@@ -310,6 +310,9 @@ pi_c = model_tech1_pre_damage['pi_c']
 g_tech = model_tech1_pre_damage['g_tech']
 g_damage = model_tech1_pre_damage['g_damage']
 h = model_tech1_pre_damage['h']
+h_k = model_tech1_pre_damage['h_k']
+h_j = model_tech1_pre_damage['h_j']
+
 pi_d_o = np.ones(len(gamma_3_list)) / len(gamma_3_list)
 pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
@@ -328,7 +331,7 @@ Guess = None
 model_tech1_pre_damage = fk_y_pre_tech(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
-        controls = (i,e,x,pi_c,g_tech,g_damage,h),
+        controls = (i,e,x,pi_c,g_tech,g_damage,h, h_k, h_j),
         VF = (Phi_m,Phi),
         FFK = (F_II, F_m),
         # n_bar = 50,
@@ -402,6 +405,11 @@ g_damage = model_tech1_pre_damage['g_damage']
 g_damage = np.ones(g_damage.shape)
 h = model_tech1_pre_damage['h']
 h = np.zeros(h.shape)
+h_k = model_tech1_pre_damage['h_k']
+h_k = np.zeros(h_k.shape)
+h_j = model_tech1_pre_damage['h_j']
+h_j = np.zeros(h_j.shape)
+
 print(g_damage.min(),g_damage.max())
 pi_d_o = np.ones(len(gamma_3_list)) / len(gamma_3_list)
 pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
@@ -424,7 +432,7 @@ model_tech1_pre_damage = fk_y_pre_tech(
 # model_tech1_pre_damage = fk_y_pre_tech_petsc(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
-        controls = (i,e,x,pi_c,g_tech,g_damage,h),
+        controls = (i,e,x,pi_c,g_tech,g_damage,h,h_k,h_j),
         VF = (Phi_m,Phi),
         FFK = (F_II, F_m),
         # n_bar = 50,
@@ -496,6 +504,9 @@ pi_c = model_tech1_pre_damage['pi_c']
 g_tech = model_tech1_pre_damage['g_tech']
 g_damage = model_tech1_pre_damage['g_damage']
 h = model_tech1_pre_damage['h']
+h_k = model_tech1_pre_damage['h_k']
+h_j = model_tech1_pre_damage['h_j']
+
 pi_d_o = np.ones(len(gamma_3_list)) / len(gamma_3_list)
 pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
@@ -515,7 +526,7 @@ Guess = None
 model_tech1_pre_damage = fk_pre_tech_petsc(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
-        controls = (i,e,x,pi_c,g_tech,g_damage,h),
+        controls = (i,e,x,pi_c,g_tech,g_damage,h, h_k, h_j),
         VF = (Phi_II,Phi),
         FFK = (F_II, F_m),
         V_post_damage=None, 
@@ -593,6 +604,12 @@ g_damage = model_tech1_pre_damage['g_damage']
 g_damage = np.ones(Phi.shape)
 h = model_tech1_pre_damage['h']
 h = np.zeros(h.shape)
+h_k = model_tech1_pre_damage['h_k']
+h_k = np.zeros(h_k.shape)
+h_j = model_tech1_pre_damage['h_j']
+h_j = np.zeros(h_j.shape)
+
+
 pi_d_o = np.ones(len(gamma_3_list)) / len(gamma_3_list)
 pi_d_o = np.array([temp * np.ones((nK, nY_short)) for temp in pi_d_o])
 pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
@@ -614,7 +631,7 @@ model_tech1_pre_damage = fk_pre_tech(
 # model_tech1_pre_damage = fk_pre_tech_petsc(
         state_grid=(K, Y_short, L), 
         model_args=model_args, 
-        controls = (i,e,x,pi_c,g_tech,g_damage,h),
+        controls = (i,e,x,pi_c,g_tech,g_damage,h, h_k, h_j),
         VF = (Phi_II,Phi),
         FFK = (F_II, F_m),
         V_post_damage=None, 
@@ -670,6 +687,8 @@ pi_c = model_tech1_pre_damage["pi_c"]
 g_tech = model_tech1_pre_damage["g_tech"]
 g_damage = model_tech1_pre_damage["g_damage"]
 h = model_tech1_pre_damage['h']
+h_k = model_tech1_pre_damage['h_k']
+h_j = model_tech1_pre_damage['h_j']
 
 
 
@@ -677,7 +696,7 @@ h = model_tech1_pre_damage['h']
 res = hjb_pre_tech_check(
         state_grid=(K, Y_short, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_c, xi_d, xi_g, varrho),
-        controls=(i,e,x,pi_c,g_tech, g_damage, h,v0),
+        controls=(i,e,x,pi_c,g_tech, g_damage, h, h_k, h_j, v0),
         V_post_damage=v_i,
         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
         max_iter=maxiterarr[1],
