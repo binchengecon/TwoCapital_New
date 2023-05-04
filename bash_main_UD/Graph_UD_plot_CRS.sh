@@ -59,11 +59,31 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_d=(0.025 0.025 0.025)
 # xi_g=(0.025 0.025 0.025)
 
+# xi_a=(100000. 100000. 100000.)
+# xi_c=(0.025 0.050 0.100)
+# xi_d=(0.025 0.025 0.025)
+# xi_g=(0.025 0.025 0.025)
 
-xi_a=(100000. 100000. 100000.)
-xi_c=(0.025 0.050 0.100)
-xi_d=(0.025 0.025 0.025)
-xi_g=(0.025 0.025 0.025)
+# xi_a=(100000. 100000. 100000.)
+# xi_c=(0.025 0.050 0.100)
+# xi_d=(0.025 0.050 0.100)
+# xi_g=(0.025 0.050 0.100)
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.050 100000. 100000. 100000.)
+# xi_c=(100000. 0.050 100000. 100000.)
+# xi_j=(100000. 100000. 0.050 100000.)
+# xi_d=(100000. 100000. 100000. 0.050)
+# xi_g=(100000. 100000. 0.050 100000.)
+
+
+xi_a=(100000. 100000. 100000. 100000. 100000.)
+xi_k=(0.050 100000. 100000. 100000. 0.050)
+xi_c=(100000. 0.050 100000. 100000. 0.050)
+xi_j=(100000. 100000. 0.050 100000. 0.050)
+xi_d=(100000. 100000. 100000. 0.050 0.050)
+xi_g=(100000. 100000. 0.050 100000. 0.050)
+
 
 
 varrhoarr=(1120)
@@ -81,7 +101,8 @@ psi1arr=(0.5)
 
 
 # python_name_unit="Result_2jump_UD_plot_CRS.py"
-python_name_unit="Result_2jump_UD_plot_CRS_long.py"
+# python_name_unit="Result_2jump_UD_plot_CRS_long.py"
+python_name_unit="Result_2jump_UD_plot_CRS_long_newlabel.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity2.py"
@@ -117,7 +138,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         declare -n hXarr="$hXarri"
 
 
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_hj_h"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_newmodel2"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_oldmodel"
 
 
@@ -158,7 +179,7 @@ echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1}  --xiaarr ${xi_a[@]} --xicarr ${xi_c[@]} --xidarr ${xi_d[@]} --xigarr ${xi_g[@]}  --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --num_gamma ${NUM_DAMAGE} --scheme ${scheme_array[$k]}  --HJB_solution ${HJBsolution_array[$k]}  --varrho ${varrho}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1}  --xiaarr ${xi_a[@]} --xikarr ${xi_k[@]}  --xicarr ${xi_c[@]}  --xijarr ${xi_j[@]} --xidarr ${xi_d[@]} --xigarr ${xi_g[@]}  --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --num_gamma ${NUM_DAMAGE} --scheme ${scheme_array[$k]}  --HJB_solution ${HJBsolution_array[$k]}  --varrho ${varrho}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)

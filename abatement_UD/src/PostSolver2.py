@@ -19,37 +19,62 @@ def false_transient_one_iteration_cpp(stateSpace, A, B1, B2, C1, C2, D, v0, ε):
     return out[2].reshape(v0.shape, order = "F")
 
 def _hjb_iteration(
-        v0, k_mat, y_mat, dk, dy, d_Delta, dd_Delta, theta, lambda_bar, vartheta_bar, delta, alpha, kappa, mu_k, sigma_k, pi_c_o, pi_c, theta_ell, sigma_y, xi_a, xi_b, i, e, fraction):
+        v0, k_mat, y_mat, dk, dy, d_Delta, dd_Delta, theta, lambda_bar, vartheta_bar, delta, alpha, kappa, mu_k, sigma_k, pi_c_o, pi_c, theta_ell, sigma_y, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, i, e, fraction):
 
     dvdk  = finiteDiff(v0, 0, 1, dk)
     dvdkk = finiteDiff(v0, 0, 2, dk)
     dvdy  = finiteDiff(v0, 1, 1, dy)
     dvdyy = finiteDiff(v0, 1, 2, dy)
 
-    temp = alpha - i - alpha * vartheta_bar * (1 - e / (alpha * lambda_bar * np.exp(k_mat))) ** theta
-    mc = delta / temp
+    # temp = alpha - i - alpha * vartheta_bar * (1 - e / (alpha * lambda_bar * np.exp(k_mat))) ** theta
+    # mc = delta / temp
 
-    i_new =  (1 - mc / dvdk) / kappa
+    # i_new =  (1 - mc / dvdk) / kappa
 
+    temp = delta * ( (alpha - i) * np.exp(k_mat) / np.exp(v0)    )**(-rho) * (np.exp(k_mat)/np.exp(v0))
 
-
-
+    i_new = (1- temp/dvdk)/kappa
+    
+    
     i = i_new * fraction + i * (1-fraction)
 
+    h_k = -1/xi_k *sigma_k * dvdk 
+    h_k[h_k>=-1e-16]=-1e-16
 
 
-    A    = np.ones_like(y_mat) * (- delta)
+    # A    = np.ones_like(y_mat) * (- delta)
+    # B_k  = mu_k + i - kappa / 2. * i ** 2 - sigma_k ** 2 / 2.
+    # B_k += sigma_k*h_k
+
+    # B_y  = np.zeros(A.shape)
+    # C_kk = sigma_k ** 2 / 2 * np.ones_like(y_mat)
+    # C_yy = np.zeros(A.shape)
+
+    # consumption = alpha - i
+    # consumption[consumption <= 1e-16] = 1e-16
+    # D = delta * np.log(consumption) + delta * k_mat
+    # D += 1/2 * xi_k * h_k**2
+
+
+    A    = np.zeros_like(k_mat)
     B_k  = mu_k + i - kappa / 2. * i ** 2 - sigma_k ** 2 / 2.
+    B_k += sigma_k*h_k
     B_y  = np.zeros(A.shape)
+    
     C_kk = sigma_k ** 2 / 2 * np.ones_like(y_mat)
     C_yy = np.zeros(A.shape)
 
     consumption = alpha - i
     consumption[consumption <= 1e-16] = 1e-16
-    D = delta * np.log(consumption) + delta * k_mat
+    
+    temp_recursive = ( (alpha-i)*np.exp(k_mat)/np.exp(v0) )**(1-rho) - 1
+    D = delta/(1-rho) * temp_recursive
+    D += 1/2 * xi_k * h_k**2
 
 
-    return A, B_k, B_y, C_kk, C_yy, D, dvdk, dvdy, dvdkk, dvdyy, i
+
+
+    return A, B_k, B_y, C_kk, C_yy, D, dvdk, dvdy, dvdkk, dvdyy, i, h_k
 
 
 
@@ -58,7 +83,7 @@ def hjb_post_damage_post_tech(
         epsilon=1., fraction=.1, tol=1e-8, max_iter=10000, print_iteration=True
         ):
 
-    delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, gamma_3, y_bar, theta, lambda_bar, vartheta_bar = model_args
+    delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, gamma_1, gamma_2, gamma_3, y_bar, theta, lambda_bar, vartheta_bar = model_args
     
     dk = k_grid[1] - k_grid[0]
     dy = y_grid[1] - y_grid[0]
@@ -90,9 +115,9 @@ def hjb_post_damage_post_tech(
 
     while error > tol and count < max_iter:
 
-        A, B_k, B_y, C_kk, C_yy, D, dvdk, dvdy, dvdkk, dvdyy, i =  _hjb_iteration(
+        A, B_k, B_y, C_kk, C_yy, D, dvdk, dvdy, dvdkk, dvdyy, i, h =  _hjb_iteration(
                 v0, k_mat, y_mat, dk, dy, d_Delta, dd_Delta, theta, lambda_bar, vartheta_bar,
-                delta, alpha, kappa, mu_k, sigma_k, pi_c_o, pi_c, theta_ell, sigma_y, xi_a, xi_b, i, e, fraction
+                delta, alpha, kappa, mu_k, sigma_k, pi_c_o, pi_c, theta_ell, sigma_y, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, i, e, fraction
                 )
 
         v = false_transient_one_iteration_cpp(state_space, A, B_k, B_y, C_kk, C_yy, D, v0, epsilon)
@@ -117,7 +142,7 @@ def hjb_post_damage_post_tech(
         # 'e': e,
         'i': i,
         # 'pi_c': pi_c,
-        # 'h': h,
+        'h': h,
         'error': error,
         }
 
@@ -128,7 +153,7 @@ def hjb_pre_damage_post_tech(
         tol=1e-8, max_iter=10000, print_iteration=True
         ):
 
-    delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, xi_p, pi_d_o, v_i, gamma_1, gamma_2, theta, lambda_bar, vartheta_bar, y_bar_lower = model_args
+    delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, pi_d_o, v_i, gamma_1, gamma_2, theta, lambda_bar, vartheta_bar, y_bar_lower = model_args
     dk = k_grid[1] - k_grid[0]
     dy = y_grid[1] - y_grid[0]
     (k_mat, y_mat) = np.meshgrid(k_grid, y_grid, indexing = 'ij')
@@ -167,8 +192,8 @@ def hjb_pre_damage_post_tech(
     error = 1.
     count = 0
     while error > tol and count < max_iter:
-        A, B_k, B_y, C_kk, C_yy, D, dvdk, dvdy, dvdkk, dvdyy, i= \
-            _hjb_iteration(v0, k_mat, y_mat, dk, dy, d_Delta, dd_Delta, theta, lambda_bar, vartheta_bar, delta, alpha, kappa, mu_k, sigma_k, pi_c_o, pi_c, theta_ell, sigma_y, xi_a, xi_b, i, e, fraction)
+        A, B_k, B_y, C_kk, C_yy, D, dvdk, dvdy, dvdkk, dvdyy, i , h= \
+            _hjb_iteration(v0, k_mat, y_mat, dk, dy, d_Delta, dd_Delta, theta, lambda_bar, vartheta_bar, delta, alpha, kappa, mu_k, sigma_k, pi_c_o, pi_c, theta_ell, sigma_y, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, i, e, fraction)
 
         # D -= xi_p * intensity * (np.sum(pi_d_o * np.exp(- v_i / xi_p), axis=0) - np.exp(- v0 / xi_p)) / np.exp(- v0 / xi_p)
 
@@ -192,14 +217,14 @@ def hjb_pre_damage_post_tech(
         iteration_error = np.max(abs(smart_guess["v"]-v0))
         print(iteration_error)
     
-    g = np.exp(1. / xi_p * (v - v_i))
+    # g = np.exp(1. / xi_p * (v - v_i))
 
     res = {'v': v,
         #    'e': e,
            'i': i,
         #    'g': g,
         #    'pi_c': pi_c,
-        #    'h': h,
+           'h': h,
            'error': error,
            }
 

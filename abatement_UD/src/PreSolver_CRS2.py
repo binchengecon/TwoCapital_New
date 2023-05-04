@@ -50,7 +50,7 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
 
     hX1, hX2, hX3 = steps
     K_mat, Y_mat, L_mat = states
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_c, xi_d, xi_g, varrho = args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, varrho = args
 
     i_star, e_star, x_star = controls
     # First order derivative
@@ -112,15 +112,35 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     elif psi_1 != 1 and vartheta_bar != 0 and theta == 3:
         G = dY -  dG
         F = ddY - ddG
+        
+        
+        
+        # j_star = alpha * vartheta_bar * (1 - e_star / (alpha * lambda_bar * np.exp(K_mat)))**theta
+        # j_star[j_star <= 1e-16] = 1e-16
+        # consumption = alpha - i_star - j_star - x_star
+        # consumption[consumption <= 1e-16] = 1e-16
+        # mc  = delta / consumption
+        # temp = mc * vartheta_bar * theta / (lambda_bar * np.exp(K_mat))
+        
         j_star = alpha * vartheta_bar * (1 - e_star / (alpha * lambda_bar * np.exp(K_mat)))**theta
         j_star[j_star <= 1e-16] = 1e-16
         consumption = alpha - i_star - j_star - x_star
         consumption[consumption <= 1e-16] = 1e-16
-        mc  = delta / consumption
-        temp = mc * vartheta_bar * theta / (lambda_bar * np.exp(K_mat))
-        a = temp / (alpha * lambda_bar * np.exp(K_mat))**(theta - 1)
-        b = - 2 * temp / (alpha * lambda_bar * np.exp(K_mat)) +  F * sigma_y**2
-        c = temp + G * np.sum(theta_ell * pi_c, axis=0)
+        
+        temp_insiderho = consumption * np.exp(K_mat)/np.exp(v0)
+        temp_mc =  delta * temp_insiderho**(-rho)
+        temp_e_coef = temp_mc * vartheta_bar * theta/ ( lambda_bar * np.exp(v0) )
+        
+        
+        # a = temp / (alpha * lambda_bar * np.exp(K_mat))**(theta - 1)
+        # b = - 2 * temp / (alpha * lambda_bar * np.exp(K_mat)) +  F * sigma_y**2 - G**2 * sigma_y**2/xi_c
+        # c = temp + G * np.sum(theta_ell * pi_c, axis=0)
+        
+        a = temp_e_coef / (alpha * lambda_bar * np.exp(K_mat))**(theta - 1)
+        b = - 2 * temp_e_coef / (alpha * lambda_bar * np.exp(K_mat)) +  F * sigma_y**2 - G**2 * sigma_y**2/xi_c
+        c = temp_e_coef + G * np.sum(theta_ell * pi_c, axis=0)
+        
+        
         temp = b ** 2 - 4 * a * c
         temp = temp * (temp > 0)
         root1 = (- b - np.sqrt(temp)) / (2 * a)
@@ -135,11 +155,19 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
         e_new[e_new <= 1e-16] = 1e-16
         
         
-        i_new = - (mc / dK - 1) / kappa
+        # i_new = - (mc / dK - 1) / kappa
+        # i_new[i_new <= 1e-16] = 1e-16
+        # x_new = (mc / (dL * psi_0 * psi_1) * np.exp(psi_1 * (L_mat - K_mat)) )**(1 / (psi_1 - 1))
+
+        temp_i_coef = temp_mc * np.exp(K_mat)/np.exp(v0)
+        
+        i_new = - (temp_i_coef / dK - 1) / kappa
         i_new[i_new <= 1e-16] = 1e-16
-        x_new = (mc / (dL * psi_0 * psi_1) * np.exp(psi_1 * (L_mat - K_mat)) )**(1 / (psi_1 - 1))
-        # part1 = np.sum(pi_c * np.exp(-(1-psi_2)*L_mat), axis=0)
-        # x_new = (mc / (dL * psi_0 * psi_1) * np.exp(-psi_1*K_mat) * 1/part1    )**(1 / (psi_1 - 1))
+        
+        temp_x_coef = temp_mc * np.exp(K_mat)/np.exp(v0)
+
+        x_new = (temp_x_coef / (dL * psi_0 * psi_1) * np.exp(psi_1 * (L_mat - K_mat)) )**(1 / (psi_1 - 1))
+
         
     ii = i_new * fraction + i_star * (1 - fraction)
     ee = e_new * fraction + e_star * (1 - fraction)
@@ -167,39 +195,63 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     h[h>=1] = 1
     
     
-    h_k = -1/xi_c *sigma_k * dK 
-    h_j = -1/xi_c *sigma_g * dL 
+    h_k = -1/xi_k *sigma_k * dK 
+    h_j = -1/xi_j *sigma_g * dL 
     
     h_k[h_k>=-1e-16]=-1e-16
     h_j[h_j>=-1e-16]=-1e-16
     
     
-    # gg[gg >= 1] = 1
     jj =  alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
     jj[jj <= 1e-16] = 1e-16
+    
     consumption = alpha - ii - jj - xx
     consumption[consumption <= 1e-16] = 1e-16
-    # Step (2), solve minimization problem in HJB and calculate drift distortion
+    
+    temp_recursive = (consumption *np.exp(K_mat)/np.exp(v0))**(1-rho) - 1
     
     
-    A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(varrho) ) * gg
+    # A   = - delta * np.ones(K_mat.shape) - np.exp(  L_mat - np.log(varrho) ) * gg
+    # B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
+    # B_1 += sigma_k*h_k
+    # B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
+    # B_2 += sigma_y * h * ee
+    # B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
+    # B_3 += sigma_g*h_j
+
+    # C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
+    # C_2 = 0.5 * sigma_y**2 * ee**2
+    # C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
+    # D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(varrho))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(varrho)) ) * gg * V_post_tech
+    # D += 1/2 * xi_c * h**2
+    # D += 1/2 * xi_k * h_k**2
+    # D += 1/2 * xi_j * h_j**2
+    
+    A   = - np.exp(  L_mat - np.log(varrho) ) * gg
+    
     B_1 = mu_k + ii - 0.5 * kappa * ii**2 - 0.5 * sigma_k**2
     B_1 += sigma_k*h_k
+    
     B_2 = np.sum(theta_ell * pi_c, axis=0) * ee
     B_2 += sigma_y * h * ee
+    
     B_3 = - zeta + psi_0 * (xx * np.exp(K_mat - L_mat))**psi_1 - 0.5 * sigma_g**2
     B_3 += sigma_g*h_j
+    
 
     C_1 = 0.5 * sigma_k**2 * np.ones(K_mat.shape)
     C_2 = 0.5 * sigma_y**2 * ee**2
     C_3 = 0.5 * sigma_g**2 * np.ones(K_mat.shape)
-    D = delta * np.log(consumption) + delta * K_mat  - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  + xi_a * entropy + xi_g * np.exp((L_mat - np.log(varrho))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(varrho)) ) * gg * V_post_tech
+    
+    D = delta / (1-rho) *temp_recursive
+     
+    D += - dG * (np.sum(theta_ell * pi_c, axis=0) + sigma_y * h) * ee  - 0.5 * ddG * sigma_y**2 * ee**2  
+    D += xi_a * entropy 
+    D += xi_g * np.exp((L_mat - np.log(varrho))) * (1 - gg + gg * np.log(gg)) + np.exp( (L_mat - np.log(varrho)) ) * gg * V_post_tech
+    
     D += 1/2 * xi_c * h**2
-    D += 1/2 * xi_c * h_k**2
-    D += 1/2 * xi_c * h_j**2
-    # D += - 1/(2*xi_c) *(sigma_k * dK)**2
-    # D += - 1/(2*xi_c) * (sigma_y * ee * G)**2
-    # D += - 1/(2*xi_c) *(sigma_g * dL)**2
+    D += 1/2 * xi_k * h_k**2
+    D += 1/2 * xi_j * h_j**2
     
     
     return A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, gg, h, h_k, h_j
@@ -216,7 +268,7 @@ def hjb_pre_tech(
     current_time = now.strftime("%d-%H:%M")
     K, Y, L = state_grid
 
-    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_c, xi_d, xi_g, varrho = model_args
+    delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, gamma_1, gamma_2, gamma_3, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, varrho = model_args
 
 
     X1     = K
@@ -312,7 +364,7 @@ def hjb_pre_tech(
     # Enter the optimization
     while FC_Err > tol and epoch < max_iter:
         
-        FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_c, xi_d, xi_g, varrho)
+        FOC_args = (delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech, dG, ddG, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, varrho)
 
         start_ep = time.time()
         A, B_1, B_2, B_3, C_1, C_2, C_3, D, dX1, dX2, dX3, ddX1, ddX2, ddX3, ii, ee, xx, pi_c, g_tech, h, h_k, h_j = _FOC_update(v0, steps= (hX1, hX2, hX3), states = (K_mat, Y_mat, L_mat), args=FOC_args, controls=(i_star, e_star, x_star), fraction=fraction)

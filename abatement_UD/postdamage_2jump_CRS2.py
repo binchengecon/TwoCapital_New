@@ -44,10 +44,14 @@ current_time = now.strftime("%d-%H:%M")
 
 parser = argparse.ArgumentParser(description="xi_r values")
 parser.add_argument("--xi_a", type=float, default=1000.)
+parser.add_argument("--xi_k", type=float, default=1000.)
 parser.add_argument("--xi_c", type=float, default=1000.)
+parser.add_argument("--xi_j", type=float, default=1000.)
 parser.add_argument("--xi_d", type=float, default=1000.)
 parser.add_argument("--xi_g", type=float, default=1000.)
 parser.add_argument("--varrho", type=float, default=1000.)
+parser.add_argument("--phi_0", type=float)
+parser.add_argument("--rho", type=float)
 parser.add_argument("--id", type=int, default=0)
 parser.add_argument("--psi_0", type=float, default=0.003)
 parser.add_argument("--psi_1", type=float, default=0.5)
@@ -72,11 +76,13 @@ start_time = time.time()
 # Parameters as defined in the paper
 xi_a = args.xi_a  # Smooth ambiguity
 xi_b = 1000. # Brownian misspecification
+xi_k = args.xi_k  # Technology jump
 xi_c = args.xi_c  # Technology jump
+xi_j = args.xi_j  # Technology jump
 xi_d = args.xi_d # Hold place for arguments, no real effects 
 xi_g = args.xi_g # Hold place for arguments, no real effects 
 varrho = args.varrho # Hold place for arguments, no real effects 
-
+rho = args.rho
 
 # Model parameters
 delta   = 0.010
@@ -91,7 +97,10 @@ theta        = 3
 lambda_bar   = 0.1206
 # vartheta_bar = 0.0453
 # vartheta_bar = 0.05
-vartheta_bar = 0.056
+# vartheta_bar = 0.056
+# vartheta_bar = 0.5
+vartheta_bar = args.phi_0
+
 # Damage function
 gamma_1 = 1.7675/10000
 gamma_2 = 0.0022 * 2
@@ -167,8 +176,7 @@ Output_Dir = "/scratch/bincheng/"
 # Output_Dir = "./TwoCapital_Shrink/"
 Data_Dir = Output_Dir+"abatement/data_2tech/"+args.name+"/"
 
-File_Name = "xi_a_{}_xi_c_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_" .format(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1, varrho)
-
+File_Name = "xi_a_{}_xi_k_{}_xi_c_{}_xi_j_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_rho_{}_" .format(xi_a, xi_k, xi_c, xi_j, xi_d, xi_g,rho, psi_0,psi_1, varrho, rho)
 #if not os.path.exists(DataDir):
 #    os.mkdir(DataDir)
 
@@ -204,7 +212,7 @@ print("-------------------------------------------")
 
 v = None
 
-model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, gamma_3_i, y_bar, theta, lambda_bar_second, vartheta_bar_second)
+model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g,rho, gamma_1, gamma_2, gamma_3_i, y_bar, theta, lambda_bar_second, vartheta_bar_second)
 
 model_tech2_post_damage = hjb_post_damage_post_tech(
         K, Y, model_args, v0=v,
@@ -223,7 +231,7 @@ model_tech2_post_damage = pickle.load(open(Data_Dir + File_Name + "model_tech2_p
 
 v = model_tech2_post_damage["v"]
 
-model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, gamma_1, gamma_2, gamma_3_i, y_bar, theta, lambda_bar_second, vartheta_bar_second)
+model_args = (delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g,rho, gamma_1, gamma_2, gamma_3_i, y_bar, theta, lambda_bar_second, vartheta_bar_second)
 
 model_tech2_post_damage_check = hjb_post_damage_post_tech(
         K, Y, model_args, v0=v,
@@ -264,7 +272,7 @@ Guess = None
 
 res = hjb_pre_tech(
         state_grid=(K, Y, L), 
-        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_c, xi_d, xi_g, varrho),
+        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g,rho, varrho),
         V_post_damage=None,
         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
         smart_guess=Guess, 
@@ -286,7 +294,7 @@ with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(ga
     
 res_check = hjb_pre_tech(
         state_grid=(K, Y, L), 
-        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_c, xi_d, xi_g, varrho),
+        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g,rho, varrho),
         V_post_damage=None,
         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
         smart_guess=Guess, 

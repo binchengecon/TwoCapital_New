@@ -21,16 +21,38 @@ hXarrays=(hXarr1)
 Xminarr=(4.00 1.2 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
-xi_a=(100000. 100000. 100000.)
-xi_c=(0.250 0.500 1.000)
-xi_d=(0.025 0.025 0.025)
-xi_g=(0.025 0.025 0.025)
+# xi_a=(100000. 100000. 100000.)
+# xi_c=(0.250 0.500 1.000)
+# xi_d=(0.025 0.025 0.025)
+# xi_g=(0.025 0.025 0.025)
+
 
 
 # xi_a=(100000. 100000. 100000.)
 # xi_c=(0.025 0.050 0.100)
 # xi_d=(0.025 0.025 0.025)
 # xi_g=(0.025 0.025 0.025)
+
+# xi_a=(100000. 100000. 100000.)
+# xi_c=(0.025 0.050 0.100)
+# xi_d=(0.025 0.025 0.025)
+# xi_g=(0.025 0.025 0.025)
+
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.050 100000. 100000. 100000.)
+# xi_c=(100000. 0.050 100000. 100000.)
+# xi_j=(100000. 100000. 0.050 100000.)
+# xi_d=(100000. 100000. 100000. 0.050)
+# xi_g=(100000. 100000. 0.050 100000.)
+
+
+xi_a=(100000.)
+xi_k=(0.050)
+xi_c=(0.050)
+xi_j=(0.050)
+xi_d=(0.050)
+xi_g=(0.050)
 
 
 varrhoarr=(1120)
@@ -96,7 +118,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_CRS_MulJump"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_oldmodel"
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_newmodel"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_newmodel2"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
@@ -104,23 +126,23 @@ for epsilonpost in ${epsilonarraypost[@]}; do
                     for j in $(seq 0 $LENGTH_xi); do
                         for k in $(seq 0 $LENGTH_scheme); do
 
-                    mkdir -p ./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/
+                    mkdir -p ./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/
 
-                    if [ -f ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh ]; then
-                        rm ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh
+                    if [ -f ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh ]; then
+                        rm ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh
                     fi
                     mkdir -p ./bash/${action_name}/
 
-                    touch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh
+                    touch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh
 
-                    tee -a ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh <<EOF
+                    tee -a ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh <<EOF
 #! /bin/bash
 
 
 ######## login 
 #SBATCH --job-name=sim_${year}
-#SBATCH --output=./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/graph_simulate_${year}.out
-#SBATCH --error=./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/graph_simulate_${year}.err
+#SBATCH --output=./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/graph_simulate_${year}.out
+#SBATCH --error=./job-outs/${action_name}/Graph_Simulate/scheme_${scheme_array[$k]}_HJB_${HJBsolution_array[$k]}/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/graph_simulate_${year}.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
@@ -136,7 +158,7 @@ echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1}  --xiaarr ${xi_a[$j]} --xicarr ${xi_c[$j]} --xidarr ${xi_d[$j]} --xigarr ${xi_g[$j]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --scheme ${scheme_array[$k]}  --HJB_solution ${HJBsolution_array[$k]}  --varrho ${varrho}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1}  --xiaarr ${xi_a[$j]} --xikarr ${xi_k[$j]} --xicarr ${xi_c[$j]}  --xijarr ${xi_j[$j]} --xidarr ${xi_d[$j]} --xigarr ${xi_g[$j]}   --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --scheme ${scheme_array[$k]}  --HJB_solution ${HJBsolution_array[$k]}  --varrho ${varrho}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)
@@ -148,7 +170,7 @@ eval "echo Elapsed time: \$(date -ud "@\$elapsed" +'\$((%s/3600/24)) days %H hr 
 
 EOF
 
-                    sbatch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh
+                    sbatch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_Graph.sh
 
                         done
                     done

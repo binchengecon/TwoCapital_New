@@ -57,10 +57,10 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_g=(0.025 0.050 100000.)
 
 
-xi_a=(100000. 100000. 100000.)
-xi_c=(0.250 0.500 1.000)
-xi_d=(0.025 0.025 0.025)
-xi_g=(0.025 0.025 0.025)
+# xi_a=(100000. 100000. 100000.)
+# xi_c=(0.250 0.500 1.000)
+# xi_d=(0.025 0.025 0.025)
+# xi_g=(0.025 0.025 0.025)
 
 
 # xi_a=(100000. 100000. 100000.)
@@ -68,17 +68,41 @@ xi_g=(0.025 0.025 0.025)
 # xi_d=(0.025 0.025 0.025)
 # xi_g=(0.025 0.025 0.025)
 
+# xi_a=(100000. 100000. 100000.)
+# xi_c=(0.025 0.050 0.100)
+# xi_d=(0.025 0.050 0.100)
+# xi_g=(0.025 0.050 0.100)
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.050 100000. 100000. 100000.)
+# xi_c=(100000. 0.050 100000. 100000.)
+# xi_j=(100000. 100000. 0.050 100000.)
+# xi_d=(100000. 100000. 100000. 0.050)
+# xi_g=(100000. 100000. 0.050 100000.)
+
+
+xi_a=(100000.)
+xi_k=(0.050)
+xi_c=(0.050)
+xi_j=(0.050)
+xi_d=(0.050)
+xi_g=(0.050)
 
 varrhoarr=(1120)
 # varrhoarr=(448)
 
 psi0arr=(0.105830)
 
+phi0arr=(0.056 0.1 0.2 0.3 0.4 0.5)
+LENGTH_xi=$((${#phi0arr[@]} - 1))
+
+
 
 psi1arr=(0.5)
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
 LENGTH_xi=$((${#xi_a[@]} - 1))
+
 
 hXarr_SG=(0.2 0.2 0.2)
 Xminarr_SG=(4.00 0.0 -5.5 0.0)
@@ -91,7 +115,7 @@ for epsilon in ${epsilonarray[@]}; do
 		count=0
 		declare -n hXarr="$hXarri"
 
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_newmodel"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_newmodel2"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_oldmodel"
 
 
@@ -105,23 +129,23 @@ for epsilon in ${epsilonarray[@]}; do
 					for varrho in ${varrhoarr[@]}; do
 						for j in $(seq 0 $LENGTH_xi); do
 
-							mkdir -p ./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/
+							mkdir -p ./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/
 
-							if [ -f ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh ]; then
-								rm ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh
+							if [ -f ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh ]; then
+								rm ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh
 							fi
 
 							mkdir -p ./bash/${action_name}/
 
-							touch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh
+							touch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh
 
-							tee -a ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh <<EOF
+							tee -a ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh <<EOF
 #! /bin/bash
 
 ######## login
 #SBATCH --job-name=${xi_a[$j]}_${xi_c[$j]}_${xi_d[$j]}_${xi_g[$j]}_${PSI_0}_${PSI_1}_${varrho}_${i}_${epsilon}
-#SBATCH --output=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/mercury_post_$i.out
-#SBATCH --error=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/mercury_post_$i.err
+#SBATCH --output=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/mercury_post_$i.out
+#SBATCH --error=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/mercury_post_$i.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
@@ -139,7 +163,7 @@ echo "Program starts \$(date)"
 start_time=\$(date +%s)
 # perform a task
 
-python3 -u /home/bcheng4/TwoCapital_Shrink/abatement_UD/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_c ${xi_c[$j]} --xi_d ${xi_d[$j]} --xi_g ${xi_g[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name} --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}  --varrho ${varrho}
+python3 -u /home/bcheng4/TwoCapital_Shrink/abatement_UD/$python_name --num_gamma $NUM_DAMAGE --xi_a ${xi_a[$j]} --xi_k ${xi_k[$j]} --xi_c ${xi_c[$j]} --xi_j ${xi_j[$j]}  --xi_d ${xi_d[$j]} --xi_g ${xi_g[$j]}  --epsilonarr ${epsilonarr[@]}  --fractionarr ${fractionarr[@]}   --maxiterarr ${maxiterarr[@]}  --id $i --psi_0 $PSI_0 --psi_1 $PSI_1 --name ${action_name} --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]}  --varrho ${varrho}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)
@@ -152,7 +176,7 @@ eval "echo Elapsed time: \$(date -ud "@\$elapsed" +'\$((%s/3600/24)) days %H hr 
 
 EOF
 						count=$(($count + 1))
-						sbatch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xic_${xi_c[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh
+						sbatch ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_ID_${i}.sh
 					done
 				done
 			done

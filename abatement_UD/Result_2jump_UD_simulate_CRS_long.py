@@ -26,11 +26,15 @@ parser.add_argument("--dataname",type=str)
 parser.add_argument("--pdfname",type=str)
 
 parser.add_argument("--xiaarr",nargs='+', type=float)
+parser.add_argument("--xikarr",nargs='+', type=float)
 parser.add_argument("--xicarr",nargs='+', type=float)
+parser.add_argument("--xijarr",nargs='+', type=float)
 parser.add_argument("--xidarr",nargs='+', type=float)
 parser.add_argument("--xigarr",nargs='+', type=float)
 
 parser.add_argument("--varrhoarr",nargs='+', type=float)
+parser.add_argument("--phi_0", type=float)
+parser.add_argument("--rhoarr", nargs='+', type=float)
 
 parser.add_argument("--psi0arr",nargs='+',type=float)
 parser.add_argument("--psi1arr",nargs='+',type=float)
@@ -64,10 +68,13 @@ psi0arr = args.psi0arr
 psi1arr = args.psi1arr
 psi2arr = args.psi2arr
 xiaarr = args.xiaarr
+xikarr = args.xikarr 
 xicarr = args.xicarr 
+xijarr = args.xijarr 
 xidarr = args.xidarr 
 xigarr = args.xigarr 
 varrhoarr = args.varrhoarr
+rhoarr = args.rhoarr
  
 
 
@@ -109,7 +116,10 @@ theta = 3
 lambda_bar = 0.1206
 # vartheta_bar = 0.0453
 # vartheta_bar = 0.05
-vartheta_bar = 0.056
+# vartheta_bar = 0.056
+# vartheta_bar = 0.5
+vartheta_bar = args.phi_0
+
 
 lambda_bar_first = lambda_bar / 2.
 vartheta_bar_first = vartheta_bar / 2.
@@ -178,7 +188,7 @@ def simulate_pre(
     controls = (),
     ME = (),
     n_bar = (),  
-    initial=(np.log(85/0.115), 1.1, np.log(448/40)), 
+    initial=(np.log(85/0.115), 1.1, np.log(11.2)), 
     T0=0, T=40, dt=1/12,
     printing=True):
 
@@ -190,8 +200,8 @@ def simulate_pre(
     K_min, K_max, Y_min, Y_max, L_min, L_max = min(K), max(K), min(Y), max(Y), min(L), max(L)
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
 
-    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho = model_args
-    ii, ee, xx, g_tech, g_damage, pi_c, h, h_k, h_j, v = controls
+    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho, xi_a,xi_k,xi_c,xi_j,xi_d,xi_g = model_args
+    ii, ee, xx, g_tech, g_damage, pi_c, h, h_k, h_j, v, v_post_tech_raw = controls
     ME_base = ME
     n_bar = n_bar
     K_0, Y_0, L_0 = initial
@@ -223,7 +233,11 @@ def simulate_pre(
     v = v[:,:n_bar+1,:]
     
 
+    v_post_tech = np.zeros(v.shape)
 
+    for j in range(len(L)):
+        v_post_tech[:,:,j] = v_post_tech_raw
+        
     (K_mat, Y_mat, L_mat) = np.meshgrid(K, Y, L, indexing = 'ij')
 
     jj = alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
@@ -250,6 +264,7 @@ def simulate_pre(
 
     dL = finiteDiff_3D(v, 2,1,hL )
     dK = finiteDiff_3D(v, 0,1,hK )
+    dY = finiteDiff_3D(v, 1,1,hY )
 
     print("dk={},{}".format(dK.min(),dK.max()))
     
@@ -259,12 +274,19 @@ def simulate_pre(
     e_func = RegularGridInterpolator(gridpoints, ee)
     x_func = RegularGridInterpolator(gridpoints, xx)
     tech_func = RegularGridInterpolator(gridpoints, g_tech)
+    
+    v_func = RegularGridInterpolator(gridpoints, v)
+    v_post_tech_func = RegularGridInterpolator(gridpoints, v_post_tech)
+    
     h_func = RegularGridInterpolator(gridpoints, h)
     hk_func = RegularGridInterpolator(gridpoints, h_k)
     hj_func = RegularGridInterpolator(gridpoints, h_j)
     dL_func   = RegularGridInterpolator(gridpoints, dL)
+    dY_func   = RegularGridInterpolator(gridpoints, dY)
     ME_total_func = RegularGridInterpolator(gridpoints, ME_total)
     ME_base_func = RegularGridInterpolator(gridpoints, ME_base)
+    
+    
     
     n_damage = len(g_damage)
 
@@ -308,10 +330,16 @@ def simulate_pre(
     x_hist    = np.zeros([pers])
     scc_hist  = np.zeros([pers])
     gt_tech   = np.zeros([pers])
+
+    vt   = np.zeros([pers])
+    v_post_techt   = np.zeros([pers])
+
+
     ht   = np.zeros([pers])
     hkt   = np.zeros([pers])
     hjt   = np.zeros([pers])
     dL_hist    = np.zeros([pers])
+    dY_hist    = np.zeros([pers])
 
     gt_dmg    = np.zeros([n_damage, pers])
     pi_c_t = np.zeros([n_climate, pers])
@@ -336,10 +364,16 @@ def simulate_pre(
             mu_K_hist[0] = mu_K(i_hist[0])
             mu_L_hist[0] = mu_L(x_hist[0], hist[0,:])
             gt_tech[0] = tech_func(hist[0, :])
+
+            vt[0] = v_func(hist[0, :])
+            v_post_techt[0] = v_post_tech_func(hist[0, :])
+
+
             ht[0] = h_func(hist[0, :])
             hkt[0] = hk_func(hist[0, :])
             hjt[0] = hj_func(hist[0, :])
             dL_hist[tm] = dL_func(hist[0,:])
+            dY_hist[tm] = dY_func(hist[0,:])
 
             for i in range(n_damage):
                 damage_func = damage_func_list[i]
@@ -361,10 +395,15 @@ def simulate_pre(
             e_hist[tm] = get_e(hist[tm-1,:])
             x_hist[tm] = get_x(hist[tm-1,:])
             gt_tech[tm] = tech_func(hist[tm-1,:])
+            
+            vt[tm] = v_func(hist[tm-1, :])
+            v_post_techt[tm] = v_post_tech_func(hist[tm-1, :])
+
             ht[tm] = h_func(hist[tm-1, :])
             hkt[tm] = hk_func(hist[tm-1, :])
             hjt[tm] = hj_func(hist[tm-1, :])
             dL_hist[tm] = dL_func(hist[tm-1,:])
+            dY_hist[tm] = dY_func(hist[tm-1,:])
 
             for i in range(n_damage):
                 damage_func = damage_func_list[i]
@@ -390,7 +429,9 @@ def simulate_pre(
             
         if printing==True:
             print("time={}, K={},Y={},L={},mu_K={},mu_Y={},mu_L={},ii={},ee={},xx={},ME_total_base={:.3}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],mu_K_hist[tm],beta_f * e_hist[tm],mu_L_hist[tm],i_hist[tm],e_hist[tm],x_hist[tm],np.log(ME_total_hist[tm]/ME_base_hist[tm])*100), flush=True)
-        
+            # print("time={}, Vg={},V={},UAD={}" .format(tm, v_post_techt[tm], vt[tm],-xi_g  * (1 - np.exp(-1/xi_g *(v_post_techt[tm]-vt[tm]))) ),  flush=True)
+            # print("time={}, E={},RD={}" .format(tm, e_hist[tm], (x_hist[tm] /alpha)*100   ),  flush=True)
+
     
     
         # using Kt instead of K0
@@ -407,7 +448,23 @@ def simulate_pre(
 
     # scrd_hist = MU_RD/MC*1000
 
-    scrd_hist = np.exp(hist[:,2]) * dL_hist / MC
+    scrd_hist = np.exp(hist[:,2]) * dL_hist / MC * np.exp(hist[:, 0])
+
+    scrd_hist2 = psi_0 * psi_1 * (x_hist * np.exp(hist[:,0] - hist[:, 2]) ) ** psi_1
+
+    spo_hist =    xi_g * np.exp(hist[:,2])/varrho * (1 - gt_tech) 
+
+    v_diff = -xi_g * np.log(gt_tech)
+    spo_hist2 =    xi_g * np.exp(hist[:,2])/varrho * (1 - gt_tech + gt_tech * np.log(gt_tech)) +  np.exp(hist[:,2])/varrho * gt_tech * v_diff
+    
+    uncertainty_adjusted_diff =  -xi_g  * (1 - np.exp(-1/xi_g *(v_post_techt-vt)))
+
+    uncertainty_adjusted_diff2 =  -xi_g  * (1 - gt_tech)
+
+    print(abs(uncertainty_adjusted_diff-uncertainty_adjusted_diff2).max())
+
+    scgw_hist =  - dY_hist/ MC * np.exp(hist[:,0]) * 1000 
+
 
     distorted_tech_intensity = np.exp(hist[:, 2]) * gt_tech/varrho
 
@@ -432,6 +489,14 @@ def simulate_pre(
         x = x_hist * np.exp(hist[:, 0]),
         scc = scc_hist,
         scrd = scrd_hist,
+        scgw = scgw_hist,
+        scrd_2 = scrd_hist2,
+        spo = spo_hist,
+        spo2 = spo_hist2,
+        uncertainty_adjusted_diff=uncertainty_adjusted_diff,
+        uncertainty_adjusted_diff2=uncertainty_adjusted_diff2,
+        vt = vt,
+        v_post_techt = v_post_techt,
         gt_tech = gt_tech,
         ht = ht,
         hkt = hkt,
@@ -467,11 +532,11 @@ def Damage_Intensity(Yt, y_bar_lower=1.5):
 
 
 
-def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
+def model_simulation_generate(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,rho,psi_0,psi_1,varrho):
 
     Output_Dir = "/scratch/bincheng/"
     Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
-    File_Dir = "xi_a_{}_xi_c_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_" .format(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho)
+    File_Dir = "xi_a_{}_xi_k_{}_xi_c_{}_xi_j_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_rho_{}_" .format(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,rho,psi_0,psi_1,varrho)
     
 
 
@@ -505,7 +570,12 @@ def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
     elif scheme== 'direct':
         with open(Data_Dir+ File_Dir + "model_tech1_pre_damage", "rb") as f:
             model_tech1_pre_damage_ME_base = pickle.load(f)
+        with open(Data_Dir+ File_Dir + "model_tech2_pre_damage", "rb") as f:
+            model_tech2_pre_damage_ME_base = pickle.load(f)
+        
         n_bar = n_bar1
+        
+        
     ME_base = model_tech1_pre_damage_ME_base["ME"]
 
 
@@ -519,6 +589,8 @@ def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
     h =  model_tech1_pre_damage_ME_base["h"]
     h_k =  model_tech1_pre_damage_ME_base["h_k"]
     h_j =  model_tech1_pre_damage_ME_base["h_j"]
+
+    v_post_tech = model_tech2_pre_damage_ME_base["v"]
 
 
 
@@ -544,13 +616,13 @@ def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
     
     ME_family = ME_base
     
-    model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho)
+    model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho, xi_a,xi_k,xi_c,xi_j,xi_d,xi_g)
 
 
 
     res = simulate_pre(grid = (K, Y_short, L), 
                        model_args = model_args, 
-                       controls = (i,e,x, g_tech, g_damage, pi_c, h, h_k, h_j, v),
+                       controls = (i,e,x, g_tech, g_damage, pi_c, h, h_k, h_j, v, v_post_tech),
                        ME = ME_family,
                        n_bar = n_bar,  
                        T0=0, 
@@ -569,7 +641,8 @@ for id_xiag in range(len(xiaarr)):
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
+                for id_rho in range(len(rhoarr)):
 
-                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1],varrhoarr[id_varrho])
+                    res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],rhoarr[id_rho],psi0arr[id_psi0],psi1arr[id_psi1],varrhoarr[id_varrho])
 
 

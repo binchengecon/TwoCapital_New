@@ -180,6 +180,31 @@ plt.savefig(Plot_Dir+"/RD,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.
 plt.savefig(Plot_Dir+"/RD,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xicarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+
+                if xiaarr[id_xiag]>10:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["x"][res["states"][:, 1]<1.5],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["x"][res["states"][:, 1]<1.5],label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]),linewidth=5.0)
+                plt.xlabel('Years')
+                plt.ylabel('$\%$ of GDP')
+                plt.title("R&D investment as percentage of  GDP")
+                # if auto==0:   
+                plt.ylim(0,1)
+                plt.xlim(0,30)
+
+                plt.legend(loc='upper left')        
+print(res.keys())
+plt.savefig(Plot_Dir+"/RD_Raw,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.pdf".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/RD_Raw,xia={},xic={},xid={},xig={},psi0={},psi1={},varrho={}.png".format(xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.close()
+
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):

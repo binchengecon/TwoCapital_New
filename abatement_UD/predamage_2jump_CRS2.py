@@ -42,10 +42,14 @@ current_time = now.strftime("%d-%H:%M")
 
 parser = argparse.ArgumentParser(description="xi_r values")
 parser.add_argument("--xi_a", type=float, default=1000.)
+parser.add_argument("--xi_k", type=float, default=1000.)
 parser.add_argument("--xi_c", type=float, default=1000.)
+parser.add_argument("--xi_j", type=float, default=1000.)
 parser.add_argument("--xi_d", type=float, default=1000.)
 parser.add_argument("--xi_g", type=float, default=1000.)
 parser.add_argument("--varrho", type=float, default=1000.)
+parser.add_argument("--phi_0", type=float)
+parser.add_argument("--rho", type=float)
 parser.add_argument("--psi_0", type=float, default=0.003)
 parser.add_argument("--psi_1", type=float, default=0.5)
 parser.add_argument("--num_gamma",type=int,default=6)
@@ -69,11 +73,13 @@ start_time = time.time()
 # Parameters as defined in the paper
 xi_a = args.xi_a # Smooth ambiguity
 xi_b = 1000. # Brownian misspecification
+xi_k = args.xi_k  # Technology jump
 xi_c = args.xi_c  # Technology jump
+xi_j = args.xi_j  # Technology jump
 xi_d = args.xi_d # Hold place for arguments, no real effects 
 xi_g = args.xi_g # Hold place for arguments, no real effects 
 varrho = args.varrho # Hold place for arguments, no real effects 
-
+rho = args.rho
 
 # DataDir = "./res_data/6damage/xi_a_" + str(xi_a) + "_xi_g_" + str(xi_g) +  "/"
 # if not os.path.exists(DataDir):
@@ -93,7 +99,10 @@ theta        = 3
 lambda_bar   = 0.1206
 # vartheta_bar = 0.0453
 # vartheta_bar = 0.05
-vartheta_bar = 0.056
+# vartheta_bar = 0.056
+# vartheta_bar = 0.5
+vartheta_bar = args.phi_0
+
 # Damage function
 gamma_1 = 1.7675/10000
 gamma_2 = 0.0022 * 2
@@ -163,7 +172,7 @@ X3_max = X3.max()
 Output_Dir = "/scratch/bincheng/"
 Data_Dir = Output_Dir+"abatement/data_2tech/"+args.name+"/"
 
-File_Name = "xi_a_{}_xi_c_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_" .format(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1, varrho)
+File_Name = "xi_a_{}_xi_k_{}_xi_c_{}_xi_j_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_rho_{}_" .format(xi_a, xi_k, xi_c, xi_j, xi_d, xi_g,rho, psi_0,psi_1, varrho, rho)
 
 os.makedirs(Data_Dir, exist_ok=True)
 
@@ -270,7 +279,7 @@ v = np.mean(v_i, axis=0)
 
 model_tech2_pre_damage = hjb_pre_damage_post_tech(
         K, Y_short, 
-        model_args=(delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_b, xi_g, pi_d_o, v_i, gamma_1, gamma_2, theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
+        model_args=(delta, alpha, kappa, mu_k, sigma_k, theta_ell, pi_c_o, sigma_y, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, pi_d_o, v_i, gamma_1, gamma_2, theta, lambda_bar_second, vartheta_bar_second, y_bar_lower),
         v0=v, 
         smart_guess =None,
         epsilon=epsilonarr[0], 
@@ -318,7 +327,7 @@ v_tech2 = np.zeros((nK, nY_short, nL))
 for i in range(nL):
     v_tech2[:, :, i] = v_post
 
-model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_c, xi_d, xi_g, varrho)
+model_args =(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, v_tech2, gamma_1, gamma_2, gamma_3_list, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, rho, varrho)
 
 #########################################
 ######### Start of Compute###############
