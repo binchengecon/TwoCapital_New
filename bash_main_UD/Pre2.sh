@@ -2,7 +2,8 @@
 
 actiontime=1
 # epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
-epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05 0.01) # 0.1
 
@@ -11,7 +12,7 @@ epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 
 # epsilonarraypre=(0.1) #
 # epsilonarraypre=(0.01) #
-epsilonarraypre=(0.05) #
+epsilonarraypre=(0.005) #
 
 python_name="predamage_2jump_CRS2.py"
 # python_name="postdamage_2jump_Short.py" # 3 dmg
@@ -22,7 +23,7 @@ NUM_DAMAGE=3
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
-maxiterarr=(80000 200000)
+maxiterarr=(80000 400000)
 # maxiterarr=(10 10)
 # maxiterarr=(80000 200000 200000)
 
@@ -97,13 +98,15 @@ varrhoarr=(1120)
 # varrhoarr=(448)
 
 
-rhoarr=(0.66 0.88 1.00001 1.5)
+# rhoarr=(0.66 1.00001 1.5)
+rhoarr=(1.00001 1.5)
 LENGTH_rho=$((${#rhoarr[@]} - 1))
 
 
 psi0arr=(0.105830)
 
-phi0arr=(0.056 0.1 0.2 0.3 0.4 0.5)
+# phi0arr=(0.056 0.1 0.2 0.3 0.4 0.5)
+phi0arr=(0.5)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 psi1arr=(0.5)
@@ -125,7 +128,7 @@ for epsilon in ${epsilonarraypre[@]}; do
 			count=0
 			declare -n hXarr="$hXarri"
 
-			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_geneal_phi0_${phi0arr[$phi0index]}"			
+			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_phi0_${phi0arr[$phi0index]}"			
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_oldmodel"			
 
 			epsilonarr=(0.05 ${epsilon})

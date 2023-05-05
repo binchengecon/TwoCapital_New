@@ -8,7 +8,8 @@ epsilonarray=(0.005)
 
 
 
-python_name="postdamage_2jump_CRS2.py" # 3 dmg
+# python_name="postdamage_2jump_CRS2.py" # 3 dmg
+python_name="postdamage_2jump_CRS2_Mike.py" # 3 dmg
 # python_name="postdamage_2jump_Short.py" # 3 dmg
 
 
@@ -18,7 +19,8 @@ NUM_DAMAGE=3
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
-maxiterarr=(80000 200000)
+# maxiterarr=(80000 200000)
+maxiterarr=(1000000 600000)
 # maxiterarr=(10 10)
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
@@ -85,17 +87,27 @@ xi_g=(100000. 100000. 0.050 100000. 0.050)
 
 
 # xi_a=(100000.)
+# xi_k=(100000.)
+# xi_c=(100000.)
+# xi_j=(0.050)
+# xi_d=(100000.)
+# xi_g=(0.050)
+
+# xi_a=(100000.)
 # xi_k=(0.050)
 # xi_c=(0.050)
 # xi_j=(0.050)
 # xi_d=(0.050)
 # xi_g=(0.050)
 
-
 varrhoarr=(1120)
 # varrhoarr=(448)
 
-rhoarr=(0.66 1.00001 1.5)
+# rhoarr=(0.66 1.00001 1.5)
+
+# rhoarr=(0.66)
+rhoarr=(1.00001 1.5)
+
 LENGTH_rho=$((${#rhoarr[@]} - 1))
 
 psi0arr=(0.105830)
@@ -124,14 +136,19 @@ for epsilon in ${epsilonarray[@]}; do
 		count=0
 		declare -n hXarr="$hXarri"
 
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_geneal_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_oldmodel"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_geneal_phi0_${phi0arr[$phi0index]}"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_phi0_${phi0arr[$phi0index]}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_Mike_phi0_${phi0arr[$phi0index]}"
 
 
 		
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})
 
+		# epsilonarr=(0.01 0.0025)
+		# fractionarr=(0.01 0.0025)
+
+		# i=1
 		for i in $(seq 0 $ID_MAX_DAMAGE); do
 			for PSI_0 in ${psi0arr[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
