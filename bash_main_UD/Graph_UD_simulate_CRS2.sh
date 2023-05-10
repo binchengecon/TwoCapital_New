@@ -2,7 +2,8 @@
 
 actiontime=1
 # epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
-epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 
 NUM_DAMAGE=3
 

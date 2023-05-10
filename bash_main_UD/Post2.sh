@@ -9,18 +9,20 @@ epsilonarray=(0.005)
 
 
 # python_name="postdamage_2jump_CRS2.py" # 3 dmg
-python_name="postdamage_2jump_CRS2_Mike.py" # 3 dmg
+python_name="postdamage_2jump_CRS2_expo.py" # 3 dmg
+# python_name="postdamage_2jump_CRS2_Mike.py" # 3 dmg
 # python_name="postdamage_2jump_Short.py" # 3 dmg
 
 
 # NUM_DAMAGE=20
 # NUM_DAMAGE=10
-NUM_DAMAGE=3
+# NUM_DAMAGE=3
+NUM_DAMAGE=4
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
 # maxiterarr=(80000 200000)
-maxiterarr=(1000000 600000)
+maxiterarr=(2000000 800000)
 # maxiterarr=(10 10)
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
@@ -103,10 +105,10 @@ xi_g=(100000. 100000. 0.050 100000. 0.050)
 varrhoarr=(1120)
 # varrhoarr=(448)
 
-# rhoarr=(0.66 1.00001 1.5)
+rhoarr=(0.66 1.00001 1.5)
 
 # rhoarr=(0.66)
-rhoarr=(1.00001 1.5)
+# rhoarr=(1.00001 1.5)
 
 LENGTH_rho=$((${#rhoarr[@]} - 1))
 
@@ -138,12 +140,16 @@ for epsilon in ${epsilonarray[@]}; do
 
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_geneal_phi0_${phi0arr[$phi0index]}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_phi0_${phi0arr[$phi0index]}"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_Mike_phi0_${phi0arr[$phi0index]}"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer3_phi0_${phi0arr[$phi0index]}"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer4dmg_phi0_${phi0arr[$phi0index]}"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_4dmg_phi0_${phi0arr[$phi0index]}"
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_Mike_phi0_${phi0arr[$phi0index]}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_expo_phi0_${phi0arr[$phi0index]}"
 
 
 		
-		epsilonarr=(0.1 ${epsilon})
-		fractionarr=(0.1 ${epsilon})
+		epsilonarr=(0.005 ${epsilon})
+		fractionarr=(0.005 ${epsilon})
 
 		# epsilonarr=(0.01 0.0025)
 		# fractionarr=(0.01 0.0025)
@@ -179,7 +185,7 @@ for epsilon in ${epsilonarray[@]}; do
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2G
 #SBATCH --time=7-00:00:00
-#SBATCH --exclude=mcn53,mcn51
+#SBATCH --exclude=mcn53,mcn52,mcn51
 
 ####### load modules
 module load python/booth/3.8  gcc/9.2.0

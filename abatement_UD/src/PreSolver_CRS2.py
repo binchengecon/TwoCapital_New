@@ -127,8 +127,10 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
         consumption = alpha - i_star - j_star - x_star
         consumption[consumption <= 1e-16] = 1e-16
         
-        temp_insiderho = consumption * np.exp(K_mat)/np.exp(v0)
-        temp_mc =  delta * temp_insiderho**(-rho)
+        # temp_insiderho = consumption * np.exp(K_mat)/np.exp(v0)
+        temp_mc =  delta * (consumption * np.exp(K_mat)/np.exp(v0))**(-rho)
+        
+        
         temp_e_coef = temp_mc * vartheta_bar * theta/ ( lambda_bar * np.exp(v0) )
         
         
@@ -158,15 +160,16 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
         # i_new = - (mc / dK - 1) / kappa
         # i_new[i_new <= 1e-16] = 1e-16
         # x_new = (mc / (dL * psi_0 * psi_1) * np.exp(psi_1 * (L_mat - K_mat)) )**(1 / (psi_1 - 1))
-
-        temp_i_coef = temp_mc * np.exp(K_mat)/np.exp(v0)
+        temp_ix_coef = temp_mc * np.exp(K_mat)/np.exp(v0)
         
-        i_new = - (temp_i_coef / dK - 1) / kappa
+        # temp_i_coef = temp_mc * np.exp(K_mat)/np.exp(v0)
+        
+        i_new = - (temp_ix_coef / dK - 1) / kappa
         i_new[i_new <= 1e-16] = 1e-16
         
-        temp_x_coef = temp_mc * np.exp(K_mat)/np.exp(v0)
+        # temp_x_coef = temp_mc * np.exp(K_mat)/np.exp(v0)
 
-        x_new = (temp_x_coef / (dL * psi_0 * psi_1) * np.exp(psi_1 * (L_mat - K_mat)) )**(1 / (psi_1 - 1))
+        x_new = (temp_ix_coef / (dL * psi_0 * psi_1) * np.exp(psi_1 * (L_mat - K_mat)) )**(1 / (psi_1 - 1))
 
         
     ii = i_new * fraction + i_star * (1 - fraction)

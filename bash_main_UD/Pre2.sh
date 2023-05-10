@@ -19,11 +19,12 @@ python_name="predamage_2jump_CRS2.py"
 
 
 # NUM_DAMAGE=20
-NUM_DAMAGE=3
+# NUM_DAMAGE=3
+NUM_DAMAGE=4
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
-maxiterarr=(80000 400000)
+maxiterarr=(100000 800000)
 # maxiterarr=(10 10)
 # maxiterarr=(80000 200000 200000)
 
@@ -98,8 +99,8 @@ varrhoarr=(1120)
 # varrhoarr=(448)
 
 
-# rhoarr=(0.66 1.00001 1.5)
-rhoarr=(1.00001 1.5)
+rhoarr=(0.66 1.00001 1.5)
+# rhoarr=(1.00001 1.5)
 LENGTH_rho=$((${#rhoarr[@]} - 1))
 
 
@@ -128,8 +129,10 @@ for epsilon in ${epsilonarraypre[@]}; do
 			count=0
 			declare -n hXarr="$hXarri"
 
-			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_phi0_${phi0arr[$phi0index]}"			
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_general_longer_phi0_${phi0arr[$phi0index]}"			
 			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_oldmodel"			
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_general_longer4dmg_phi0_${phi0arr[$phi0index]}"
+			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_4dmg_phi0_${phi0arr[$phi0index]}"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})

@@ -37,6 +37,7 @@ parser.add_argument("--xigarr",nargs='+', type=float)
 
 parser.add_argument("--varrhoarr",nargs='+', type=float)
 parser.add_argument("--phi_0", type=float)
+parser.add_argument("--rhoarr", type=float)
 
 parser.add_argument("--psi0arr",nargs='+',type=float)
 parser.add_argument("--psi1arr",nargs='+',type=float)
@@ -74,7 +75,7 @@ xijarr = args.xijarr
 xidarr = args.xidarr 
 xigarr = args.xigarr 
 varrhoarr = args.varrhoarr
-
+rho = args.rhoarr
 
 if len(xicarr)==4:
     labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion']
@@ -162,12 +163,13 @@ os.makedirs("./abatement_UD/pdf_2tech/"+args.dataname+"/"+scheme+"_"+HJB_solutio
 
 Plot_Dir = "./abatement_UD/pdf_2tech/"+args.dataname+"/"+scheme+"_"+HJB_solution+"/"
 
-def model_simulation_generate(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,psi_0,psi_1,varrho):
+def model_simulation_generate(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,psi_0,psi_1,varrho,rho):
 
     Output_Dir = "/scratch/bincheng/"
     Data_Dir = Output_Dir+"abatement/data_2tech/"+args.dataname+"/"
-    File_Dir = "xi_a_{}_xi_k_{}_xi_c_{}_xi_j_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_" .format(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,psi_0,psi_1,varrho)
-
+    # File_Dir = "xi_a_{}_xi_k_{}_xi_c_{}_xi_j_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_rho_{}_" .format(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,psi_0,psi_1,varrho,rho)
+    File_Dir = "xi_a_{}_xi_k_{}_xi_c_{}_xi_j_{}_xi_d_{}_xi_g_{}_psi_0_{}_psi_1_{}_varrho_{}_rho_{}_" .format(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,rho,psi_0,psi_1,varrho,rho)
+    
 
     with open(Data_Dir + File_Dir+"model_tech1_pre_damage"+"_UD_simul_{}".format(IntPeriod)+ scheme + "_" +HJB_solution, "rb") as f:
         res = pickle.load(f)
@@ -182,7 +184,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
                     plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
@@ -192,13 +194,13 @@ for id_xiag in range(len(xiaarr)):
                 plt.ylabel('$\%$ of GDP')
                 plt.title("R&D investment as percentage of  GDP")
                 # if auto==0:   
-                plt.ylim(0,4)
+                plt.ylim(0,12)
                 plt.xlim(0,30)
 
                 plt.legend(loc='upper left')        
 print(res.keys())
-plt.savefig(Plot_Dir+"/RD_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/RD_"+Filename+".png")
+plt.savefig(Plot_Dir+"/RD_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/RD_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -207,7 +209,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
                     plt.plot(res["years"][res["states"][:, 1]<1.5], res["x"][res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
@@ -222,8 +224,8 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.legend(loc='upper left')        
 print(res.keys())
-plt.savefig(Plot_Dir+"/RD_Raw"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/RD_Raw"+Filename+".png")
+plt.savefig(Plot_Dir+"/RD_Raw"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/RD_Raw"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -234,7 +236,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
                     plt.plot(res["years"][res["states"][:, 1]<1.5], (((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)*(1-res["true_tech_prob"]))[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
@@ -249,8 +251,8 @@ for id_xiag in range(len(xiaarr)):
 
                 plt.legend(loc='upper left')        
 print(res.keys())
-plt.savefig(Plot_Dir+"/RD_Expected_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/RD_Expected_"+Filename+".png")
+plt.savefig(Plot_Dir+"/RD_Expected_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/RD_Expected_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -261,7 +263,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -271,12 +273,12 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Capital investment")
                 # if auto==0:   
-                plt.ylim(65,110)
+                plt.ylim(30,150)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-# plt.savefig(Plot_Dir+"/CapI_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/CapI_"+Filename+".png")
+# plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -286,7 +288,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
                     plt.plot(res["years"][res["states"][:, 1]<1.5], res["e"][res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
@@ -297,12 +299,12 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Carbon Emissions")
                 # if auto==0:   
-                plt.ylim(6.0,12.0)
+                plt.ylim(6.0,15.0)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/E_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/E_"+Filename+".png")
+plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -311,7 +313,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
                     plt.plot(res["years"][res["states"][:, 1]<1.5], ( res["e"] * (1-res["true_tech_prob"]) )[res["states"][:, 1]<1.5] ,label=labellist[id_xiag],linewidth=5.0)
@@ -326,8 +328,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/ETrue_Expected_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/ETrue_Expected_"+Filename+".png")
+plt.savefig(Plot_Dir+"/ETrue_Expected_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/ETrue_Expected_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -336,7 +338,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -352,8 +354,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/TA_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/TA_"+Filename+".png")
+plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -362,7 +364,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -374,13 +376,13 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Knowledge Stock $J_g$")
                 # if auto==0:   
-                plt.ylim(11.0,40.0)
+                plt.ylim(11.0,45.0)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
 
-plt.savefig(Plot_Dir+"/Ig_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/Ig_"+Filename+".png")
+plt.savefig(Plot_Dir+"/Ig_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/Ig_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -391,7 +393,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -406,8 +408,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/ProbTechJump_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/ProbTechJump_"+Filename+".png")
+plt.savefig(Plot_Dir+"/ProbTechJump_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/ProbTechJump_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -416,7 +418,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -431,8 +433,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/ProbDamageChange_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/ProbDamageChange_"+Filename+".png")
+plt.savefig(Plot_Dir+"/ProbDamageChange_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/ProbDamageChange_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -443,7 +445,7 @@ for id_xiag in range(len(xiaarr)):
 
                 color_one = colors[id_xiag % len(xiaarr)]   
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -464,8 +466,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/CombProbTechJump_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/CombProbTechJump_"+Filename+".png")
+plt.savefig(Plot_Dir+"/CombProbTechJump_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/CombProbTechJump_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -476,7 +478,7 @@ for id_xiag in range(len(xiaarr)):
 
                 color_one = colors[id_xiag % len(xiaarr)]   
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -499,8 +501,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+".png")
+plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -510,7 +512,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -524,8 +526,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/TPIg_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/TPIg_"+Filename+".png")
+plt.savefig(Plot_Dir+"/TPIg_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/TPIg_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -533,7 +535,7 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -547,8 +549,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/TPId_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/TPId_"+Filename+".png")
+plt.savefig(Plot_Dir+"/TPId_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/TPId_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -557,7 +559,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -572,8 +574,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/logSCC_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/logSCC_"+Filename+".png")
+plt.savefig(Plot_Dir+"/logSCC_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/logSCC_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -583,7 +585,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -600,8 +602,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/logSVRD_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/logSVRD_"+Filename+".png")
+plt.savefig(Plot_Dir+"/logSVRD_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/logSVRD_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -610,7 +612,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -627,8 +629,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/logSCGW_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/logSCGW_"+Filename+".png")
+plt.savefig(Plot_Dir+"/logSCGW_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/logSCGW_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -637,7 +639,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -654,8 +656,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/logSVRD2_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/logSVRD2_"+Filename+".png")
+plt.savefig(Plot_Dir+"/logSVRD2_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/logSVRD2_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -664,7 +666,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -681,8 +683,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/spo_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/spo_"+Filename+".png")
+plt.savefig(Plot_Dir+"/spo_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/spo_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -691,7 +693,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -708,8 +710,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/spo2_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/spo2_"+Filename+".png")
+plt.savefig(Plot_Dir+"/spo2_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/spo2_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -718,7 +720,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -735,8 +737,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/UAD_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/UAD_"+Filename+".png")
+plt.savefig(Plot_Dir+"/UAD_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/UAD_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -747,7 +749,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -764,8 +766,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/UAD2_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/UAD2_"+Filename+".png")
+plt.savefig(Plot_Dir+"/UAD2_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/UAD2_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -776,7 +778,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -793,8 +795,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/Vgt_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/Vgt_"+Filename+".png")
+plt.savefig(Plot_Dir+"/Vgt_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/Vgt_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -803,7 +805,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -820,8 +822,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/Vt_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/Vt_"+Filename+".png")
+plt.savefig(Plot_Dir+"/Vt_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/Vt_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -831,7 +833,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -848,8 +850,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/Vg-Vt_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/Vg-Vt_"+Filename+".png")
+plt.savefig(Plot_Dir+"/Vg-Vt_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/Vg-Vt_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -859,7 +861,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 if xiaarr[id_xiag]>10:
 
@@ -876,8 +878,8 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/gt_"+Filename+".pdf")
-plt.savefig(Plot_Dir+"/gt_"+Filename+".png")
+plt.savefig(Plot_Dir+"/gt_"+Filename+"_rho={}".format(rho)+".pdf")
+plt.savefig(Plot_Dir+"/gt_"+Filename+"_rho={}".format(rho)+".png")
 plt.close()
 
 
@@ -886,7 +888,7 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
                 
                 
                 if xigarr[id_xiag]>10:
@@ -901,7 +903,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/h_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/h_{}_"+Filename+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/h_{}_"+Filename+"_rho={}".format(rho)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -909,7 +911,7 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
                 
                 
                 if xigarr[id_xiag]>10:
@@ -924,7 +926,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/hk_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/hk_{}_"+Filename+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/hk_{}_"+Filename+"_rho={}".format(rho)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -932,7 +934,7 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
                 
                 
                 if xigarr[id_xiag]>10:
@@ -948,7 +950,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/hj_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/hj_{}_"+Filename+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/hj_{}_"+Filename+"_rho={}".format(rho)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
 
@@ -957,7 +959,7 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
                 
                 
                 if xigarr[id_xiag]>10:
@@ -972,7 +974,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/h2_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/h2_{}_"+Filename+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/h2_{}_"+Filename+"_rho={}".format(rho)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -980,7 +982,7 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
                 
                 
                 if xigarr[id_xiag]>10:
@@ -995,7 +997,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/hk2_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/hk2_{}_"+Filename+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/hk2_{}_"+Filename+"_rho={}".format(rho)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -1003,7 +1005,7 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
                 
                 
                 if xigarr[id_xiag]>10:
@@ -1019,7 +1021,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/hj2_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/hj2_{}_"+Filename+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/hj2_{}_"+Filename+"_rho={}".format(rho)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
 
@@ -1047,7 +1049,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
                 
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
                 NUM_DAMAGE = res["gt_dmg"].shape[0]
                 gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
@@ -1066,7 +1068,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.legend(loc='upper left',frameon=False)
 
                     
-                plt.savefig(Plot_Dir+"/Gamma3,xia={:.5f},xic={:.3f},xid={:.3f},xig={:.3f},psi0={:.3f},psi1={:.3f},varrho={:.1f}.png".format(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho]))
+                plt.savefig(Plot_Dir+"/Gamma3,xia={:.5f},xic={:.3f},xid={:.3f},xig={:.3f},psi0={:.3f},psi1={:.3f},varrho={:.1f}.png".format(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho))
                 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -1075,7 +1077,7 @@ for id_xiag in range(len(xiaarr)):
             for id_varrho in range(len(varrhoarr)):
 
         
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
 
                 # histogram of beta_f
