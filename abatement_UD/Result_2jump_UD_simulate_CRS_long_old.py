@@ -91,14 +91,14 @@ alpha = 0.115
 kappa = 6.667
 mu_k  = -0.043
 # sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
-sigma_k = 0.100
+sigma_k = 0.0100
 beta_f = 1.86/1000
 sigma_y = 1.2 * 1.86 / 1000
 zeta = 0.0
 # psi_0 = 0.00025
 # psi_1 = 1/2
 # sigma_g   = 0.016
-sigma_g   = 0.078
+sigma_g   = 0.0078
 gamma_1 = 1.7675 / 1000
 gamma_2 = 0.0022 * 2
 

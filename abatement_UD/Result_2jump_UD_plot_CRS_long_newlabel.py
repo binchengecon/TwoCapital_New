@@ -87,6 +87,15 @@ if len(xicarr)==5:
     Filename = 'Uncertainty Channels'
     colors = ['blue','green', 'red', 'cyan', 'purple']
     
+if len(xicarr)==3:
+    labellist = ['More Aversion', 'Less Aversion', 'Neutrality']
+    Filename = 'Aversion Intensity'
+    # Filename = 'Aversion Intensity_old'
+    # Filename = 'Aversion Intensity_onlyj'
+    # Filename = 'Aversion Intensity_onlyk'
+    colors = ['blue','red', 'green', 'cyan', 'purple']
+    colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
     
 # colors = ['blue','green', 'red', 'cyan']
 
@@ -106,13 +115,13 @@ delta = 0.01
 alpha = 0.115
 kappa = 6.667
 mu_k  = -0.043
-sigma_k = 0.0095
+sigma_k = 0.01
 beta_f = 1.86/1000
 sigma_y = 1.2 * 1.86 / 1000
 zeta = 0.0
 # psi_0 = 0.00025
 # psi_1 = 1/2
-sigma_g = 0.016
+sigma_g = 0.0078
 gamma_1 = 1.7675 / 1000
 gamma_2 = 0.0022 * 2
 

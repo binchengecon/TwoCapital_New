@@ -19,8 +19,8 @@ python_name="postdamage_2jump_CRS2_largedelta.py" # 3 dmg
 
 # NUM_DAMAGE=20
 # NUM_DAMAGE=10
-# NUM_DAMAGE=3
-NUM_DAMAGE=4
+NUM_DAMAGE=3
+# NUM_DAMAGE=4
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
@@ -111,13 +111,20 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_g=(0.50 0.1 0.050 0.1)
 
 
+xi_a=(100000. 100000. 100000.)
+xi_k=(0.050 0.025 100000.)
+xi_c=(0.050 0.025 100000.)
+xi_j=(0.050 0.025 100000.)
+xi_d=(0.050 0.025 100000.)
+xi_g=(0.050 0.025 100000.)
 
-xi_a=(100000.)
-xi_k=(100000.)
-xi_c=(100000.)
-xi_j=(0.050)
-xi_d=(100000.)
-xi_g=(0.050)
+
+# xi_a=(100000.)
+# xi_k=(100000.)
+# xi_c=(100000.)
+# xi_j=(0.050)
+# xi_d=(100000.)
+# xi_g=(0.050)
 
 # xi_a=(100000.)
 # xi_k=(0.050)
@@ -170,17 +177,9 @@ for epsilon in ${epsilonarray[@]}; do
 		count=0
 		declare -n hXarr="$hXarri"
 
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_geneal_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer3_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer4dmg_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_4dmg_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_general_longer_Mike_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_expo_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_new_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_newdmg_phi0_${phi0arr[$phi0index]}"
-		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_newtech_phi0_${phi0arr[$phi0index]}"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_testlargedelta_phi0_${phi0arr[$phi0index]}_delta_${delta}"
+
+		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_testlargedelta_phi0_${phi0arr[$phi0index]}_delta_${delta}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_deltaonaversion_phi0_${phi0arr[$phi0index]}_delta_${delta}"
 
 
 		

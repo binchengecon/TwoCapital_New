@@ -63,12 +63,12 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_g=(100000. 100000. 0.025 100000.)
 
 
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(0.050 0.025 100000.)
-# xi_c=(0.050 0.025 100000.)
-# xi_j=(0.050 0.025 100000.)
-# xi_d=(0.050 0.025 100000.)
-# xi_g=(0.050 0.025 100000.)
+xi_a=(100000. 100000. 100000.)
+xi_k=(0.050 0.025 100000.)
+xi_c=(0.050 0.025 100000.)
+xi_j=(0.050 0.025 100000.)
+xi_d=(0.050 0.025 100000.)
+xi_g=(0.050 0.025 100000.)
 
 # xi_a=(100000. 100000. 100000.)
 # xi_k=(10000. 10000. 100000.)
@@ -84,12 +84,12 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_d=(0.050 0.025 100000.)
 # xi_g=(0.050 0.025 100000.)
 
-xi_a=(100000. 100000. 100000.)
-xi_k=(0.050 0.025 100000.)
-xi_c=(0.050 0.025 100000.)
-xi_j=(100000. 100000. 100000.)
-xi_d=(0.050 0.025 100000.)
-xi_g=(0.050 0.025 100000.)
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.050 0.025 100000.)
+# xi_c=(0.050 0.025 100000.)
+# xi_j=(100000. 100000. 100000.)
+# xi_d=(0.050 0.025 100000.)
+# xi_g=(0.050 0.025 100000.)
 
 
 # xi_a=(100000. 100000. 100000.)
@@ -113,7 +113,7 @@ psi1arr=(0.5)
 
 
 # phi0arr=(0.056 0.1 0.2 0.3 0.4 0.5)
-phi0arr=(0.056 0.1 0.2 0.3 0.5)
+phi0arr=(0.056 0.1 0.2 0.5)
 # phi0arr=(0.1 0.2 0.3 0.4)
 # phi0arr=(0.5)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
@@ -173,7 +173,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_oldmodel"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_postadd_phi0_${phi0arr[$phi0index]}"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_presentation_phi0_${phi0arr[$phi0index]}"
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_test_phi0_${phi0arr[$phi0index]}"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_new_old_phi0_${phi0arr[$phi0index]}"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do
