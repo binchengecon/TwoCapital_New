@@ -394,7 +394,7 @@ def hjb_pre_tech(
         if FC_Err < 10*tol:
             
             print("-----------------------------------")
-            print("---------Epoch {}---------------".format(epoch))
+            print("---------Epoch {}, Epsilon={}---------------".format(epoch, epsilon))
             print("-----------------------------------")
             print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
             print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
@@ -408,7 +408,7 @@ def hjb_pre_tech(
         elif epoch%100==0:
             
             print("-----------------------------------")
-            print("---------Epoch {}---------------".format(epoch))
+            print("---------Epoch {}, Epsilon={}---------------".format(epoch, epsilon))
             print("-----------------------------------")
             print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
             print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
@@ -421,7 +421,8 @@ def hjb_pre_tech(
             print("Epoch time: {:.4f}".format(time.time() - start_ep))
         
         if epoch%20000==0:
-            epsilon = epsilon*0.95
+            epsilon = epsilon * 0.95
+            fraction = fraction * 0.95
             
         v0     = out_comp
         i_star = ii

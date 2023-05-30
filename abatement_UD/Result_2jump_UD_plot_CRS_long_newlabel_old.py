@@ -76,16 +76,40 @@ xigarr = args.xigarr
 varrhoarr = args.varrhoarr
 
 
-if len(xicarr)==4:
+if len(xicarr)==4 and min(xicarr)==0.050:
     labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion']
-    Filename = 'Uncertainty Channels'
+    Filename = 'Uncertainty Channels_Less'
     colors = ['blue','green', 'red', 'cyan']
     
-if len(xicarr)==5:
+if len(xicarr)==4 and min(xicarr)==0.025:
+    labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion']
+    Filename = 'Uncertainty Channels_More'
+    colors = ['blue','green', 'red', 'cyan']
+    
+if len(xicarr)==5 and min(xicarr)==0.050:
     labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion', 'Full Aversion']
-    Filename = 'Uncertainty Channels'
+    Filename = 'Uncertainty Channels_Less'
     colors = ['blue','green', 'red', 'cyan', 'purple']
     
+if len(xicarr)==5 and min(xicarr)==0.025:
+    labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion', 'Full Aversion']
+    Filename = 'Uncertainty Channels_More'
+    colors = ['blue','green', 'red', 'cyan', 'purple']
+    
+    
+# if len(xicarr)==5:
+#     labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion', 'Full Aversion']
+#     Filename = 'Uncertainty Channels'
+#     colors = ['blue','green', 'red', 'cyan', 'purple']
+    
+if len(xicarr)==3:
+    labellist = ['More Aversion', 'Less Aversion', 'Neutrality']
+    # Filename = 'Aversion Intensity'
+    # Filename = 'Aversion Intensity_old'
+    # Filename = 'Aversion Intensity_onlyj'
+    Filename = 'Aversion Intensity_onlyk'
+    colors = ['blue','red', 'green', 'cyan', 'purple']
+    colors2 = ['blue','red', 'green', 'cyan', 'purple']
     
 # colors = ['blue','green', 'red', 'cyan']
 
@@ -181,18 +205,19 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
+                color_one = colors[id_xiag % len(xiaarr)]   
 
                 res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
                 if xiaarr[id_xiag]>10:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0,color=color_one)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["x"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0,color=color_one)
                 plt.xlabel('Years')
                 plt.ylabel('$\%$ of GDP')
-                plt.title("R&D investment as percentage of  GDP")
+                # plt.title("R&D investment as percentage of  GDP")
                 # if auto==0:   
-                plt.ylim(0,4)
+                plt.ylim(0,10)
                 plt.xlim(0,30)
 
                 plt.legend(loc='upper left')        
@@ -217,7 +242,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylabel('')
                 plt.title("Raw R&D investment")
                 # if auto==0:   
-                plt.ylim(0,1)
+                # plt.ylim(0,1)
                 plt.xlim(0,30)
 
                 plt.legend(loc='upper left')        
@@ -271,7 +296,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel('Years')
                 plt.title("Capital investment")
                 # if auto==0:   
-                plt.ylim(65,110)
+                plt.ylim(50,110)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
@@ -503,25 +528,27 @@ plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+".pdf")
 plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+".png")
 plt.close()
 
+color_one = colors2[id_xiag % len(xiaarr)]   
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
+                color_one = colors2[id_xiag % len(xiaarr)]   
 
                 res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"], res["true_tech_prob"],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"], res["true_tech_prob"],label=labellist[id_xiag],linewidth=5.0, color=color_one)
                 else:
-                    plt.plot(res["years"], res["true_tech_prob"],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"], res["true_tech_prob"],label=labellist[id_xiag],linewidth=5.0, color=color_one)
 
                 plt.xlabel("Years")
-                plt.title("True Probability of a Technology Jump")
+                # plt.title("True Probability of a Technology Jump")
                 plt.ylim(0.0,1.0)
-                plt.xlim(0,IntPeriod)
+                plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/TPIg_"+Filename+".pdf")
@@ -582,21 +609,22 @@ for id_xiag in range(len(xiaarr)):
         for id_psi1 in range(len(psi1arr)):
             for id_varrho in range(len(varrhoarr)):
 
+                color_one = colors[id_xiag % len(xiaarr)]   
 
                 res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd"])[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd"])[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0, color=color_one)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd"])[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], np.log(res["scrd"])[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0, color=color_one)
 
                 plt.xlabel("Years")
                 plt.ticklabel_format(useOffset=False)
 
-                plt.title("Log of Social Value of R&D")
+                # plt.title("Log of Social Value of R&D")
                 # if auto==0:   
-                # plt.ylim(4.0,8.0)
+                plt.ylim(5.0,11.0)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 

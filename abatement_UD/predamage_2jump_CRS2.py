@@ -125,7 +125,7 @@ zeta      = 0.00
 psi_0     = args.psi_0
 psi_1     = args.psi_1
 # sigma_g   = 0.016
-sigma_g   = 0.078
+sigma_g   = 0.0078
 # Tech jump
 lambda_bar_first = lambda_bar / 2
 vartheta_bar_first = vartheta_bar / 2

@@ -13,11 +13,13 @@ epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
 # epsilonarraypre=(0.01) #
 epsilonarraypre=(0.05) #
 
-python_name="predamage_2jump_CRS2.py"
+# python_name="postdamage_2jump_CRS2_old.py"
+python_name="predamage_2jump_CRS2_old.py"
 # python_name="postdamage_2jump_Short.py" # 3 dmg
 
 
 # NUM_DAMAGE=20
+# NUM_DAMAGE=10
 NUM_DAMAGE=3
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
@@ -76,29 +78,66 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_g=(0.025 0.025 0.025)
 
 
-xi_a=(100000. 100000. 100000. 100000. 100000.)
-xi_k=(0.050 100000. 100000. 100000. 0.050)
-xi_c=(100000. 0.050 100000. 100000. 0.050)
-xi_j=(100000. 100000. 0.050 100000. 0.050)
-xi_d=(100000. 100000. 100000. 0.050 0.050)
-xi_g=(100000. 100000. 0.050 100000. 0.050)
+# xi_a=(100000. 100000. 100000. 100000. 100000. 100000. 100000.)
+# xi_k=(0.050 100000. 100000. 100000. 0.050 0.025 100000.)
+# xi_c=(100000. 0.050 100000. 100000. 0.050 0.025 100000.)
+# xi_j=(100000. 100000. 0.050 100000. 0.050 0.025 100000.)
+# xi_d=(100000. 100000. 100000. 0.050 0.050 0.025 100000.)
+# xi_g=(100000. 100000. 0.050 100000. 0.050 0.025 100000.)
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.025 100000. 100000. 100000.)
+# xi_c=(100000. 0.025 100000. 100000.)
+# xi_j=(100000. 100000. 0.025 100000.)
+# xi_d=(100000. 100000. 100000. 0.025)
+# xi_g=(100000. 100000. 0.025 100000.)
 
 
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.050 0.025 100000.)
+# xi_c=(0.050 0.025 100000.)
+# xi_j=(0.050 0.025 100000.)
+# xi_d=(0.050 0.025 100000.)
+# xi_g=(0.050 0.025 100000.)
 
-# xi_a=(100000.)
-# xi_k=(0.050)
-# xi_c=(0.050)
-# xi_j=(0.050)
-# xi_d=(0.050)
-# xi_g=(0.050)
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(10000. 10000. 100000.)
+# xi_c=(0.050 0.025 100000.)
+# xi_j=(0.050 0.025 100000.)
+# xi_d=(0.050 0.025 100000.)
+# xi_g=(0.050 0.025 100000.)
 
+# xi_a=(10000. 10000. 100000.)
+# xi_k=(10000. 10000. 100000.)
+# xi_c=(0.050 0.025 100000.)
+# xi_j=(10000. 10000. 100000.)
+# xi_d=(0.050 0.025 100000.)
+# xi_g=(0.050 0.025 100000.)
+
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.050 0.025 100000.)
+# xi_c=(0.050 0.025 100000.)
+# xi_j=(100000. 100000. 100000.)
+# xi_d=(0.050 0.025 100000.)
+# xi_g=(0.050 0.025 100000.)
+
+
+xi_a=(100000. 100000. 100000.)
+xi_k=(100000. 100000. 100000.)
+xi_c=(0.050 0.025 100000.)
+xi_j=(0.050 0.025 100000.)
+xi_d=(0.050 0.025 100000.)
+xi_g=(0.050 0.025 100000.)
 
 varrhoarr=(1120)
 # varrhoarr=(448)
 
 psi0arr=(0.105830)
 
-phi0arr=(0.056 0.1 0.2 0.3 0.4 0.5)
+# phi0arr=(0.056 0.1 0.2 0.3 0.4 0.5)
+phi0arr=(0.056 0.1 0.2 0.3 0.5)
+# phi0arr=(0.1 0.2 0.3 0.4)
+# phi0arr=(0.5)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 psi1arr=(0.5)
@@ -120,8 +159,9 @@ for epsilon in ${epsilonarraypre[@]}; do
 			count=0
 			declare -n hXarr="$hXarri"
 
-			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_postadd_phi0_${phi0arr[$phi0index]}"			
-			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_oldmodel"			
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_postadd_phi0_${phi0arr[$phi0index]}"			
+			# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_presentation_phi0_${phi0arr[$phi0index]}"
+			action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_test_phi0_${phi0arr[$phi0index]}"
 
 			epsilonarr=(0.05 ${epsilon})
 			fractionarr=(0.1 ${epsilon})
@@ -146,7 +186,7 @@ for epsilon in ${epsilonarraypre[@]}; do
 #! /bin/bash
 
 ######## login
-#SBATCH --job-name=xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_${PSI_0}_${PSI_1}_${varrho}_${epsilon}
+#SBATCH --job-name=xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_${PSI_0}_${PSI_1}_${varrho}_${epsilon}_${phi0arr[$phi0index]}
 #SBATCH --output=./job-outs/${action_name}/Pre/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/mercury_pre_${epsilon}.out
 #SBATCH --error=./job-outs/${action_name}/Pre/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}/mercury_pre_${epsilon}.err
 
