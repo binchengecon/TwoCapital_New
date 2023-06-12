@@ -217,7 +217,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.ylabel('$\%$ of GDP')
                 # plt.title("R&D investment as percentage of  GDP")
                 # if auto==0:   
-                plt.ylim(0,10)
+                plt.ylim(0,15)
                 plt.xlim(0,30)
 
                 plt.legend(loc='upper left')        
@@ -242,7 +242,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylabel('')
                 plt.title("Raw R&D investment")
                 # if auto==0:   
-                # plt.ylim(0,1)
+                plt.ylim(0,15)
                 plt.xlim(0,30)
 
                 plt.legend(loc='upper left')        
