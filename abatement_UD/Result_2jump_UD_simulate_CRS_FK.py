@@ -631,10 +631,6 @@ def model_simulation_generate(xi_a,xi_c,xi_d,xi_g,psi_0,psi_1,varrho):
         
 
 
-    with open(Data_Dir + File_Dir+"HJB_Distorted_model_tech1_pre_damage", "rb") as f:
-        HJB_Dis_tech1 = pickle.load(f)
-    
-    
     # FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL']
     # FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL'], HJB_Dis_tech1['dvdL'], HJB_Undis_tech1['dvdL'], HJB_NewUndis_tech1['dvdL'], FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']
     # FK_family = FK_Dis_tech1['dvdL'], FK_Undis_tech1['dvdL'], HJB_Dis_tech1['dvdL'], HJB_Undis_tech1['dvdL'],  FK_Y_Dis_tech1['dvdY'], FK_Y_Undis_tech1['dvdY'], FK_Y_Dis_tech1['ddvddY'], FK_Y_Undis_tech1['ddvddY']

@@ -102,7 +102,7 @@ if len(xicarr)==5 and min(xicarr)==0.025:
 #     Filename = 'Uncertainty Channels'
 #     colors = ['blue','green', 'red', 'cyan', 'purple']
     
-if len(xicarr)==3:
+if len(xicarr)==3 and min(xicarr)==0.025:
     labellist = ['More Aversion', 'Less Aversion', 'Neutrality']
     Filename = 'Aversion Intensity'
     # Filename = 'Aversion Intensity_old'
@@ -110,7 +110,15 @@ if len(xicarr)==3:
     # Filename = 'Aversion Intensity_onlyk'
     colors = ['blue','red', 'green', 'cyan', 'purple']
     colors2 = ['blue','red', 'green', 'cyan', 'purple']
-    
+
+if len(xicarr)==3 and min(xicarr)==0.050:
+    labellist = ['Climate Aversion', 'Damage Aversion', 'Technology Aversion']
+    Filename = 'Uncertainty Channel'
+    colors = ['blue','red', 'green', 'cyan', 'purple']
+    colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+
+
 # colors = ['blue','green', 'red', 'cyan']
 
 Xminarr = args.Xminarr
@@ -173,6 +181,7 @@ plt.rcParams["figure.dpi"] = 500
 plt.rcParams["font.size"] = 12
 plt.rcParams["legend.frameon"] = False
 plt.rcParams["lines.linewidth"] = 5
+plt.rcParams['axes.prop_cycle'] = plt.cycler(color=['blue','red', 'green', 'cyan', 'purple']) 
 
 print("After, figure default size is: ", plt.rcParams["savefig.bbox"])
 print("After, figure default size is: ", plt.rcParams["figure.figsize"])
@@ -242,7 +251,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.ylabel('')
                 plt.title("Raw R&D investment")
                 # if auto==0:   
-                plt.ylim(0,15)
+                plt.ylim(0,1)
                 plt.xlim(0,30)
 
                 plt.legend(loc='upper left')        
@@ -320,9 +329,9 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
                 plt.xlabel('Years')
-                plt.title("Carbon Emissions")
+                # plt.title("Carbon Emissions")
                 # if auto==0:   
-                plt.ylim(6.0,12.0)
+                plt.ylim(6.0,13.0)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
@@ -624,7 +633,7 @@ for id_xiag in range(len(xiaarr)):
 
                 # plt.title("Log of Social Value of R&D")
                 # if auto==0:   
-                plt.ylim(5.0,11.0)
+                plt.ylim(5,11)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
@@ -649,9 +658,9 @@ for id_xiag in range(len(xiaarr)):
                 plt.xlabel("Years")
                 plt.ticklabel_format(useOffset=False)
 
-                plt.title("Log of Social Cost of Global Warming")
+                # plt.title("Log of Social Cost of Global Warming")
                 # if auto==0:   
-                # plt.ylim(4.0,8.0)
+                plt.ylim(10,14)
                 plt.xlim(0,30)
                 plt.legend(loc='upper left')
 
@@ -1069,33 +1078,6 @@ print("After, legend.frameon is: ", plt.rcParams["legend.frameon"])
 print("After, lines.linewidth is: ", plt.rcParams["lines.linewidth"])
 
 
-for id_xiag in range(len(xiaarr)): 
-    for id_psi0 in range(len(psi0arr)):
-        for id_psi1 in range(len(psi1arr)):
-            for id_varrho in range(len(varrhoarr)):
-
-                
-                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
-
-                NUM_DAMAGE = res["gt_dmg"].shape[0]
-                gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
-
-                # γ3_distort = np.load("γ3_5.npy")
-                print(NUM_DAMAGE)
-                γ3_distort = res["gt_dmg"][:, -1] 
-                # plt.figure(figsize=(16,10))
-                plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
-                        alpha=0.5, color="C3", ec="darkgray",label='Baseline' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]), bins=NUM_DAMAGE)
-                plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
-                        alpha=0.5, color="C0", ec="darkgray",label=labellist[id_xiag], bins=NUM_DAMAGE)
-                plt.ylim(0, 0.15)
-                plt.title("Distorted Probability of Damage Models")
-                plt.xlabel("Damage Curvature")
-                plt.legend(loc='upper left',frameon=False)
-
-                    
-                plt.savefig(Plot_Dir+"/Gamma3,xia={:.5f},xic={:.3f},xid={:.3f},xig={:.3f},psi0={:.3f},psi1={:.3f},varrho={:.1f}.png".format(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho]))
-                plt.close()
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -1137,9 +1119,9 @@ for id_xiag in range(len(xiaarr)):
                 plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
                         alpha=0.5, ec="darkgrey", color="C3",label='Baseline')
                 plt.hist(theta_ell_new*1000, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
-                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$'.format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag])  )
+                        alpha=0.5, ec="darkgrey", color="C0",label=labellist[id_xiag].format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag])  )
                 plt.legend(loc='upper left')
-                plt.title("Distorted Probability of Climate Models")
+                # plt.title("Distorted Probability of Climate Models")
 
 
                 print("mean of uncondition = {}" .format(np.average(theta_ell,weights = pi_c_o)))
@@ -1147,7 +1129,38 @@ for id_xiag in range(len(xiaarr)):
                     
 
                 plt.ylim(0, 1.4)
-                plt.xlabel("Climate Sensitivity")
+                # plt.xlabel("Climate Sensitivity")
                 plt.savefig(Plot_Dir+"/ClimateSensitivity_pmean_{},xia={:.4f},xic={:.3f},xid={:.3f},xig={:.3f},psi0={:.3f},psi1={:.3f},varrho={:.1f}.pdf".format(IntPeriod, xiaarr[id_xiag],xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho]))
                 plt.savefig(Plot_Dir+"/ClimateSensitivity_pmean_{},xia={:.4f},xic={:.3f},xid={:.3f},xig={:.3f},psi0={:.3f},psi1={:.3f},varrho={:.1f}.png".format(IntPeriod, xiaarr[id_xiag],xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho]))
+                plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+                
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho])
+
+                NUM_DAMAGE = res["gt_dmg"].shape[0]
+                gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
+
+                # γ3_distort = np.load("γ3_5.npy")
+                print(NUM_DAMAGE)
+                Year_use = 25
+                γ3_distort = res["gt_dmg"][:, int(Year_use/timespan+1)] 
+                
+                # plt.figure(figsize=(16,10))
+                plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
+                        alpha=0.5, color="C3", ec="darkgray",label='Baseline' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]), bins=NUM_DAMAGE)
+                plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
+                        alpha=0.5, color="C0", ec="darkgray",label=labellist[id_xiag], bins=NUM_DAMAGE)
+                plt.ylim(0, 0.6)
+                # plt.title("Distorted Probability of Damage Models")
+                # plt.xlabel("Damage Curvature")
+                plt.legend(loc='upper left',frameon=False)
+
+                    
+                plt.savefig(Plot_Dir+"/Gamma3,xia={:.5f},xic={:.3f},xid={:.3f},xig={:.3f},psi0={:.3f},psi1={:.3f},varrho={:.1f}.png".format(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho]))
                 plt.close()

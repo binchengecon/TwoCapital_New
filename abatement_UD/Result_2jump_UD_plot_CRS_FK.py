@@ -1156,6 +1156,10 @@ for id_xiag in range(len(xiaarr)):
                 pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
                 # pi_c = np.load("πc_5.npy")
                 time = 1/timespan
+                
+                Year_use = 25
+                γ3_distort = res["gt_dmg"][:, int(Year_use/timespan+1)] 
+                
                 pi_c = res["pic_t"][:, -1]
 
                 # plt.figure(figsize=(16,10))

@@ -4,8 +4,8 @@
 # epsilonarray=(0.05 0.01 0.005) 
 
 
-# epsilonarray=(0.005) 
-epsilonarray=(0.0025) 
+epsilonarray=(0.005) 
+# epsilonarray=(0.0025) 
 # epsilonarray=(0.001) 
 # epsilonarray=(0.01) 
 
@@ -37,8 +37,8 @@ declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.2)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
-# hXarrays=(hXarr2)
+# hXarrays=(hXarr1)
+hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)

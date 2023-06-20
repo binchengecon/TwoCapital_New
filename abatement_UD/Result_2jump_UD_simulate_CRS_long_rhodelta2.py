@@ -201,7 +201,7 @@ def simulate_pre(
     K_min, K_max, Y_min, Y_max, L_min, L_max = min(K), max(K), min(Y), max(Y), min(L), max(L)
     hK, hY, hL = K[1] - K[0], Y[1] - Y[0], L[1]-L[0]
 
-    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho, xi_a,xi_k,xi_c,xi_j,xi_d,xi_g = model_args
+    delta, mu_k, kappa, sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho, xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,rho = model_args
     ii, ee, xx, g_tech, g_damage, pi_c, h, h_k, h_j, v, v_post_tech_raw = controls
     ME_base = ME
     n_bar = n_bar
@@ -439,7 +439,12 @@ def simulate_pre(
     LHS = theta * vartheta_bar / lambda_bar * jt**(theta -1)
     MC = delta / (alpha  - i_hist - alpha * vartheta_bar * jt**theta - x_hist)
 
-    
+    C = (alpha  - i_hist - alpha * vartheta_bar * jt**theta - x_hist) * np.exp(hist[:, 0])
+
+    svrd_hist = np.exp(hist[:,2]) * dL_hist /(delta  * C**(-rho) * np.exp((rho-1)*vt))
+    svrd_dis_hist = np.exp(hist[:,2]) * F_tech_dis_t /(delta  * C**(-rho) * np.exp((rho-1)*vt))
+    svrd_undis_hist = np.exp(hist[:,2]) * F_tech_undis_t /(delta  * C**(-rho) * np.exp((rho-1)*vt))
+
     scc_hist = LHS * 1000
 
 
@@ -488,6 +493,9 @@ def simulate_pre(
         x = x_hist * np.exp(hist[:, 0]),
         scc = scc_hist,
         scrd = scrd_hist,
+        svrd_orig = svrd_hist,
+        svrd_dis = svrd_dis_hist,
+        svrd_undis = svrd_undis_hist,
         scgw = scgw_hist,
         scrd_2 = scrd_hist2,
         spo = spo_hist,
@@ -616,7 +624,7 @@ def model_simulation_generate(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,rho,psi_0,psi_1,varr
     
     ME_family = ME_base
     
-    model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho, xi_a,xi_k,xi_c,xi_j,xi_d,xi_g)
+    model_args = (delta, mu_k, kappa,sigma_k, beta_f, zeta, psi_0, psi_1, sigma_g, theta, lambda_bar, vartheta_bar, varrho, xi_a,xi_k,xi_c,xi_j,xi_d,xi_g, rho)
 
 
 

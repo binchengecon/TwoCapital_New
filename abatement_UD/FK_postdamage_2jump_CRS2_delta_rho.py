@@ -25,7 +25,7 @@ from scipy.sparse import coo_matrix
 from scipy.sparse import csr_matrix
 from datetime import datetime
 # from solver import solver_3d
-from src.PreSolver_CRS_FK_Tech import fk_pre_tech
+from src.PreSolver_CRS_FK_Tech import fk_pre_tech, fk_pre_tech_petsc
 import argparse
 
 reporterror = True
@@ -236,7 +236,8 @@ print("------------FK Post damage, Distorted----------")
 print("-------------------------------------------")
 
 
-FK_Distorted_model_tech2_post_damage = fk_pre_tech(
+# FK_Distorted_model_tech1_post_damage = fk_pre_tech(
+FK_Distorted_model_tech1_post_damage = fk_pre_tech_petsc(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g,rho, varrho),
         control=(i,e,x,pi_c, g_tech, h, h_k, h_j),
@@ -245,8 +246,8 @@ FK_Distorted_model_tech2_post_damage = fk_pre_tech(
 
 
 
-with open(Data_Dir+ File_Name + "FK_Distorted_model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
-   pickle.dump(FK_Distorted_model_tech2_post_damage, f)
+with open(Data_Dir+ File_Name + "FK_Distorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
+   pickle.dump(FK_Distorted_model_tech1_post_damage, f)
 
 
 
@@ -261,7 +262,8 @@ h_k_undis  = np.zeros_like(h_k)
 h_j_undis  = np.zeros_like(h_j)
 
 
-FK_Undistorted_model_tech2_post_damage = fk_pre_tech(
+# FK_Undistorted_model_tech1_post_damage = fk_pre_tech(
+FK_Undistorted_model_tech1_post_damage = fk_pre_tech_petsc(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g,rho, varrho),
         control=(i,e,x,pi_c, g_tech_undis, h_undis, h_k_undis, h_j_undis),
@@ -271,8 +273,8 @@ FK_Undistorted_model_tech2_post_damage = fk_pre_tech(
 
 
 
-with open(Data_Dir+ File_Name + "FK_Undistorted_model_tech2_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
-   pickle.dump(FK_Undistorted_model_tech2_post_damage, f)
+with open(Data_Dir+ File_Name + "FK_Undistorted_model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "wb") as f:
+   pickle.dump(FK_Undistorted_model_tech1_post_damage, f)
 
 
 

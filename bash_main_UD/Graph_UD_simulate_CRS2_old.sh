@@ -2,26 +2,28 @@
 
 actiontime=1
 # epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
-epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
-# epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 
 # NUM_DAMAGE=3
 NUM_DAMAGE=20
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
-declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
+declare -A hXarr3=([0]=0.2 [1]=0.1 [2]=0.2)
+declare -A hXarr4=([0]=0.05 [1]=0.05 [2]=0.05)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
+# hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
-# hXarrays=(hXarr3)
+hXarrays=(hXarr3)
 
 
-# Xminarr=(4.00 0.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
-
-Xminarr=(4.00 1.2 1.0 0.0)
+Xminarr=(4.00 0.0 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
+
+# Xminarr=(4.00 1.2 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # xi_a=(100000. 100000. 100000.)
 # xi_c=(0.250 0.500 1.000)
@@ -30,74 +32,22 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 
-# xi_a=(100000. 100000. 100000.)
-# xi_c=(0.025 0.050 0.100)
-# xi_d=(0.025 0.025 0.025)
-# xi_g=(0.025 0.025 0.025)
-
-# xi_a=(100000. 100000. 100000.)
-# xi_c=(0.025 0.050 0.100)
-# xi_d=(0.025 0.025 0.025)
-# xi_g=(0.025 0.025 0.025)
-
-
-# xi_a=(100000. 100000. 100000. 100000.)
-# xi_k=(0.050 100000. 100000. 100000.)
-# xi_c=(100000. 0.050 100000. 100000.)
-# xi_j=(100000. 100000. 0.050 100000.)
-# xi_d=(100000. 100000. 100000. 0.050)
-# xi_g=(100000. 100000. 0.050 100000.)
-
-# xi_a=(100000. 100000. 100000. 100000. 100000. 100000. 100000.)
-# xi_k=(0.050 100000. 100000. 100000. 0.050 0.025 100000.)
-# xi_c=(100000. 0.050 100000. 100000. 0.050 0.025 100000.)
-# xi_j=(100000. 100000. 0.050 100000. 0.050 0.025 100000.)
-# xi_d=(100000. 100000. 100000. 0.050 0.050 0.025 100000.)
-# xi_g=(100000. 100000. 0.050 100000. 0.050 0.025 100000.)
-
-# xi_a=(100000. 100000. 100000. 100000.)
-# xi_k=(0.025 100000. 100000. 100000.)
-# xi_c=(100000. 0.025 100000. 100000.)
-# xi_j=(100000. 100000. 0.025 100000.)
-# xi_d=(100000. 100000. 100000. 0.025)
-# xi_g=(100000. 100000. 0.025 100000.)
-
-
-xi_a=(100000. 100000. 100000.)
-xi_k=(0.050 0.025 100000.)
-xi_c=(0.050 0.025 100000.)
-xi_j=(0.050 0.025 100000.)
-xi_d=(0.050 0.025 100000.)
-xi_g=(0.050 0.025 100000.)
-
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(10000. 10000. 100000.)
-# xi_c=(0.050 0.025 100000.)
-# xi_j=(0.050 0.025 100000.)
-# xi_d=(0.050 0.025 100000.)
-# xi_g=(0.050 0.025 100000.)
-
-# xi_a=(10000. 10000. 100000.)
-# xi_k=(10000. 10000. 100000.)
-# xi_c=(0.050 0.025 100000.)
-# xi_j=(10000. 10000. 100000.)
-# xi_d=(0.050 0.025 100000.)
-# xi_g=(0.050 0.025 100000.)
-
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(0.050 0.025 100000.)
-# xi_c=(0.050 0.025 100000.)
+# xi_a=(100000.  100000. 100000.)
+# xi_k=(100000.  100000. 100000.)
+# xi_c=(0.025  0.050 100000.)
 # xi_j=(100000. 100000. 100000.)
-# xi_d=(0.050 0.025 100000.)
-# xi_g=(0.050 0.025 100000.)
+# xi_d=(0.025  0.050 100000.)
+# xi_g=(0.025  0.050 100000.)
 
 
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(100000. 100000. 100000.)
-# xi_c=(0.050 0.025 100000.)
-# xi_j=(0.050 0.025 100000.)
-# xi_d=(0.050 0.025 100000.)
-# xi_g=(0.050 0.025 100000.)
+xi_a=(100000.  100000. 100000.)
+xi_k=(100000.  100000. 100000.)
+xi_c=(0.050  100000. 100000.)
+xi_j=(100000. 100000. 100000.)
+xi_d=(100000. 0.050 100000.)
+xi_g=(100000. 100000. 0.050)
+
+
 
 varrhoarr=(1120)
 # varrhoarr=(448)
@@ -113,9 +63,10 @@ psi1arr=(0.5)
 
 
 # phi0arr=(0.056 0.1 0.2 0.3 0.4 0.5)
-phi0arr=(0.056 0.1 0.2 0.5)
+# phi0arr=(0.056 0.1 0.2 0.5)
 # phi0arr=(0.1 0.2 0.3 0.4)
-# phi0arr=(0.5)
+# phi0arr=(0.05)
+phi0arr=(0.5)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 # python_name_unit="Result_2jump_UD_simulate_CRS.py"
@@ -173,7 +124,7 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_oldmodel"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_postadd_phi0_${phi0arr[$phi0index]}"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_presentation_phi0_${phi0arr[$phi0index]}"
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_new_old_phi0_${phi0arr[$phi0index]}"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_rerun_phi0_${phi0arr[$phi0index]}"
 
         for PSI_0 in ${psi0arr[@]}; do
             for PSI_1 in ${psi1arr[@]}; do

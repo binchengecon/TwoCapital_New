@@ -349,6 +349,7 @@ def simulate_pre(
 
     ME_base_hist = np.zeros([pers])
     ME_total_hist = np.zeros([pers])
+    theta_ell_hist = np.zeros([len(theta_ell),pers])
 
     mu_K_hist = np.zeros([pers])
     mu_L_hist = np.zeros([pers])
@@ -387,7 +388,7 @@ def simulate_pre(
             
             ME_total_hist[0] = ME_total_func(hist[0,:])
             ME_base_hist[0] = ME_base_func(hist[0,:])
-
+            theta_ell_hist[:,tm] = theta_ell + sigma_y*ht[tm]
         else:
             # other periods
             # print(hist[tm-1,:])
@@ -427,6 +428,8 @@ def simulate_pre(
             ME_total_hist[tm] = ME_total_func(hist[tm,:])
             ME_base_hist[tm] = ME_base_func(hist[tm,:])
             
+            theta_ell_hist[:,tm] = theta_ell + sigma_y*ht[tm]
+
         if printing==True:
             print("time={}, K={},Y={},L={},mu_K={},mu_Y={},mu_L={},ii={},ee={},xx={},ME_total_base={:.3}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],mu_K_hist[tm],beta_f * e_hist[tm],mu_L_hist[tm],i_hist[tm],e_hist[tm],x_hist[tm],np.log(ME_total_hist[tm]/ME_base_hist[tm])*100), flush=True)
             # print("time={}, Vg={},V={},UAD={}" .format(tm, v_post_techt[tm], vt[tm],-xi_g  * (1 - np.exp(-1/xi_g *(v_post_techt[tm]-vt[tm]))) ),  flush=True)
@@ -511,7 +514,7 @@ def simulate_pre(
         jt = jt,
         LHS = LHS,
         years=years,
-        # temp_Lars=temp_Lars,
+        theta_ell_new = theta_ell_hist,
         true_tech_prob = true_tech_prob,
         true_damage_prob = true_damage_prob,
         Ambiguity_mean_undis = Ambiguity_mean_undis,

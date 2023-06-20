@@ -5,9 +5,9 @@
 
 
 # epsilonarray=(0.005) 
-# epsilonarray=(0.0025) 
+epsilonarray=(0.001) 
 # epsilonarray=(0.001) 
-epsilonarray=(0.1 0.05 0.01) 
+# epsilonarray=(0.1 0.05 0.01) 
 
 # task0: try SS=0.1
 # task1: try Y=[1,4], eps=0.005, eps=0.01
@@ -32,33 +32,36 @@ NUM_DAMAGE=3
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
 
 # maxiterarr=(80000 200000)
-maxiterarr=(2000000 1500000)
+maxiterarr=(2000000 1000000)
 # maxiterarr=(10 10)
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
-declare -A hXarr4=([0]=0.2 [1]=0.01 [2]=0.2)
+declare -A hXarr4=([0]=0.2 [1]=0.1 [2]=0.2)
 declare -A hXarr5=([0]=0.1 [1]=0.05 [2]=0.1)
 declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.2)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
+# hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
-# hXarrays=(hXarr4)
+hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
 # hXarrays=(hXarr8)
 
 
-Xminarr=(4.00 0.0 1.0 0.0)
+# Xminarr=(4.00 0.0 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
+
+Xminarr=(4.00 1.2 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(4.00 1.2 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xmaxarr=(9.00 4.0 8.0 3.0)
 
 
 # Xminarr=(4.00 1.0 1.0 0.0)
@@ -117,35 +120,13 @@ varrhoarr=(1120)
 # rhoarr=(0.66 1 1.5)
 # deltaarr=(0.015 0.010 0.010)
 
-# rhoarr=(0.66 1 1.5)
-# deltaarr=(0.010 0.010 0.010)
+rhoarr=(0.66 1 1.5)
+deltaarr=(0.010 0.010 0.010)
 
-
-rhoarr=(0.66)
-deltaarr=(0.010)
 
 # rhoarr=(0.66)
-# deltaarr=(0.015)
-
-# rhoarr=(1 1.5)
-# deltaarr=(0.010 0.010)
-
-# rhoarr=(0.77)
-# deltaarr=(0.01)
-
-# rhoarr=(0.77 0.88 0.99)
-# deltaarr=(0.015 0.015 0.015)
-
-# rhoarr=(0.66 0.77 0.88 0.99 0.66 0.77 0.88 0.93)
-# deltaarr=(0.015 0.015 0.015 0.015 0.010 0.010 0.010 0.010)
-
-# rhoarr=(0.99 0.9999 1 1.0001)
-# deltaarr=(0.010 0.010 0.010 0.010)
-
-# rhoarr=(1)
 # deltaarr=(0.010)
 
-# rhoarr=(0.66 0.77 0.88 0.99 1.00001 1.5)
 
 # rhoarr=(1.5)
 # deltaarr=(0.010)
@@ -158,9 +139,9 @@ psi0arr=(0.105830)
 # phi0arr=(0.05 0.1 0.2 0.3 0.4 0.5)
 # phi0arr=(0.05 0.1 0.2 0.5)
 # phi0arr=(0.05 0.1 0.5)
-# phi0arr=(0.05 0.5)
+phi0arr=(0.05 0.5)
 # phi0arr=(0.5)
-phi0arr=(0.05)
+# phi0arr=(0.05)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 
@@ -233,7 +214,7 @@ for epsilon in ${epsilonarray[@]}; do
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=2G
+#SBATCH --mem=1G
 #SBATCH --time=7-00:00:00
 #SBATCH --exclude=mcn53,mcn52,mcn51
 

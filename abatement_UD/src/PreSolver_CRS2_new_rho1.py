@@ -360,7 +360,9 @@ def hjb_pre_tech(
             D += xi_d * Intensity * np.sum( pi_d_o*(1-g_damage+g_damage*np.log(g_damage)),axis=0) +Intensity*np.sum(pi_d_o*g_damage*v_i,axis=0)
             A -=  Intensity*np.sum(pi_d_o*g_damage,axis=0)
 
-
+        jj =  alpha * vartheta_bar * (1 - ee / (alpha * lambda_bar * np.exp(K_mat)))**theta
+        
+        consumption = alpha - ii - jj - xx
         out_comp,end_ksp, bpoint1 = pde_one_interation(
                 ksp,
                 petsc_mat,X1_mat_1d, X2_mat_1d, X3_mat_1d, 
@@ -381,6 +383,7 @@ def hjb_pre_tech(
             print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
             print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
             print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
+            print("min cons: {},\t max cons: {}\t".format(consumption.min(), consumption.max()))
             print("min h: {},\t max h: {}\t".format(h.min(), h.max()))
             print("min hk: {},\t max hk: {}\t".format(h_k.min(), h_k.max()))
             print("min hj: {},\t max hj: {}\t".format(h_j.min(), h_j.max()))
@@ -395,6 +398,7 @@ def hjb_pre_tech(
             print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
             print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
             print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
+            print("min cons: {},\t max cons: {}\t".format(consumption.min(), consumption.max()))
             print("min h: {},\t max h: {}\t".format(h.min(), h.max()))
             print("min hk: {},\t max hk: {}\t".format(h_k.min(), h_k.max()))
             print("min hj: {},\t max hj: {}\t".format(h_j.min(), h_j.max()))

@@ -272,7 +272,7 @@ res = hjb_pre_tech(
         state_grid=(K, Y, L), 
         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, varrho),
         V_post_damage=None,
-        tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
+        tol=1e-6, epsilon=epsilonarr[1], fraction=fractionarr[1], 
         smart_guess=Guess, 
         max_iter=maxiterarr[1],
         )
@@ -283,18 +283,18 @@ with open(Data_Dir+ File_Name  + "model_tech1_post_damage_gamma_{:.4f}".format(g
 
 
     
-print("--------------------------------")
-print("-----------------Checking Pre Tech---------------")
-print("--------------------------------")
+# print("--------------------------------")
+# print("-----------------Checking Pre Tech---------------")
+# print("--------------------------------")
 
-with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
-    Guess = pickle.load(f)
+# with open(Data_Dir+ File_Name + "model_tech1_post_damage_gamma_{:.4f}".format(gamma_3_i), "rb") as f:
+#     Guess = pickle.load(f)
     
-res_check = hjb_pre_tech(
-        state_grid=(K, Y, L), 
-        model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, varrho),
-        V_post_damage=None,
-        tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
-        smart_guess=Guess, 
-        max_iter=maxiterarr[1],
-        )
+# res_check = hjb_pre_tech(
+#         state_grid=(K, Y, L), 
+#         model_args=(delta, alpha, theta, vartheta_bar, lambda_bar, mu_k, kappa, sigma_k, theta_ell, pi_c_o, pi_c, sigma_y, zeta, psi_0, psi_1, sigma_g, V_post_tech2, gamma_1, gamma_2, gamma_3_i, y_bar, xi_a, xi_k, xi_c, xi_j, xi_d, xi_g, varrho),
+#         V_post_damage=None,
+#         tol=1e-7, epsilon=epsilonarr[1], fraction=fractionarr[1], 
+#         smart_guess=Guess, 
+#         max_iter=maxiterarr[1],
+#         )

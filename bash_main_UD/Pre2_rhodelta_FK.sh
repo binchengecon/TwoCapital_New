@@ -16,11 +16,8 @@ epsilonarraypost=(0.0025) # Computation of fine grid and psi10.8, post
 # epsilonarraypre=(0.01) #
 epsilonarraypre=(0.0025) #
 
-# python_name="predamage_2jump_CRS2_delta_rho.py"
-# python_name="predamage_2jump_CRS2_delta_rho_treat1diff.py"
-# python_name="predamage_2jump_CRS2_delta_rho_treat1diff_new.py"
-python_name="predamage_2jump_CRS2_delta_rho_treat1diff_new2.py"
-# python_name="postdamage_2jump_Short.py" # 3 dmg
+
+python_name="FK_predamage_2jump_CRS2_delta_rho.py"
 
 
 # NUM_DAMAGE=20
@@ -125,43 +122,12 @@ varrhoarr=(1120)
 # varrhoarr=(448)
 
 
-# rhoarr=(0.66 1 1.5)
-# deltaarr=(0.015 0.010 0.010)
-
-# rhoarr=(0.66 0.88 1 1.2 1.5)
-# deltaarr=(0.02 0.02 0.010 0.02 0.02)
-
-# rhoarr=(0.66 1)
-# deltaarr=(0.015 0.010)
-
-# rhoarr=(0.66 1 1.5)
-# deltaarr=(0.015 0.010 0.010)
+rhoarr=(0.66 1 1.5)
+deltaarr=(0.010 0.010 0.010)
 
 
-rhoarr=(0.66)
-deltaarr=(0.010)
-
-# rhoarr=(0.66)
-# deltaarr=(0.03)
-
-# rhoarr=(0.66)
-# deltaarr=(0.015)
-
-# rhoarr=(0.66 0.77 0.88 0.99)
-# deltaarr=(0.015 0.015 0.015 0.015)
-
-# rhoarr=(0.66 0.77 0.88 0.99 0.66 0.77 0.88 0.93)
-# deltaarr=(0.015 0.015 0.015 0.015 0.010 0.010 0.010 0.010)
-
-
-# rhoarr=(0.99 0.9999 1 1.0001)
-# deltaarr=(0.010 0.010 0.010 0.010)
-
-# rhoarr=(0.88)
-# deltaarr=(0.02)
-
-
-
+# rhoarr=(1)
+# deltaarr=(0.010)
 
 LENGTH_rho=$((${#rhoarr[@]} - 1))
 
@@ -230,7 +196,7 @@ for epsilon in ${epsilonarraypre[@]}; do
 					for j in $(seq 0 $LENGTH_xi); do
 							for k in $(seq 0 $LENGTH_rho); do
 
-							mkdir -p ./job-outs/${action_name}/Pre/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/
+							mkdir -p ./job-outs/${action_name}/FK_Pre/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/
 
 							if [ -f ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}_Eps_${epsilon}.sh ]; then
 								rm ./bash/${action_name}/hX_${hXarr[0]}_xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}_Eps_${epsilon}.sh
@@ -245,8 +211,8 @@ for epsilon in ${epsilonarraypre[@]}; do
 
 ######## login
 #SBATCH --job-name=${Xminarr[1]}_${hXarr[0]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_${rhoarr[$k]}_phi0_${phi0arr[$phi0index]}_${epsilon}
-#SBATCH --output=./job-outs/${action_name}/Pre/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_pre_${epsilon}.out
-#SBATCH --error=./job-outs/${action_name}/Pre/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_pre_${epsilon}.err
+#SBATCH --output=./job-outs/${action_name}/FK_Pre/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_pre_${epsilon}.out
+#SBATCH --error=./job-outs/${action_name}/FK_Pre/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_pre_${epsilon}.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard

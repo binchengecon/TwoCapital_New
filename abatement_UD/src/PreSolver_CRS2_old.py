@@ -145,16 +145,27 @@ def _FOC_update(v0, steps= (), states = (), args=(), controls=(), fraction=0.5):
     ee = e_new * fraction + e_star * (1 - fraction)
     xx = x_new * fraction + x_star * (1 - fraction)
 
+    # # update smooth ambiguity
+    # log_pi_c_ratio = - G * ee * theta_ell / xi_a
+
+    # # log_pi_c_ratio += -dL * psi_0 * x_new**psi_1 * np.exp( psi_1 * K_mat - (1-psi_2) * L_mat) / xi_a
+
+    # pi_c_ratio = log_pi_c_ratio - np.max(log_pi_c_ratio)
+    # pi_c = np.exp(pi_c_ratio) * pi_c_o
+    # pi_c = (pi_c <= 0) * 1e-16 + (pi_c > 0) * pi_c
+    # pi_c = pi_c / np.sum(pi_c, axis=0)
+    # entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
+    
+    
+    
+
     # update smooth ambiguity
-    log_pi_c_ratio = - G * ee * theta_ell / xi_a
-
-    # log_pi_c_ratio += -dL * psi_0 * x_new**psi_1 * np.exp( psi_1 * K_mat - (1-psi_2) * L_mat) / xi_a
-
-    pi_c_ratio = log_pi_c_ratio - np.max(log_pi_c_ratio)
-    pi_c = np.exp(pi_c_ratio) * pi_c_o
-    pi_c = (pi_c <= 0) * 1e-16 + (pi_c > 0) * pi_c
-    pi_c = pi_c / np.sum(pi_c, axis=0)
-    entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
+    pi_c = pi_c_o
+    
+    # entropy = np.sum(pi_c * (np.log(pi_c) - np.log(pi_c_o)), axis=0)
+    entropy = np.zeros_like(K_mat)
+    
+    
     # Technology
     gg = np.exp(1 / xi_g * (v0 - V_post_tech))
     gg[gg <=1e-16] = 1e-16
