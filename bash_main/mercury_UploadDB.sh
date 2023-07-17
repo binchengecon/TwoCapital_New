@@ -3,21 +3,15 @@
 action_name="UploadDB_Parallel"
 python_name="UploadDB4.py"
 MotherRoot="/scratch/bincheng/abatement/data_2tech/"
-DaughterRoot="/climatemodeling/IMSI_Mitigation/data/abatement_v2/"
+DaughterRoot="/climatesocialpolicy/data_full/"
 
-access_token="sl.BSu-dl4W2cFpHnyZddY3CGaT_WSbGChHCPV_AngpclevKi1Jrngs92ZW68ZOqDOei2cylDnsCN7d57zCrCYvrD7kazWMZdEwGuBR6Jlwi-snLA1mP97egfS1-Aot7DnPzbG9LtocVcWi"
-refresh_token="et47BKvSlxMAAAAAAAAAAeajinfYkuBJLBZ4f9_aJcCAJs9h_SYSvcyxPpLvsfZ8"
+access_token="sl.BiEqok4dyURKMprbi01Ogie0G2xakrvb9V6eY_8EWJBIlwvZf-b9OC8i7yxF_2sJ8oB7gNCDU5WAMmEyasOgmtTtRGwehZMzZkiLp9MBsXVJnxHsAMkSbUfnoBY0hKQYNuLeAjWZz3De"
+refresh_token="FwlECrv3_eQAAAAAAAAAAR2FyGLKIQa0FYMB26IyxZnsziQTtF6bH-i7hSMT_1TT"
 
-declare -a FolderArray=("2jump_step_0.05_0.05_0.05_LR_0.005_Psi01ComparisonSlide"
-    "2jump_step_0.05_0.05_0.05_LR_0.005_Psi01ComparisonSlide_Interpolate"
-    "2jump_step_0.05_0.05_0.05_LR_0.007_reportmore"
-    "2jump_step_0.05_0.05_0.05_LR_0.008_Psi01ComparisonSlide"
-    "2jump_step_0.05_0.05_0.05_LR_0.008_Psi01ComparisonSlide_Interpolate"
-    "2jump_step_0.05_0.05_0.05_LR_0.1_Psi01ComparisonSlide"
-    "2jump_step_0.2_0.2_0.2_LR_0.005_Psi01ComparisonSlide"
-    "2jump_step_0.2_0.2_0.2_LR_0.008_Psi01ComparisonSlide"
-    "2jump_step_0.2_0.2_0.2_LR_0.008_Psi01ComparisonSlide_test"
-    "2jump_step_0.2_0.2_0.2_LR_0.1_Psi01ComparisonSlide")
+declare -a FolderArray=("2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_0.0,3.0_SS_0.2,0.1,0.1_LR_0.0025_FK_flow_phi0_0.5"
+    "2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_0.0,3.0_SS_0.2,0.1,0.1_LR_0.0025_FK_flow_phi0_0.1"
+    "2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_0.0,3.0_SS_0.2,0.1,0.1_LR_0.0025_FK_phi0_0.5"
+    "2jump_step_4.00,9.00_0.0,4.0_1.0,6.0_0.0,3.0_SS_0.2,0.1,0.1_LR_0.0025_FK_phi0_0.1")
 
 # Read the array values with space
 
@@ -50,7 +44,7 @@ for Folder in "${FolderArray[@]}"; do
 #SBATCH --time=7-00:00:00
 
 ####### load modules
-module load python/booth/3.8/3.8.5  gcc/9.2.0
+module load python/booth/3.8  gcc/9.2.0
 
 echo "\$SLURM_JOB_NAME"
 

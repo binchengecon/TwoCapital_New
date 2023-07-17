@@ -3,26 +3,29 @@
 actiontime=1
 # epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.0025) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.004) # Computation of fine grid and psi10.8, post
 epsilonarraypost=(0.0025) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.001) # Computation of fine grid and psi10.8, post
-# epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.025) # Computation of fine grid and psi10.8, post
 
-NUM_DAMAGE=3
-# NUM_DAMAGE=20
+# NUM_DAMAGE=3
+NUM_DAMAGE=20
 
 declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
-declare -A hXarr4=([0]=0.2 [1]=0.01 [2]=0.2)
-declare -A hXarr5=([0]=0.1 [1]=0.05 [2]=0.1)
+declare -A hXarr4=([0]=0.2 [1]=0.1 [2]=0.2)
+declare -A hXarr5=([0]=0.2 [1]=0.1 [2]=0.1)
 declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-hXarrays=(hXarr1)
+# hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
-# hXarrays=(hXarr5)
+hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
 
@@ -46,12 +49,20 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_d=(100000. 100000. 100000. 0.050)
 # xi_g=(100000. 100000. 0.050 100000.)
 
-xi_a=(100000. 100000. 100000. 100000. 100000.)
-xi_k=(0.050 100000. 100000. 100000. 0.050)
-xi_c=(100000. 0.050 100000. 100000. 0.050)
-xi_j=(100000. 100000. 0.050 100000. 0.050)
-xi_d=(100000. 100000. 100000. 0.050 0.050)
-xi_g=(100000. 100000. 0.050 100000. 0.050)
+xi_a=(100000. 100000. 100000. 100000.)
+xi_k=(100000. 100000. 0.050 100000.)
+xi_c=(0.050 100000. 100000. 100000.)
+xi_j=(100000. 100000. 100000. 0.050)
+xi_d=(100000. 0.050 100000. 100000.)
+xi_g=(100000. 100000. 100000. 0.050)
+
+
+# xi_a=(100000. 100000. 100000. 100000. 100000.)
+# xi_k=(0.050 100000. 100000. 100000. 0.050)
+# xi_c=(100000. 0.050 100000. 100000. 0.050)
+# xi_j=(100000. 100000. 0.050 100000. 0.050)
+# xi_d=(100000. 100000. 100000. 0.050 0.050)
+# xi_g=(100000. 100000. 0.050 100000. 0.050)
 
 # xi_a=(100000. 100000. 100000.)
 # xi_k=(0.025  0.050 100000.)
@@ -59,6 +70,50 @@ xi_g=(100000. 100000. 0.050 100000. 0.050)
 # xi_j=(0.025  0.050 100000.)
 # xi_d=(0.025  0.050 100000.)
 # xi_g=(0.025  0.050 100000.)
+
+
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.075  0.100 100000.)
+# xi_c=(0.075  0.100 100000.)
+# xi_j=(0.075  0.100 100000.)
+# xi_d=(0.075  0.100 100000.)
+# xi_g=(0.075  0.100 100000.)
+
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.075  0.150 100000.)
+# xi_c=(0.075  0.150 100000.)
+# xi_j=(0.075  0.150 100000.)
+# xi_d=(0.075  0.150 100000.)
+# xi_g=(0.075  0.150 100000.)
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(100000. 100000. 0.075 100000.)
+# xi_c=(0.075 100000. 100000. 100000.)
+# xi_j=(100000. 100000. 100000. 0.075)
+# xi_d=(100000. 0.075 100000. 100000.)
+# xi_g=(100000. 100000. 100000. 0.075)
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(100000. 100000. 0.150   100000.)
+# xi_c=(0.150 100000. 100000. 100000.)
+# xi_j=(100000. 100000. 100000. 0.150)
+# xi_d=(100000. 0.150 100000. 100000.)
+# xi_g=(100000. 100000. 100000. 0.150)
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.150 100000. 100000. 100000.)
+# xi_c=(100000. 0.150 100000. 100000.)
+# xi_j=(100000. 100000. 0.150 100000.)
+# xi_d=(100000. 100000. 100000. 0.150)
+# xi_g=(100000. 100000. 0.150 100000.)
+
+
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.150  0.200 100000.)
+# xi_c=(0.150  0.200 100000.)
+# xi_j=(0.150  0.200 100000.)
+# xi_d=(0.150  0.200 100000.)
+# xi_g=(0.150  0.200 100000.)
 
 # xi_a=(100000. 100000. 100000. 100000.)
 # xi_k=(0.025  0.050 0.100 100000.)
@@ -109,23 +164,23 @@ psi1arr=(0.5)
 # phi0arr=(0.05 0.06 0.1 0.3 0.5)
 # phi0arr=(0.05 0.1 0.2 0.5)
 # phi0arr=(0.05 0.3 0.5)
-# phi0arr=(0.05 0.5)
-phi0arr=(0.5)
-# phi0arr=(0.05)
+# phi0arr=(0.1 0.5)
+# phi0arr=(0.5)
+phi0arr=(0.1)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
-
-rhoarr=(0.66 1 1.5)
-deltaarr=(0.015 0.010 0.010)
 
 # rhoarr=(0.66 1 1.5)
 # deltaarr=(0.015 0.010 0.010)
 
 # rhoarr=(0.66 1 1.5)
-# deltaarr=(0.010 0.010 0.010)
+# deltaarr=(0.015 0.010 0.010)
 
 # rhoarr=(0.66)
-# deltaarr=(0.015)
+# deltaarr=(0.010)
+
+# rhoarr=(1)
+# deltaarr=(0.010)
 
 
 # rhoarr=(0.66 0.88 1 1.2 1.5)
@@ -134,11 +189,11 @@ deltaarr=(0.015 0.010 0.010)
 # rhoarr=(0.66 1 1.5)
 # deltaarr=(0.02 0.010 0.02)
 
-# rhoarr=(0.66 1 1.5)
-# deltaarr=(0.02 0.020 0.02)
+# rhoarr=(0.66 1.5)
+# deltaarr=(0.010 0.010)
 
-# rhoarr=(0.66 0.88)
-# deltaarr=(0.02 0.02)
+rhoarr=(0.66 1 1.5)
+deltaarr=(0.010 0.010 0.010)
 
 # rhoarr=(0.66 0.77 0.88 0.99)
 # deltaarr=(0.015 0.015 0.015 0.015)
@@ -160,7 +215,8 @@ LENGTH_rho=$((${#rhoarr[@]} - 1))
 # python_name_unit="Result_2jump_UD_plot_CRS.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_long.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_long_newlabel_rhodelta.py"
-python_name_unit="Result_2jump_UD_plot_CRS_long_newlabel_rhodelta2.py"
+# python_name_unit="Result_2jump_UD_plot_CRS_long_newlabel_rhodelta2.py"
+python_name_unit="Result_2jump_UD_plot_CRS_long_newlabel_rhodelta3.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity.py"
 # python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity2.py"

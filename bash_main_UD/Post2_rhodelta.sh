@@ -5,9 +5,14 @@
 
 
 # epsilonarray=(0.005) 
-epsilonarray=(0.001) 
+# epsilonarray=(0.004) 
+# epsilonarray=(0.003) 
+epsilonarray=(0.0025) 
 # epsilonarray=(0.001) 
-# epsilonarray=(0.1 0.05 0.01) 
+# epsilonarray=(0.001) 
+# epsilonarray=(0.005 0.05) 
+# epsilonarray=(0.025) 
+# epsilonarray=(0.01) 
 
 # task0: try SS=0.1
 # task1: try Y=[1,4], eps=0.005, eps=0.01
@@ -24,9 +29,9 @@ python_name="postdamage_2jump_CRS2_delta_rho_treat1diff_new2.py" # 3 dmg
 # python_name="postdamage_2jump_CRS2_bothdamagetech.py" # 3 dmg
 
 
-# NUM_DAMAGE=20
+NUM_DAMAGE=20
 # NUM_DAMAGE=10
-NUM_DAMAGE=3
+# NUM_DAMAGE=3
 # NUM_DAMAGE=4
 
 ID_MAX_DAMAGE=$((NUM_DAMAGE - 1))
@@ -39,34 +44,36 @@ declare -A hXarr1=([0]=0.2 [1]=0.2 [2]=0.2)
 declare -A hXarr2=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr3=([0]=0.05 [1]=0.05 [2]=0.05)
 declare -A hXarr4=([0]=0.2 [1]=0.1 [2]=0.2)
-declare -A hXarr5=([0]=0.1 [1]=0.05 [2]=0.1)
+declare -A hXarr5=([0]=0.1 [1]=0.1 [2]=0.1)
 declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
-declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.2)
+declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
 # hXarrays=(hXarr1)
 # hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
-hXarrays=(hXarr4)
+# hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
-# hXarrays=(hXarr8)
+hXarrays=(hXarr8)
 
 
-# Xminarr=(4.00 0.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
-
-Xminarr=(4.00 1.2 1.0 0.0)
+Xminarr=(4.00 0.0 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
+
+# Xminarr=(4.00 1.2 1.0 0.0)
+# Xmaxarr=(9.00 4.0 6.0 3.0)
 
 # Xminarr=(4.00 1.2 1.0 0.0)
 # Xmaxarr=(9.00 4.0 8.0 3.0)
 
 
 # Xminarr=(4.00 1.0 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
+# Xmaxarr=(9.00 3.0 6.0 3.0)
 
+# Xminarr=(4.00 1.5 1.0 0.0)
+# Xmaxarr=(9.00 2.5 6.0 3.0)
 
 # xi_a=(100000. 100000. 100000. 100000. 100000.)
 # xi_k=(0.050 100000. 100000. 100000. 0.050)
@@ -75,12 +82,12 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_d=(100000. 100000. 100000. 0.050 0.050)
 # xi_g=(100000. 100000. 0.050 100000. 0.050)
 
-xi_a=(100000. 100000. 100000. 100000.)
-xi_k=(0.050 100000. 100000. 100000.)
-xi_c=(100000. 0.050 100000. 100000.)
-xi_j=(100000. 100000. 0.050 100000.)
-xi_d=(100000. 100000. 100000. 0.050)
-xi_g=(100000. 100000. 0.050 100000.)
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.050 100000. 100000. 100000.)
+# xi_c=(100000. 0.050 100000. 100000.)
+# xi_j=(100000. 100000. 0.050 100000.)
+# xi_d=(100000. 100000. 100000. 0.050)
+# xi_g=(100000. 100000. 0.050 100000.)
 
 
 # xi_a=(100000. 100000. 100000.)
@@ -89,6 +96,36 @@ xi_g=(100000. 100000. 0.050 100000.)
 # xi_j=(0.025  0.050 100000.)
 # xi_d=(0.025  0.050 100000.)
 # xi_g=(0.025  0.050 100000.)
+
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.075  0.100 100000.)
+# xi_c=(0.075  0.100 100000.)
+# xi_j=(0.075  0.100 100000.)
+# xi_d=(0.075  0.100 100000.)
+# xi_g=(0.075  0.100 100000.)
+
+
+xi_a=(100000. 100000. 100000.)
+xi_k=(0.075  0.150 100000.)
+xi_c=(0.075  0.150 100000.)
+xi_j=(0.075  0.150 100000.)
+xi_d=(0.075  0.150 100000.)
+xi_g=(0.075  0.150 100000.)
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.075 100000. 100000. 100000.)
+# xi_c=(100000. 0.075 100000. 100000.)
+# xi_j=(100000. 100000. 0.075 100000.)
+# xi_d=(100000. 100000. 100000. 0.075)
+# xi_g=(100000. 100000. 0.075 100000.)
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.150 100000. 100000. 100000.)
+# xi_c=(100000. 0.150 100000. 100000.)
+# xi_j=(100000. 100000. 0.150 100000.)
+# xi_d=(100000. 100000. 100000. 0.150)
+# xi_g=(100000. 100000. 0.150 100000.)
+
 
 # xi_a=(100000. 100000. 100000. 100000.)
 # xi_k=(0.025  0.050 0.100 100000.)
@@ -106,29 +143,32 @@ xi_g=(100000. 100000. 0.050 100000.)
 
 
 # xi_a=(100000.)
-# xi_k=(0.050)
-# xi_c=(0.025)
-# xi_j=(0.025)
-# xi_d=(0.025)
-# xi_g=(0.025)
+# xi_k=(100000.)
+# xi_c=(100000.)
+# xi_j=(100000.)
+# xi_d=(100000.)
+# xi_g=(100000.)
 
 varrhoarr=(1120)
 # varrhoarr=(448)
 
 
 
+# rhoarr=(1 1.5)
+# deltaarr=(0.010 0.010)
+
 # rhoarr=(0.66 1 1.5)
-# deltaarr=(0.015 0.010 0.010)
+# deltaarr=(0.010 0.010 0.010)
 
-rhoarr=(0.66 1 1.5)
-deltaarr=(0.010 0.010 0.010)
 
+# rhoarr=(0.66 1.5)
+# deltaarr=(0.010 0.010)
+
+
+rhoarr=(1)
+deltaarr=(0.010)
 
 # rhoarr=(0.66)
-# deltaarr=(0.010)
-
-
-# rhoarr=(1.5)
 # deltaarr=(0.010)
 
 
@@ -139,9 +179,9 @@ psi0arr=(0.105830)
 # phi0arr=(0.05 0.1 0.2 0.3 0.4 0.5)
 # phi0arr=(0.05 0.1 0.2 0.5)
 # phi0arr=(0.05 0.1 0.5)
-phi0arr=(0.05 0.5)
-# phi0arr=(0.5)
-# phi0arr=(0.05)
+# phi0arr=(0.1 0.5)
+phi0arr=(0.5)
+# phi0arr=(0.1)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 
@@ -182,10 +222,13 @@ for epsilon in ${epsilonarray[@]}; do
 		epsilonarr=(0.1 ${epsilon})
 		fractionarr=(0.1 ${epsilon})
 
-		# epsilonarr=(0.01 0.0025)
-		# fractionarr=(0.01 0.0025)
+		# epsilonarr=(0.1 0.005)
+		# fractionarr=(0.1 0.005)
 
-		# i=1
+		# epsilonarr=(0.1 0.01)
+		# fractionarr=(0.1 0.01)
+
+		# i=19
 		for i in $(seq 0 $ID_MAX_DAMAGE); do
 			for PSI_0 in ${psi0arr[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
@@ -208,8 +251,8 @@ for epsilon in ${epsilonarray[@]}; do
 
 ######## login
 #SBATCH --job-name=${Xminarr[1]}_${hXarr[0]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_${rhoarr[$k]}_phi0_${phi0arr[$phi0index]}_${i}_${epsilon}
-#SBATCH --output=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_post_$i.out
-#SBATCH --error=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_post_$i.err
+#SBATCH --output=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_post_${i}_subs.out
+#SBATCH --error=./job-outs/${action_name}/Post/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_post_${i}_subs.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard

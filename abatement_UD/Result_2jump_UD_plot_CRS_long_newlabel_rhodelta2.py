@@ -78,10 +78,21 @@ xigarr = args.xigarr
 varrhoarr = args.varrhoarr
 rho = args.rhoarr
 
-if len(xicarr)==4:
-    labellist = ['More Aversion', 'Less Aversion', 'Even Less', 'Neutrality']
-    Filename = 'Aversion Intensity'
-    colors = ['blue','green', 'red', 'cyan']
+# if len(xicarr)==4:
+#     labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion']
+#     Filename = 'Uncertainty Channels'
+#     colors = ['blue','red', 'green', 'cyan', 'purple']
+    
+    
+if len(xicarr)==4 and min(xikarr)==0.075:
+    labellist = ['Climate Aversion', 'Damage Aversion', 'Productivity Aversion', 'Technology Aversion']
+    Filename = 'Uncertainty Channels More'
+    colors = ['blue','red', 'green', 'cyan', 'purple']
+    
+if len(xicarr)==4 and min(xikarr)==0.150:
+    labellist = ['Climate Aversion', 'Damage Aversion', 'Productivity Aversion', 'Technology Aversion']
+    Filename = 'Uncertainty Channels Less'
+    colors = ['blue','red', 'green', 'cyan', 'purple']
     
 if len(xicarr)==5:
     labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion', 'Full Aversion']
@@ -93,8 +104,9 @@ if len(xicarr)==5:
     # if rho==1.5:
     #     Filename = 'Uncertainty Channels_Rho>1'
 
-    colors = ['blue','green', 'red', 'cyan', 'purple']
-    
+    colors =['blue','red', 'green', 'cyan', 'purple']
+
+
 if len(xicarr)==3:
     labellist = ['More Aversion', 'Less Aversion', 'Neutrality']
     Filename = 'Aversion Intensity'
@@ -104,6 +116,26 @@ if len(xicarr)==3:
     colors = ['blue','red', 'green', 'cyan', 'purple']
     colors2 = ['blue','red', 'green', 'cyan', 'purple']
 
+    
+# if len(xicarr)==3 and min(xikarr)==0.075:
+#     labellist = ['Even Less Aversion', 'Much Less Aversion', 'Neutrality']
+#     Filename = 'Aversion Intensity'
+#     # Filename = 'Aversion Intensity_old'
+#     # Filename = 'Aversion Intensity_onlyj'
+#     # Filename = 'Aversion Intensity_onlyk'
+#     colors = ['blue','red', 'green', 'cyan', 'purple']
+#     colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+# if len(xicarr)==3 and min(xikarr)==0.150:
+#     labellist = ['Very Less Aversion', 'Very Very Less Aversion', 'Neutrality']
+#     Filename = 'Aversion Intensity'
+#     # Filename = 'Aversion Intensity_old'
+#     # Filename = 'Aversion Intensity_onlyj'
+#     # Filename = 'Aversion Intensity_onlyk'
+#     colors = ['blue','red', 'green', 'cyan', 'purple']
+#     colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+    
     
 # colors = ['blue','green', 'red', 'cyan']
 
@@ -167,7 +199,7 @@ plt.rcParams["figure.dpi"] = 500
 plt.rcParams["font.size"] = 12
 plt.rcParams["legend.frameon"] = False
 plt.rcParams["lines.linewidth"] = 5
-plt.rcParams['axes.prop_cycle'] = plt.cycler(color=['blue','green', 'red', 'cyan', 'purple']) 
+plt.rcParams['axes.prop_cycle'] = plt.cycler(color=['blue','red', 'green', 'cyan', 'purple']) 
     # colors = ['blue','green', 'red', 'cyan', 'purple']
 
 print("After, figure default size is: ", plt.rcParams["savefig.bbox"])
@@ -197,6 +229,7 @@ def model_simulation_generate(xi_a,xi_k,xi_c,xi_j,xi_d,xi_g,psi_0,psi_1,varrho,r
     
     return res
 
+
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
@@ -213,7 +246,10 @@ for id_xiag in range(len(xiaarr)):
                 plt.ylabel('$\%$ of GDP')
                 plt.title("R&D investment as percentage of  GDP")
                 # if auto==0:   
-                plt.ylim(0,20)
+                if vartheta_bar==0.1:
+                    plt.ylim(0,2)
+                if vartheta_bar==0.5:
+                    plt.ylim(0,20)
                 plt.xlim(0,30)
 
                 plt.legend(loc='upper left')        
@@ -298,6 +334,32 @@ for id_xiag in range(len(xiaarr)):
 
 # plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
 plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.close()
+
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["i"]/(alpha*np.exp(res["states"][:,0]))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["i"]/(alpha*np.exp(res["states"][:,0]))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                plt.xlabel('Years')
+                plt.title("Capital investment as percentage of GDP")
+                # if auto==0:   
+                plt.ylim(50,80)
+                plt.xlim(0,30)
+                plt.legend(loc='upper left')
+
+# plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
+plt.savefig(Plot_Dir+"/CapIRatio_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
 plt.close()
 
 
@@ -1081,7 +1143,11 @@ for id_xiag in range(len(xiaarr)):
                         alpha=0.5, color="C3", ec="darkgray",label='Baseline' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]), bins=NUM_DAMAGE)
                 plt.hist(gamma_3_list, weights= γ3_distort / np.sum(γ3_distort), 
                         alpha=0.5, color="C0", ec="darkgray",label=labellist[id_xiag], bins=NUM_DAMAGE)
-                plt.ylim(0, 0.15)
+                if vartheta_bar==0.1:
+
+                    plt.ylim(0, 0.15)
+                if vartheta_bar==0.5:
+                    plt.ylim(0, 0.15)
                 plt.title("Distorted Probability of Damage Models")
                 plt.xlabel("Damage Curvature")
                 plt.legend(loc='upper left',frameon=False)
@@ -1130,7 +1196,7 @@ for id_xiag in range(len(xiaarr)):
                 plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
                         alpha=0.5, ec="darkgrey", color="C3",label='Baseline')
                 plt.hist(theta_ell_new*1000, weights=pi_c, bins=np.linspace(0.8, 3., 16), density=True, 
-                        alpha=0.5, ec="darkgrey", color="C0",label='$\\xi_c={:.3f}, \\xi_d={:.3f}, \\xi_g={:.3f}$'.format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag])  )
+                        alpha=0.5, ec="darkgrey", color="C0",label=labellist[id_xiag]  )
                 plt.legend(loc='upper left')
                 plt.title("Distorted Probability of Climate Models")
 

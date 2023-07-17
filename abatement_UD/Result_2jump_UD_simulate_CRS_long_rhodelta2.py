@@ -351,6 +351,7 @@ def simulate_pre(
 
     mu_K_hist = np.zeros([pers])
     mu_L_hist = np.zeros([pers])
+    theta_ell_hist = np.zeros([len(theta_ell),pers])
 
     for tm in range(pers):
         if tm == 0:
@@ -386,7 +387,7 @@ def simulate_pre(
             
             ME_total_hist[0] = ME_total_func(hist[0,:])
             ME_base_hist[0] = ME_base_func(hist[0,:])
-
+            theta_ell_hist[:,tm] = theta_ell + sigma_y*ht[tm]
         else:
             # other periods
             # print(hist[tm-1,:])
@@ -425,7 +426,8 @@ def simulate_pre(
             # Ambiguity_mean_dis_h[tm] = np.average(theta_ell + sigma_y*gt_mean[tm],weights=pi_c_t[:,tm])
             ME_total_hist[tm] = ME_total_func(hist[tm,:])
             ME_base_hist[tm] = ME_base_func(hist[tm,:])
-            
+            theta_ell_hist[:,tm] = theta_ell + sigma_y*ht[tm]
+
         if printing==True:
             print("time={}, K={},Y={},L={},mu_K={},mu_Y={},mu_L={},ii={},ee={},xx={},ME_total_base={:.3}" .format(tm, hist[tm,0],hist[tm,1],hist[tm,2],mu_K_hist[tm],beta_f * e_hist[tm],mu_L_hist[tm],i_hist[tm],e_hist[tm],x_hist[tm],np.log(ME_total_hist[tm]/ME_base_hist[tm])*100), flush=True)
             # print("time={}, Vg={},V={},UAD={}" .format(tm, v_post_techt[tm], vt[tm],-xi_g  * (1 - np.exp(-1/xi_g *(v_post_techt[tm]-vt[tm]))) ),  flush=True)
@@ -442,8 +444,7 @@ def simulate_pre(
     C = (alpha  - i_hist - alpha * vartheta_bar * jt**theta - x_hist) * np.exp(hist[:, 0])
 
     svrd_hist = np.exp(hist[:,2]) * dL_hist /(delta  * C**(-rho) * np.exp((rho-1)*vt))
-    svrd_dis_hist = np.exp(hist[:,2]) * F_tech_dis_t /(delta  * C**(-rho) * np.exp((rho-1)*vt))
-    svrd_undis_hist = np.exp(hist[:,2]) * F_tech_undis_t /(delta  * C**(-rho) * np.exp((rho-1)*vt))
+
 
     scc_hist = LHS * 1000
 
@@ -494,8 +495,6 @@ def simulate_pre(
         scc = scc_hist,
         scrd = scrd_hist,
         svrd_orig = svrd_hist,
-        svrd_dis = svrd_dis_hist,
-        svrd_undis = svrd_undis_hist,
         scgw = scgw_hist,
         scrd_2 = scrd_hist2,
         spo = spo_hist,
@@ -518,7 +517,7 @@ def simulate_pre(
         jt = jt,
         LHS = LHS,
         years=years,
-        # temp_Lars=temp_Lars,
+        theta_ell_new = theta_ell_hist,
         true_tech_prob = true_tech_prob,
         true_damage_prob = true_damage_prob,
         Ambiguity_mean_undis = Ambiguity_mean_undis,

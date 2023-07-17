@@ -378,19 +378,20 @@ def hjb_pre_tech(
         
         if FC_Err < 1.2*tol:
             
-            print("-----------------------------------")
-            print("---------Epoch {}---------------".format(epoch))
-            print("-----------------------------------")
-            print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
-            print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
-            print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
-            print("min cons: {},\t max cons: {}\t".format(consumption.min(), consumption.max()))
-            print("min h: {},\t max h: {}\t".format(h.min(), h.max()))
-            print("min hk: {},\t max hk: {}\t".format(h_k.min(), h_k.max()))
-            print("min hj: {},\t max hj: {}\t".format(h_j.min(), h_j.max()))
-            print("petsc total: {:.3f}s, Residual Norm is {:g}".format((end_ksp - bpoint1),ksp.getResidualNorm()))
-            print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
-            print("Epoch time: {:.4f}".format(time.time() - start_ep))
+            if epoch%100==0:
+                print("-----------------------------------")
+                print("---------Epoch {}---------------".format(epoch))
+                print("-----------------------------------")
+                print("min i: {},\t max i: {}\t".format(ii.min(), ii.max()))
+                print("min e: {},\t max e: {}\t".format(ee.min(), ee.max()))
+                print("min x: {},\t max x: {}\t".format(xx.min(), xx.max()))
+                print("min cons: {},\t max cons: {}\t".format(consumption.min(), consumption.max()))
+                print("min h: {},\t max h: {}\t".format(h.min(), h.max()))
+                print("min hk: {},\t max hk: {}\t".format(h_k.min(), h_k.max()))
+                print("min hj: {},\t max hj: {}\t".format(h_j.min(), h_j.max()))
+                print("petsc total: {:.3f}s, Residual Norm is {:g}".format((end_ksp - bpoint1),ksp.getResidualNorm()))
+                print("Epoch {:d} (PETSc): PDE Error: {:.10f}; False Transient Error: {:.10f}" .format(epoch, PDE_Err, FC_Err))
+                print("Epoch time: {:.4f}".format(time.time() - start_ep))
         elif epoch%1000==0:
             
             print("-----------------------------------")
