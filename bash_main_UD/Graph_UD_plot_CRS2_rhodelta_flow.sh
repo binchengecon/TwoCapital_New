@@ -40,12 +40,12 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 
-xi_a=(100000. 100000. 100000. 100000.)
-xi_k=(100000. 100000. 0.050 100000.)
-xi_c=(0.050 100000. 100000. 100000.)
-xi_j=(100000. 100000. 100000. 0.050)
-xi_d=(100000. 0.050 100000. 100000.)
-xi_g=(100000. 100000. 100000. 0.050)
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(100000. 100000. 0.050 100000.)
+# xi_c=(0.050 100000. 100000. 100000.)
+# xi_j=(100000. 100000. 100000. 0.050)
+# xi_d=(100000. 0.050 100000. 100000.)
+# xi_g=(100000. 100000. 100000. 0.050)
 
 
 # xi_a=(100000. 100000. 100000.)
@@ -57,12 +57,12 @@ xi_g=(100000. 100000. 100000. 0.050)
 
 
 
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(0.075  0.150 100000.)
-# xi_c=(0.075  0.150 100000.)
-# xi_j=(0.075  0.150 100000.)
-# xi_d=(0.075  0.150 100000.)
-# xi_g=(0.075  0.150 100000.)
+xi_a=(100000. 100000. 100000.)
+xi_k=(0.075  0.150 100000.)
+xi_c=(0.075  0.150 100000.)
+xi_j=(0.075  0.150 100000.)
+xi_d=(0.075  0.150 100000.)
+xi_g=(0.075  0.150 100000.)
 
 
 # xi_a=(100000. 100000. 100000. 100000.)
@@ -79,11 +79,11 @@ varrhoarr=(1120)
 # varrhoarr=(448)
 
 
-# psi01arr=(0.052915)
-# psi02arr=(0.052915)
+psi01arr=(0.052915)
+psi02arr=(0.052915)
 
-psi01arr=(0.105830)
-psi02arr=(0)
+# psi01arr=(0.105830)
+# psi02arr=(0)
 
 # psi0arr=(0.105830 0.21166 0.31749)
 # psi0arr=(0.21166 0.31749)
@@ -100,8 +100,8 @@ psi1arr=(0.5)
 # phi0arr=(0.05 0.1 0.2 0.5)
 # phi0arr=(0.05 0.3 0.5)
 # phi0arr=(0.1 0.5)
-# phi0arr=(0.5)
-phi0arr=(0.1)
+phi0arr=(0.5)
+# phi0arr=(0.1)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 
@@ -145,6 +145,9 @@ auto=1
 # year=25
 year=40
 
+plot_year_gamma=25
+plot_year_theta=10
+
 # scheme_array=("macroannual" "newway" "newway" "newway" "check")
 # HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
 scheme_array=("direct")
@@ -168,8 +171,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_deltarho_phi0_${phi0arr[$phi0index]}"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testbar_phi0_${phi0arr[$phi0index]}"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testalgo_phi0_${phi0arr[$phi0index]}"
-        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_FK_flow_phi0_${phi0arr[$phi0index]}"
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_FK_flow_sub_phi0_${phi0arr[$phi0index]}"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_FK_flow_phi0_${phi0arr[$phi0index]}"
+        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_FK_flow_sub_phi0_${phi0arr[$phi0index]}"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_deltarho_testlargedelta_phi0_${phi0arr[$phi0index]}"
 
 
@@ -212,7 +215,7 @@ echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi01 ${PSI_01} --psi02 ${PSI_02} --psi1 ${PSI_1}  --xiaarr ${xi_a[@]} --xikarr ${xi_k[@]}  --xicarr ${xi_c[@]}  --xijarr ${xi_j[@]} --xidarr ${xi_d[@]} --xigarr ${xi_g[@]}  --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --num_gamma ${NUM_DAMAGE} --scheme ${scheme_array[$k]}  --HJB_solution ${HJBsolution_array[$k]}  --varrho ${varrho}   --phi_0 ${phi0arr[$phi0index]}   --rho ${rhoarr[$kk]} --delta ${deltaarr[$kk]}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi01 ${PSI_01} --psi02 ${PSI_02} --psi1 ${PSI_1}  --xiaarr ${xi_a[@]} --xikarr ${xi_k[@]}  --xicarr ${xi_c[@]}  --xijarr ${xi_j[@]} --xidarr ${xi_d[@]} --xigarr ${xi_g[@]}  --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --num_gamma ${NUM_DAMAGE} --scheme ${scheme_array[$k]}  --HJB_solution ${HJBsolution_array[$k]}  --varrho ${varrho}   --phi_0 ${phi0arr[$phi0index]}   --rho ${rhoarr[$kk]} --delta ${deltaarr[$kk]}  --plot_year_gamma ${plot_year_gamma}  --plot_year_theta ${plot_year_theta}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)

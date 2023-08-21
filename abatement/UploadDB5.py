@@ -15,6 +15,7 @@ parser.add_argument("--MotherRoot",type=str)
 parser.add_argument("--DaughterRoot",type=str)
 parser.add_argument("--access_token",type=str)
 parser.add_argument("--refresh_token",type=str)
+parser.add_argument("--partname",type=str)
 
 args = parser.parse_args()
 
@@ -24,7 +25,7 @@ MotherRoot=args.MotherRoot
 DaughterRoot=args.DaughterRoot
 
 
-
+partname=args.partname
 
 '''
 Populate your app key in order to run this locally
@@ -202,7 +203,7 @@ def dropbox_upload_folder_LARGE(
 
 def check_save(fname):
     
-    save_list = ["model_tech1_pre_damage_UD_simul"]
+    save_list = ["model_tech1_pre_damage_UD_simul_", partname]
     save_flag = False
     for savename in save_list:
         

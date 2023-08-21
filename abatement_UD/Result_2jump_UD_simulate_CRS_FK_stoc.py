@@ -472,7 +472,7 @@ def simulate_pre(
                 ddvddY_dis_hist[tm]    = ddvddY_dis_func(hist[tm-1,:])
                 dvdY_undis_hist[tm]    = dvdY_undis_func(hist[tm-1,:])
                 ddvddY_undis_hist[tm]    = ddvddY_undis_func(hist[tm-1,:])
-
+                
                 for i in range(n_damage):
                     damage_func = damage_func_list[i]
                     gt_dmg[i, tm] = damage_func(hist[tm-1, :])

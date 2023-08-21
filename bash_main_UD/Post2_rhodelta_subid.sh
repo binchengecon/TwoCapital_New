@@ -4,8 +4,8 @@
 # epsilonarray=(0.05 0.01 0.005) 
 
 
-epsilonarray=(0.0025) 
-# epsilonarray=(0.004) 
+# epsilonarray=(0.0025) 
+epsilonarray=(0.005) 
 # epsilonarray=(0.025) 
 # epsilonarray=(0.1 0.05 0.01) 
 
@@ -45,13 +45,13 @@ declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
 # hXarrays=(hXarr1)
-# hXarrays=(hXarr2)
+hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
-hXarrays=(hXarr8)
+# hXarrays=(hXarr8)
 
 
 Xminarr=(4.00 0.0 1.0 0.0)
@@ -82,6 +82,12 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_d=(100000. 100000. 100000. 0.050)
 # xi_g=(100000. 100000. 0.050 100000.)
 
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.150 100000. 100000. 100000.)
+# xi_c=(100000. 0.150 100000. 100000.)
+# xi_j=(100000. 100000. 0.150 100000.)
+# xi_d=(100000. 100000. 100000. 0.150)
+# xi_g=(100000. 100000. 0.150 100000.)
 
 # xi_a=(100000. 100000. 100000.)
 # xi_k=(0.025  0.050 100000.)
@@ -113,6 +119,28 @@ xi_j=(100000.)
 xi_d=(100000.)
 xi_g=(100000.)
 
+# xi_a=(100000.)
+# xi_k=(0.050)
+# xi_c=(100000.)
+# xi_j=(100000.)
+# xi_d=(100000.)
+# xi_g=(100000.)
+
+# xi_a=(100000.)
+# xi_k=(100000.)
+# xi_c=(100000.)
+# xi_j=(100000.)
+# xi_d=(0.050)
+# xi_g=(100000.)
+
+
+# xi_a=(100000.)
+# xi_k=(100000.)
+# xi_c=(100000.)
+# xi_j=(0.050)
+# xi_d=(100000.)
+# xi_g=(0.050)
+
 
 varrhoarr=(1120)
 # varrhoarr=(448)
@@ -126,12 +154,12 @@ varrhoarr=(1120)
 # deltaarr=(0.010 0.010 0.010)
 
 
-rhoarr=(0.66)
-deltaarr=(0.010)
-
-
-# rhoarr=(1)
+# rhoarr=(0.66)
 # deltaarr=(0.010)
+
+
+rhoarr=(1)
+deltaarr=(0.010)
 
 
 LENGTH_rho=$((${#rhoarr[@]} - 1))
@@ -160,8 +188,8 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-# id_sub=3
-id_sub=18
+id_sub=10
+# id_sub=19
 
 for epsilon in ${epsilonarray[@]}; do
 	for hXarri in "${hXarrays[@]}"; do
@@ -176,7 +204,7 @@ for epsilon in ${epsilonarray[@]}; do
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_new_deltarho_phi0_${phi0arr[$phi0index]}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_testbar_phi0_${phi0arr[$phi0index]}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_testalgo_phi0_${phi0arr[$phi0index]}"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_FK_phi0_${phi0arr[$phi0index]}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_FK2_phi0_${phi0arr[$phi0index]}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_deltarho_testlargedelta_phi0_${phi0arr[$phi0index]}"
 
 
@@ -189,8 +217,8 @@ for epsilon in ${epsilonarray[@]}; do
 
 		# i=1
 		# i=2
-		i=17
-		# for i in $(seq 9 $ID_MAX_DAMAGE); do
+		# i=17
+		for i in $(seq 11 $ID_MAX_DAMAGE); do
 			for PSI_0 in ${psi0arr[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
 					for varrho in ${varrhoarr[@]}; do
@@ -212,8 +240,8 @@ for epsilon in ${epsilonarray[@]}; do
 
 ######## login
 #SBATCH --job-name=${Xminarr[1]}_${hXarr[0]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_${rhoarr[$k]}_phi0_${phi0arr[$phi0index]}_${i}_${epsilon}
-#SBATCH --output=./job-outs/${action_name}/Post_Sub2/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_post_${i}_sub2.out
-#SBATCH --error=./job-outs/${action_name}/Post_Sub2/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_post_${i}_sub2.err
+#SBATCH --output=./job-outs/${action_name}/Post_Sub2/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_post_${i}_sub2<-${id_sub}.out
+#SBATCH --error=./job-outs/${action_name}/Post_Sub2/xia_${xi_a[$j]}_xik_${xi_k[$j]}_xic_${xi_c[$j]}_xij_${xi_j[$j]}_xid_${xi_d[$j]}_xig_${xi_g[$j]}_PSI0_${PSI_0}_PSI1_${PSI_1}_varrho_${varrho}_rho_${rhoarr[$k]}_delta_${deltaarr[$k]}/mercury_post_${i}_sub2<-${id_sub}.err
 
 #SBATCH --account=pi-lhansen
 #SBATCH --partition=standard
@@ -253,4 +281,4 @@ EOF
 			done
 		done
 	done
-# done
+done

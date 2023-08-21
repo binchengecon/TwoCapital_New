@@ -52,6 +52,8 @@ parser.add_argument("--Xmaxarr",nargs='+',type=float)
 
 parser.add_argument("--auto",type=int)
 parser.add_argument("--IntPeriod",type=int)
+parser.add_argument("--plot_year_gamma",type=int)
+parser.add_argument("--plot_year_theta",type=int)
 
 parser.add_argument("--scheme",type=str)
 parser.add_argument("--HJB_solution",type=str)
@@ -66,7 +68,8 @@ dataname = args.dataname
 # Update = args.Update
 IntPeriod = args.IntPeriod
 timespan = 1/12
-
+plot_year_gamma=args.plot_year_gamma
+plot_year_theta=args.plot_year_theta
 psi01arr = args.psi01arr
 psi02arr = args.psi02arr
 psi1arr = args.psi1arr
@@ -98,7 +101,7 @@ if len(xicarr)==4 and min(xikarr)==0.075:
     
 if len(xicarr)==4 and min(xikarr)==0.150:
     labellist = ['Climate Uncertainty', 'Damage Uncertainty', 'Productivity Uncertainty', 'Technology Uncertainty']
-    Filename = 'Uncertainty Channels Less'
+    Filename = 'Uncertainty Channels Flow'
     colors = ['blue','red', 'green', 'cyan', 'purple']
     
 if len(xicarr)==5:
@@ -115,7 +118,7 @@ if len(xicarr)==5:
     
 if len(xicarr)==3:
     labellist = ['More Aversion', 'Less Aversion', 'Neutrality']
-    Filename = 'Aversion Intensity'
+    Filename = 'Aversion Intensity Flow'
     # Filename = 'Aversion Intensity_old'
     # Filename = 'Aversion Intensity_onlyj'
     # Filename = 'Aversion Intensity_onlyk'
@@ -182,6 +185,7 @@ lambda_bar = 0.1206
 # vartheta_bar = 0.05
 # vartheta_bar = 0.056
 # vartheta_bar = 0.5
+phi_0 = args.phi_0
 vartheta_bar = args.phi_0
 
 lambda_bar_first = lambda_bar / 2.
@@ -260,8 +264,8 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.legend(loc='upper left')        
 print(res.keys())
-plt.savefig(Plot_Dir+"/RD_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/RD_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/RD_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/RD_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -286,8 +290,8 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.legend(loc='upper left')        
 print(res.keys())
-plt.savefig(Plot_Dir+"/RD_Raw"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/RD_Raw"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/RD_Raw"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/RD_Raw"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -314,8 +318,8 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.legend(loc='upper left')        
 print(res.keys())
-plt.savefig(Plot_Dir+"/RD_Expected_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/RD_Expected_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/RD_Expected_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/RD_Expected_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -341,8 +345,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-# plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+# plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -368,8 +372,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-# plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/CapIRatio_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+# plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/CapIRatio_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -395,8 +399,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -421,8 +425,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/ETrue_Expected_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/ETrue_Expected_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/ETrue_Expected_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/ETrue_Expected_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -448,8 +452,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -476,8 +480,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.legend(loc='upper left')
 
 
-plt.savefig(Plot_Dir+"/Ig_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/Ig_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/Ig_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/Ig_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -504,8 +508,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,IntPeriod)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/ProbTechJump_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/ProbTechJump_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/ProbTechJump_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/ProbTechJump_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -530,8 +534,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,IntPeriod)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/ProbDamageChange_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/ProbDamageChange_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/ProbDamageChange_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/ProbDamageChange_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -564,8 +568,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,IntPeriod)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/CombProbTechJump_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/CombProbTechJump_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/CombProbTechJump_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/CombProbTechJump_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -600,8 +604,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,IntPeriod)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/CombProbDamageChange_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -626,8 +630,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,IntPeriod)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/TPIg_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/TPIg_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/TPIg_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/TPIg_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -650,8 +654,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,IntPeriod)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/TPId_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/TPId_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/TPId_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/TPId_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -676,8 +680,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/logSCC_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/logSCC_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/logSCC_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/logSCC_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -705,8 +709,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/logSVRD_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/logSVRD_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/logSVRD_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/logSVRD_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -733,8 +737,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/logSCGW_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/logSCGW_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/logSCGW_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/logSCGW_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -761,8 +765,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/logSVRD2_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/logSVRD2_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/logSVRD2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/logSVRD2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -789,8 +793,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/spo_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/spo_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/spo_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/spo_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -817,8 +821,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/spo2_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/spo2_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/spo2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/spo2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -845,8 +849,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/UAD_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/UAD_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/UAD_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/UAD_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -875,8 +879,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/UAD2_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/UAD2_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/UAD2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/UAD2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -905,8 +909,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/Vgt_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/Vgt_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/Vgt_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/Vgt_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -933,8 +937,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/Vt_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/Vt_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/Vt_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/Vt_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -962,8 +966,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/Vg-Vt_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/Vg-Vt_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/Vg-Vt_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/Vg-Vt_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -991,8 +995,8 @@ for id_xiag in range(len(xiaarr)):
                     plt.xlim(0,30)
                     plt.legend(loc='upper left')
 
-plt.savefig(Plot_Dir+"/gt_"+Filename+"_rho={}_delta={}".format(rho,delta)+".pdf")
-plt.savefig(Plot_Dir+"/gt_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png")
+plt.savefig(Plot_Dir+"/gt_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/gt_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -1017,7 +1021,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/h_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/h_{}_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/h_{}_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -1041,7 +1045,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/hk_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/hk_{}_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/hk_{}_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -1066,7 +1070,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/hj_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/hj_{}_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/hj_{}_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
 plt.close()
 
 
@@ -1091,7 +1095,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/h2_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/h2_{}_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/h2_{}_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -1115,7 +1119,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/hk2_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/hk2_{}_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/hk2_{}_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
 plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -1140,7 +1144,7 @@ for id_xiag in range(len(xiaarr)):
                     plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/hj2_{}_"+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
-plt.savefig(Plot_Dir+"/hj2_{}_"+Filename+"_rho={}_delta={}".format(rho,delta)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/hj2_{}_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi01arr,psi1arr,varrhoarr))
 plt.close()
 
 
@@ -1173,10 +1177,11 @@ for id_xiag in range(len(xiaarr)):
 
                     NUM_DAMAGE = res["gt_dmg"].shape[0]
                     gamma_3_list = np.linspace(0., 1./3., NUM_DAMAGE)
+                    time_frame = int(plot_year_gamma/timespan)
 
                     # γ3_distort = np.load("γ3_5.npy")
                     print(NUM_DAMAGE)
-                    γ3_distort = res["gt_dmg"][:, -1] 
+                    γ3_distort = res["gt_dmg"][:, time_frame] 
                     # plt.figure(figsize=(16,10))
                     plt.hist(gamma_3_list, weights=np.ones(len(gamma_3_list)) / len(gamma_3_list), 
                             alpha=0.5, color="C3", ec="darkgray",label='Baseline' .format(xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag]), bins=NUM_DAMAGE)
@@ -1192,7 +1197,10 @@ for id_xiag in range(len(xiaarr)):
                     plt.legend(loc='upper left',frameon=False)
 
                         
-                    plt.savefig(Plot_Dir+"/Gamma3,xia={:.5f},xic={:.3f},xid={:.3f},xig={:.3f},psi01={:.3f},psi02={:.3f},psi1={:.3f},varrho={:.1f}.png".format(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi01arr[id_psi01],psi02arr[id_psi02],psi1arr[id_psi1], varrhoarr[id_varrho],rho))
+                    # plt.savefig(Plot_Dir+"/Gamma3_{},xia={:.5f},xic={:.3f},xid={:.3f},xig={:.3f},psi01={:.3f},psi02={:.3f},psi1={:.3f},varrho={:.1f}_rho={}_delta={}_phi0={}.png".format(plot_year_gamma, xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi01arr[id_psi01],psi02arr[id_psi02],psi1arr[id_psi1], varrhoarr[id_varrho],rho,delta,phi_0))
+                    # plt.savefig(Plot_Dir+"/Gamma3_{},xia={:.5f},xic={:.3f},xid={:.3f},xig={:.3f},psi01={:.3f},psi02={:.3f},psi1={:.3f},varrho={:.1f}_rho={}_delta={}_phi0={}.png".format(plot_year_gamma, xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi01arr[id_psi01],psi02arr[id_psi02],psi1arr[id_psi1], varrhoarr[id_varrho],rho,delta,phi_0))
+                    plt.savefig(Plot_Dir+"/Gamma3_{},".format(plot_year_gamma)+Filename+labellist[id_xiag] + "_rho={}_delta={}_phi0={}.png".format(rho,delta,phi_0))
+                    
                     plt.close()
 
 for id_xiag in range(len(xiaarr)): 
@@ -1204,6 +1212,7 @@ for id_xiag in range(len(xiaarr)):
             
                     res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi01arr[id_psi01],psi02arr[id_psi02],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
 
+                    time_frame = int(plot_year_theta/timespan)
 
                     # histogram of beta_f
                     theta_ell = pd.read_csv("./data/model144.csv", header=None).to_numpy()[:, 0]
@@ -1213,9 +1222,9 @@ for id_xiag in range(len(xiaarr)):
                     # print(theta_ell_new)
                     pi_c_o = np.ones(len(theta_ell)) / len(theta_ell)
                     # pi_c = np.load("πc_5.npy")
-                    theta_ell_new = res["theta_ell_new"][:,-1]
+                    theta_ell_new = res["theta_ell_new"][:,time_frame]
 
-                    pi_c = res["pic_t"][:, -1]
+                    pi_c = res["pic_t"][:, time_frame]
                     # plt.figure(figsize=(16,10))
 
                     # plt.hist(theta_ell, weights=pi_c_o, bins=np.linspace(0.8, 3., 16), density=True, 
@@ -1247,6 +1256,7 @@ for id_xiag in range(len(xiaarr)):
 
                     plt.ylim(0, 1.4)
                     # plt.xlabel("Climate Sensitivity")
-                    plt.savefig(Plot_Dir+"/ClimateSensitivity_pmean_{},xia={:.4f},xic={:.3f},xid={:.3f},xig={:.3f},psi01={:.3f},psi02={:.3f},psi1={:.3f},varrho={:.1f}.pdf".format(IntPeriod, xiaarr[id_xiag],xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag],psi01arr[id_psi01],psi02arr[id_psi02],psi1arr[id_psi1], varrhoarr[id_varrho]))
-                    plt.savefig(Plot_Dir+"/ClimateSensitivity_pmean_{},xia={:.4f},xic={:.3f},xid={:.3f},xig={:.3f},psi01={:.3f},psi02={:.3f},psi1={:.3f},varrho={:.1f}.png".format(IntPeriod, xiaarr[id_xiag],xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag],psi01arr[id_psi01],psi02arr[id_psi02],psi1arr[id_psi1], varrhoarr[id_varrho]))
+                    # plt.savefig(Plot_Dir+"/ClimateSensitivity_pmean_{},xia={:.4f},xic={:.3f},xid={:.3f},xig={:.3f},psi01={:.3f},psi02={:.3f},psi1={:.3f},varrho={:.1f}_rho={}_delta={}_phi0={}.pdf".format(plot_year_theta, xiaarr[id_xiag],xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag],psi01arr[id_psi01],psi02arr[id_psi02],psi1arr[id_psi1], varrhoarr[id_varrho],rho,delta,phi_0))
+                    # plt.savefig(Plot_Dir+"/ClimateSensitivity_pmean_{},xia={:.4f},xic={:.3f},xid={:.3f},xig={:.3f},psi01={:.3f},psi02={:.3f},psi1={:.3f},varrho={:.1f}_rho={}_delta={}_phi0={}.png".format(plot_year_theta, xiaarr[id_xiag],xicarr[id_xiag], xidarr[id_xiag], xigarr[id_xiag],psi01arr[id_psi01],psi02arr[id_psi02],psi1arr[id_psi1], varrhoarr[id_varrho],rho,delta,phi_0))
+                    plt.savefig(Plot_Dir+"/ClimateSensitivity_pmean_{},".format(plot_year_theta) +Filename+labellist[id_xiag]+"_rho={}_delta={}_phi0={}.png".format(rho,delta,phi_0))
                     plt.close()

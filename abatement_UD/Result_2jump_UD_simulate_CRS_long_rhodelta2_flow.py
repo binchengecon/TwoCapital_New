@@ -487,7 +487,10 @@ def simulate_pre(
     true_damage_intensity =  damage_intensity
     true_damage_prob = 1 - np.exp(- np.cumsum(np.insert(true_damage_intensity * dt, 0, 0) ))[:-1]
 
-    
+    RD_Plot = ((x_hist * np.exp(hist[:, 0])/(alpha*np.exp(hist[:,0])))*100)
+    LogSVRD_Plot = np.log(scrd_hist)
+    LogSCGW_Plot = np.log(scgw_hist)
+
     res = dict(
         states= hist, 
         i = i_hist * np.exp(hist[:, 0]), 
@@ -524,6 +527,9 @@ def simulate_pre(
         true_damage_prob = true_damage_prob,
         Ambiguity_mean_undis = Ambiguity_mean_undis,
         Ambiguity_mean_dis = Ambiguity_mean_dis,
+        RD_Plot = RD_Plot,
+        LogSVRD_Plot=LogSVRD_Plot,
+        LogSCGW_Plot = LogSCGW_Plot
         )
     
 

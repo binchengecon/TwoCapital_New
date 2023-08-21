@@ -4,10 +4,10 @@
 # epsilonarray=(0.05 0.01 0.005) 
 
 
-# epsilonarray=(0.005) 
+epsilonarray=(0.005) 
 # epsilonarray=(0.004) 
 # epsilonarray=(0.003) 
-epsilonarray=(0.0025) 
+# epsilonarray=(0.0025) 
 # epsilonarray=(0.001) 
 # epsilonarray=(0.001) 
 # epsilonarray=(0.005 0.05) 
@@ -50,13 +50,13 @@ declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
 # hXarrays=(hXarr1)
-# hXarrays=(hXarr2)
+hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
-hXarrays=(hXarr8)
+# hXarrays=(hXarr8)
 
 
 Xminarr=(4.00 0.0 1.0 0.0)
@@ -75,12 +75,6 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # Xminarr=(4.00 1.5 1.0 0.0)
 # Xmaxarr=(9.00 2.5 6.0 3.0)
 
-# xi_a=(100000. 100000. 100000. 100000. 100000.)
-# xi_k=(0.050 100000. 100000. 100000. 0.050)
-# xi_c=(100000. 0.050 100000. 100000. 0.050)
-# xi_j=(100000. 100000. 0.050 100000. 0.050)
-# xi_d=(100000. 100000. 100000. 0.050 0.050)
-# xi_g=(100000. 100000. 0.050 100000. 0.050)
 
 # xi_a=(100000. 100000. 100000. 100000.)
 # xi_k=(0.050 100000. 100000. 100000.)
@@ -97,20 +91,14 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_d=(0.025  0.050 100000.)
 # xi_g=(0.025  0.050 100000.)
 
+
+
 # xi_a=(100000. 100000. 100000.)
-# xi_k=(0.075  0.100 100000.)
-# xi_c=(0.075  0.100 100000.)
-# xi_j=(0.075  0.100 100000.)
-# xi_d=(0.075  0.100 100000.)
-# xi_g=(0.075  0.100 100000.)
-
-
-xi_a=(100000. 100000. 100000.)
-xi_k=(0.075  0.150 100000.)
-xi_c=(0.075  0.150 100000.)
-xi_j=(0.075  0.150 100000.)
-xi_d=(0.075  0.150 100000.)
-xi_g=(0.075  0.150 100000.)
+# xi_k=(0.075  0.150 100000.)
+# xi_c=(0.075  0.150 100000.)
+# xi_j=(0.075  0.150 100000.)
+# xi_d=(0.075  0.150 100000.)
+# xi_g=(0.075  0.150 100000.)
 
 # xi_a=(100000. 100000. 100000. 100000.)
 # xi_k=(0.075 100000. 100000. 100000.)
@@ -126,28 +114,28 @@ xi_g=(0.075  0.150 100000.)
 # xi_d=(100000. 100000. 100000. 0.150)
 # xi_g=(100000. 100000. 0.150 100000.)
 
+xi_a=(100000.)
+xi_k=(0.050)
+xi_c=(0.050)
+xi_j=(0.050)
+xi_d=(0.050)
+xi_g=(0.050)
+
 
 # xi_a=(100000. 100000. 100000. 100000.)
-# xi_k=(0.025  0.050 0.100 100000.)
-# xi_c=(0.025  0.050 0.100 100000.)
-# xi_j=(0.025  0.050 0.100 100000.)
-# xi_d=(0.025  0.050 0.100 100000.)
-# xi_g=(0.025  0.050 0.100 100000.)
-
-# xi_a=(100000. 100000.)
-# xi_k=(100000. 100000.)
-# xi_c=(0.025  0.050)
-# xi_j=(0.025  0.050)
-# xi_d=(0.025  0.050)
-# xi_g=(0.025  0.050)
+# xi_k=(0.025 100000. 0.025 100000.)
+# xi_c=(100000. 0.025 0.025 100000.)
+# xi_j=(100000. 100000. 100000. 100000.)
+# xi_d=(100000. 100000. 0.025 0.025)
+# xi_g=(100000. 100000. 100000. 100000.)
 
 
-# xi_a=(100000.)
-# xi_k=(100000.)
-# xi_c=(100000.)
-# xi_j=(100000.)
-# xi_d=(100000.)
-# xi_g=(100000.)
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.050 100000. 0.050 100000.)
+# xi_c=(100000. 0.050 0.050 100000.)
+# xi_j=(100000. 100000. 100000. 100000.)
+# xi_d=(100000. 100000. 0.050 0.050)
+# xi_g=(100000. 100000. 100000. 100000.)
 
 varrhoarr=(1120)
 # varrhoarr=(448)
@@ -165,8 +153,12 @@ varrhoarr=(1120)
 # deltaarr=(0.010 0.010)
 
 
-rhoarr=(1)
+# rhoarr=(1)
+# deltaarr=(0.010)
+
+rhoarr=(1.5)
 deltaarr=(0.010)
+
 
 # rhoarr=(0.66)
 # deltaarr=(0.010)
@@ -180,8 +172,8 @@ psi0arr=(0.105830)
 # phi0arr=(0.05 0.1 0.2 0.5)
 # phi0arr=(0.05 0.1 0.5)
 # phi0arr=(0.1 0.5)
-phi0arr=(0.5)
-# phi0arr=(0.1)
+# phi0arr=(0.5)
+phi0arr=(0.1)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 
@@ -214,16 +206,16 @@ for epsilon in ${epsilonarray[@]}; do
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_new_deltarho_phi0_${phi0arr[$phi0index]}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_testbar_phi0_${phi0arr[$phi0index]}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_testalgo_phi0_${phi0arr[$phi0index]}"
-		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_FK_phi0_${phi0arr[$phi0index]}"
+		action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_FK2_phi0_${phi0arr[$phi0index]}"
 		# action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilon}_deltarho_testlargedelta_phi0_${phi0arr[$phi0index]}"
 
 
 		
-		epsilonarr=(0.1 ${epsilon})
-		fractionarr=(0.1 ${epsilon})
+		# epsilonarr=(0.1 ${epsilon})
+		# fractionarr=(0.1 ${epsilon})
 
-		# epsilonarr=(0.1 0.005)
-		# fractionarr=(0.1 0.005)
+		epsilonarr=(0.1 0.001)
+		fractionarr=(0.1 0.001)
 
 		# epsilonarr=(0.1 0.01)
 		# fractionarr=(0.1 0.01)
@@ -259,7 +251,7 @@ for epsilon in ${epsilonarray[@]}; do
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=1G
 #SBATCH --time=7-00:00:00
-#SBATCH --exclude=mcn53,mcn52,mcn51
+#SBATCH --exclude=mcn59,mcn54,mcn53,mcn52,mcn51
 
 ####### load modules
 module load python/booth/3.8  gcc/9.2.0

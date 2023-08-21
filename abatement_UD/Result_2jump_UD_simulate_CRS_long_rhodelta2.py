@@ -484,8 +484,19 @@ def simulate_pre(
     
     true_damage_intensity =  damage_intensity
     true_damage_prob = 1 - np.exp(- np.cumsum(np.insert(true_damage_intensity * dt, 0, 0) ))[:-1]
+    TA = hist[:,1]
 
+    RD_Plot = ((x_hist * np.exp(hist[:, 0])/(alpha*np.exp(hist[:,0])))*100)
+    LogSVRD_Plot = np.log(scrd_hist)
+    LogSCGW_Plot = np.log(scgw_hist)
+
+    RelativeEntropy_hk = 1/2*xi_k*hkt**2
+    RelativeEntropy_h = 1/2*xi_c*ht**2
+    RelativeEntropy_hj = 1/2*xi_j*hjt**2
     
+    RelativeEntropy_TechJump = xi_j * np.exp(hist[:, 2])/varrho * (1-gt_tech + gt_tech*np.log(gt_tech))
+    RelativeEntropy_DamageJump = xi_d * Damage_Intensity(hist[:, 1]) * np.sum(1 - gt_dmg + gt_dmg*np.log(gt_dmg) , axis=0)/n_damage
+
     res = dict(
         states= hist, 
         i = i_hist * np.exp(hist[:, 0]), 
@@ -522,6 +533,15 @@ def simulate_pre(
         true_damage_prob = true_damage_prob,
         Ambiguity_mean_undis = Ambiguity_mean_undis,
         Ambiguity_mean_dis = Ambiguity_mean_dis,
+        TA = TA,
+        RD_Plot = RD_Plot,
+        LogSVRD_Plot=LogSVRD_Plot,
+        LogSCGW_Plot = LogSCGW_Plot,
+        RelativeEntropy_hk = RelativeEntropy_hk,
+        RelativeEntropy_h = RelativeEntropy_h,
+        RelativeEntropy_hj = RelativeEntropy_hj,
+        RelativeEntropy_TechJump = RelativeEntropy_TechJump,
+        RelativeEntropy_DamageJump = RelativeEntropy_DamageJump
         )
     
 

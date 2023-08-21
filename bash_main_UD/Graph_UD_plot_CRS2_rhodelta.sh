@@ -5,10 +5,10 @@ actiontime=1
 # epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.0025) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.004) # Computation of fine grid and psi10.8, post
-epsilonarraypost=(0.0025) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.0025) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.001) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
-# epsilonarraypost=(0.025) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.025) # Computation of fine grid and psi10.8, post
 
 # NUM_DAMAGE=3
 NUM_DAMAGE=20
@@ -22,10 +22,10 @@ declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
 # hXarrays=(hXarr1)
-# hXarrays=(hXarr2)
+hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
-hXarrays=(hXarr5)
+# hXarrays=(hXarr5)
 # hXarrays=(hXarr6)
 # hXarrays=(hXarr7)
 
@@ -35,34 +35,15 @@ Xminarr=(4.00 0.0 1.0 0.0)
 Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
-# Xminarr=(4.00 1.2 1.0 0.0)
-# Xmaxarr=(9.00 4.0 6.0 3.0)
-
-
-
-
 
 # xi_a=(100000. 100000. 100000. 100000.)
-# xi_k=(0.050 100000. 100000. 100000.)
-# xi_c=(100000. 0.050 100000. 100000.)
-# xi_j=(100000. 100000. 0.050 100000.)
-# xi_d=(100000. 100000. 100000. 0.050)
-# xi_g=(100000. 100000. 0.050 100000.)
-
-xi_a=(100000. 100000. 100000. 100000.)
-xi_k=(100000. 100000. 0.050 100000.)
-xi_c=(0.050 100000. 100000. 100000.)
-xi_j=(100000. 100000. 100000. 0.050)
-xi_d=(100000. 0.050 100000. 100000.)
-xi_g=(100000. 100000. 100000. 0.050)
+# xi_k=(100000. 100000. 0.050 100000.)
+# xi_c=(0.050 100000. 100000. 100000.)
+# xi_j=(100000. 100000. 100000. 0.050)
+# xi_d=(100000. 0.050 100000. 100000.)
+# xi_g=(100000. 100000. 100000. 0.050)
 
 
-# xi_a=(100000. 100000. 100000. 100000. 100000.)
-# xi_k=(0.050 100000. 100000. 100000. 0.050)
-# xi_c=(100000. 0.050 100000. 100000. 0.050)
-# xi_j=(100000. 100000. 0.050 100000. 0.050)
-# xi_d=(100000. 100000. 100000. 0.050 0.050)
-# xi_g=(100000. 100000. 0.050 100000. 0.050)
 
 # xi_a=(100000. 100000. 100000.)
 # xi_k=(0.025  0.050 100000.)
@@ -72,19 +53,13 @@ xi_g=(100000. 100000. 100000. 0.050)
 # xi_g=(0.025  0.050 100000.)
 
 
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(0.075  0.100 100000.)
-# xi_c=(0.075  0.100 100000.)
-# xi_j=(0.075  0.100 100000.)
-# xi_d=(0.075  0.100 100000.)
-# xi_g=(0.075  0.100 100000.)
 
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(0.075  0.150 100000.)
-# xi_c=(0.075  0.150 100000.)
-# xi_j=(0.075  0.150 100000.)
-# xi_d=(0.075  0.150 100000.)
-# xi_g=(0.075  0.150 100000.)
+xi_a=(100000. 100000. 100000.)
+xi_k=(0.075  0.150 100000.)
+xi_c=(0.075  0.150 100000.)
+xi_j=(0.075  0.150 100000.)
+xi_d=(0.075  0.150 100000.)
+xi_g=(0.075  0.150 100000.)
 
 # xi_a=(100000. 100000. 100000. 100000.)
 # xi_k=(100000. 100000. 0.075 100000.)
@@ -100,49 +75,35 @@ xi_g=(100000. 100000. 100000. 0.050)
 # xi_d=(100000. 0.150 100000. 100000.)
 # xi_g=(100000. 100000. 100000. 0.150)
 
-# xi_a=(100000. 100000. 100000. 100000.)
-# xi_k=(0.150 100000. 100000. 100000.)
-# xi_c=(100000. 0.150 100000. 100000.)
-# xi_j=(100000. 100000. 0.150 100000.)
-# xi_d=(100000. 100000. 100000. 0.150)
-# xi_g=(100000. 100000. 0.150 100000.)
+# xi_a=(100000.)
+# xi_k=(0.150)
+# xi_c=(0.150)
+# xi_j=(100000.)
+# xi_d=(0.150)
+# xi_g=(100000.)
 
-
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(0.150  0.200 100000.)
-# xi_c=(0.150  0.200 100000.)
-# xi_j=(0.150  0.200 100000.)
-# xi_d=(0.150  0.200 100000.)
-# xi_g=(0.150  0.200 100000.)
-
-# xi_a=(100000. 100000. 100000. 100000.)
-# xi_k=(0.025  0.050 0.100 100000.)
-# xi_c=(0.025  0.050 0.100 100000.)
-# xi_j=(0.025  0.050 0.100 100000.)
-# xi_d=(0.025  0.050 0.100 100000.)
-# xi_g=(0.025  0.050 0.100 100000.)
-
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(0.050  100000. 100000.)
-# xi_c=(0.025  0.050 100000.)
-# xi_j=(0.025  0.050 100000.)
-# xi_d=(0.025  0.050 100000.)
-# xi_g=(0.025  0.050 100000.)
-
-# xi_a=(100000. 100000. 100000.)
-# xi_k=(100000. 100000. 100000.)
-# xi_c=(0.025  0.050 100000.)
-# xi_j=(0.025  0.050 100000.)
-# xi_d=(0.025  0.050 100000.)
-# xi_g=(0.025  0.050 100000.)
+# xi_a=(100000. 100000. 100000. 100000. 100000.)
+# xi_k=(100000. 100000. 0.150   100000. 0.150)
+# xi_c=(0.150 100000. 100000. 100000. 0.150)
+# xi_j=(100000. 100000. 100000. 0.150 100000.)
+# xi_d=(100000. 0.150 100000. 100000. 0.150)
+# xi_g=(100000. 100000. 100000. 0.150 100000.)
 
 
 # xi_a=(100000. 100000. 100000. 100000.)
-# xi_k=(0.050 100000. 100000. 100000.)
-# xi_c=(100000. 0.050 100000. 100000.)
-# xi_j=(100000. 100000. 0.050 100000.)
-# xi_d=(100000. 100000. 100000. 0.050)
-# xi_g=(100000. 100000. 0.050 100000.)
+# xi_k=(100000. 100000. 0.025 0.025)
+# xi_c=(0.025 100000. 100000. 0.025)
+# xi_j=(100000. 100000. 100000. 100000.)
+# xi_d=(100000. 0.025 100000. 0.025)
+# xi_g=(100000. 100000. 100000. 100000.)
+
+
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(100000. 100000. 0.050 0.050)
+# xi_c=(0.050 100000. 100000. 0.050)
+# xi_j=(100000. 100000. 100000. 100000.)
+# xi_d=(100000. 0.050 100000. 0.050)
+# xi_g=(100000. 100000. 100000. 100000.)
 
 
 varrhoarr=(1120)
@@ -165,8 +126,8 @@ psi1arr=(0.5)
 # phi0arr=(0.05 0.1 0.2 0.5)
 # phi0arr=(0.05 0.3 0.5)
 # phi0arr=(0.1 0.5)
-# phi0arr=(0.5)
-phi0arr=(0.1)
+phi0arr=(0.5)
+# phi0arr=(0.1)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 
@@ -179,8 +140,8 @@ LENGTH_phi0=$((${#phi0arr[@]} - 1))
 # rhoarr=(0.66)
 # deltaarr=(0.010)
 
-# rhoarr=(1)
-# deltaarr=(0.010)
+rhoarr=(1)
+deltaarr=(0.010)
 
 
 # rhoarr=(0.66 0.88 1 1.2 1.5)
@@ -192,8 +153,8 @@ LENGTH_phi0=$((${#phi0arr[@]} - 1))
 # rhoarr=(0.66 1.5)
 # deltaarr=(0.010 0.010)
 
-rhoarr=(0.66 1 1.5)
-deltaarr=(0.010 0.010 0.010)
+# rhoarr=(0.66 1 1.5)
+# deltaarr=(0.010 0.010 0.010)
 
 # rhoarr=(0.66 0.77 0.88 0.99)
 # deltaarr=(0.015 0.015 0.015 0.015)
@@ -212,16 +173,10 @@ deltaarr=(0.010 0.010 0.010)
 
 LENGTH_rho=$((${#rhoarr[@]} - 1))
 
-# python_name_unit="Result_2jump_UD_plot_CRS.py"
-# python_name_unit="Result_2jump_UD_plot_CRS_long.py"
-# python_name_unit="Result_2jump_UD_plot_CRS_long_newlabel_rhodelta.py"
-# python_name_unit="Result_2jump_UD_plot_CRS_long_newlabel_rhodelta2.py"
+
 python_name_unit="Result_2jump_UD_plot_CRS_long_newlabel_rhodelta3.py"
-# python_name_unit="Result_2jump_UD_plot_CRS_FK.py"
-# python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity.py"
-# python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity2.py"
-# python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity_newlabel.py"
-# python_name_unit="Result_2jump_UD_plot_CRS_FK_infinity2_newlabel.py"
+
+
 server_name="mercury"
 
 LENGTH_psi=$((${#psi0arr[@]} - 1))
@@ -236,6 +191,10 @@ fstr_SG="NearestNDInterpolator"
 auto=1
 # year=25
 year=40
+
+
+plot_year_gamma=25
+plot_year_theta=10
 
 # scheme_array=("macroannual" "newway" "newway" "newway" "check")
 # HJBsolution_array=("simple" "iterative_partial" "iterative_fix" "n_iterative_fix" "iterative_partial")
@@ -260,7 +219,8 @@ for epsilonpost in ${epsilonarraypost[@]}; do
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_deltarho_phi0_${phi0arr[$phi0index]}"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testbar_phi0_${phi0arr[$phi0index]}"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_testalgo_phi0_${phi0arr[$phi0index]}"
-        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_FK_phi0_${phi0arr[$phi0index]}"
+        # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_FK_phi0_${phi0arr[$phi0index]}"
+        action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_FK2_phi0_${phi0arr[$phi0index]}"
         # action_name="2jump_step_${Xminarr[0]},${Xmaxarr[0]}_${Xminarr[1]},${Xmaxarr[1]}_${Xminarr[2]},${Xmaxarr[2]}_${Xminarr[3]},${Xmaxarr[3]}_SS_${hXarr[0]},${hXarr[1]},${hXarr[2]}_LR_${epsilonpost}_deltarho_testlargedelta_phi0_${phi0arr[$phi0index]}"
 
 
@@ -302,7 +262,7 @@ echo "\$SLURM_JOB_NAME"
 echo "Program starts \$(date)"
 start_time=\$(date +%s)
 
-python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1}  --xiaarr ${xi_a[@]} --xikarr ${xi_k[@]}  --xicarr ${xi_c[@]}  --xijarr ${xi_j[@]} --xidarr ${xi_d[@]} --xigarr ${xi_g[@]}  --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --num_gamma ${NUM_DAMAGE} --scheme ${scheme_array[$k]}  --HJB_solution ${HJBsolution_array[$k]}  --varrho ${varrho}   --phi_0 ${phi0arr[$phi0index]}   --rho ${rhoarr[$kk]} --delta ${deltaarr[$kk]}
+python3 /home/bcheng4/TwoCapital_Shrink/abatement_UD/${python_name_unit} --dataname  ${action_name} --pdfname ${server_name} --psi0 ${PSI_0} --psi1 ${PSI_1}  --xiaarr ${xi_a[@]} --xikarr ${xi_k[@]}  --xicarr ${xi_c[@]}  --xijarr ${xi_j[@]} --xidarr ${xi_d[@]} --xigarr ${xi_g[@]}  --hXarr ${hXarr[@]} --Xminarr ${Xminarr[@]} --Xmaxarr ${Xmaxarr[@]} --auto $auto --IntPeriod ${year} --num_gamma ${NUM_DAMAGE} --scheme ${scheme_array[$k]}  --HJB_solution ${HJBsolution_array[$k]}  --varrho ${varrho}   --phi_0 ${phi0arr[$phi0index]}   --rho ${rhoarr[$kk]} --delta ${deltaarr[$kk]} --plot_year_gamma ${plot_year_gamma}  --plot_year_theta ${plot_year_theta}
 
 echo "Program ends \$(date)"
 end_time=\$(date +%s)
