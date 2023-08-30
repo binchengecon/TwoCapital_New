@@ -4,10 +4,10 @@
 # epsilonarray=(0.05 0.01 0.005) 
 
 
-epsilonarray=(0.005) 
+# epsilonarray=(0.005) 
 # epsilonarray=(0.004) 
 # epsilonarray=(0.003) 
-# epsilonarray=(0.0025) 
+epsilonarray=(0.0025) 
 # epsilonarray=(0.001) 
 # epsilonarray=(0.001) 
 # epsilonarray=(0.005 0.05) 
@@ -49,8 +49,8 @@ declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
-hXarrays=(hXarr2)
+hXarrays=(hXarr1)
+# hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
@@ -92,6 +92,20 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_g=(0.025  0.050 100000.)
 
 
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.005  0.010  0.001)
+# xi_c=(0.005  0.010  0.001)
+# xi_j=(0.005  0.010  0.001)
+# xi_d=(0.005  0.010  0.001)
+# xi_g=(0.005  0.010  0.001)
+
+xi_a=(100000. 100000. 100000. 100000.)
+xi_k=(100000. 100000. 100000. 100000.)
+xi_c=(100000. 100000. 100000. 100000.)
+xi_j=(0.005  0.010 0.025 0.050)
+xi_d=(100000. 100000. 100000. 100000.)
+xi_g=(0.005  0.010 0.025 0.050)
+
 
 # xi_a=(100000. 100000. 100000.)
 # xi_k=(0.075  0.150 100000.)
@@ -114,13 +128,19 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_d=(100000. 100000. 100000. 0.150)
 # xi_g=(100000. 100000. 0.150 100000.)
 
-xi_a=(100000.)
-xi_k=(0.050)
-xi_c=(0.050)
-xi_j=(0.050)
-xi_d=(0.050)
-xi_g=(0.050)
+# xi_a=(100000.)
+# xi_k=(0.050)
+# xi_c=(0.050)
+# xi_j=(0.050)
+# xi_d=(0.050)
+# xi_g=(0.050)
 
+# xi_a=(100000.)
+# xi_k=(0.075)
+# xi_c=(100000.)
+# xi_j=(100000.)
+# xi_d=(100000.)
+# xi_g=(100000.)
 
 # xi_a=(100000. 100000. 100000. 100000.)
 # xi_k=(0.025 100000. 0.025 100000.)
@@ -138,6 +158,7 @@ xi_g=(0.050)
 # xi_g=(100000. 100000. 100000. 100000.)
 
 varrhoarr=(1120)
+# varrhoarr=(1120000)
 # varrhoarr=(448)
 
 
@@ -153,11 +174,11 @@ varrhoarr=(1120)
 # deltaarr=(0.010 0.010)
 
 
-# rhoarr=(1)
-# deltaarr=(0.010)
-
-rhoarr=(1.5)
+rhoarr=(1)
 deltaarr=(0.010)
+
+# rhoarr=(1.5)
+# deltaarr=(0.010)
 
 
 # rhoarr=(0.66)
@@ -172,8 +193,8 @@ psi0arr=(0.105830)
 # phi0arr=(0.05 0.1 0.2 0.5)
 # phi0arr=(0.05 0.1 0.5)
 # phi0arr=(0.1 0.5)
-# phi0arr=(0.5)
-phi0arr=(0.1)
+phi0arr=(0.5)
+# phi0arr=(0.1)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 
@@ -211,11 +232,11 @@ for epsilon in ${epsilonarray[@]}; do
 
 
 		
-		# epsilonarr=(0.1 ${epsilon})
-		# fractionarr=(0.1 ${epsilon})
+		epsilonarr=(0.1 ${epsilon})
+		fractionarr=(0.1 ${epsilon})
 
-		epsilonarr=(0.1 0.001)
-		fractionarr=(0.1 0.001)
+		# epsilonarr=(0.1 0.001)
+		# fractionarr=(0.1 0.001)
 
 		# epsilonarr=(0.1 0.01)
 		# fractionarr=(0.1 0.01)
@@ -251,7 +272,7 @@ for epsilon in ${epsilonarray[@]}; do
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=1G
 #SBATCH --time=7-00:00:00
-#SBATCH --exclude=mcn59,mcn54,mcn53,mcn52,mcn51
+#SBATCH --exclude=mcn59,mcn57,mcn54,mcn53,mcn52,mcn51,mcn30
 
 ####### load modules
 module load python/booth/3.8  gcc/9.2.0

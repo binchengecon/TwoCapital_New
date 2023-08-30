@@ -114,11 +114,15 @@ y_bar_lower = 1.5
 
 # Tech
 theta = 3
+phi_1 = 3
+beta = 0.1206
 lambda_bar = 0.1206
 # vartheta_bar = 0.0453
 # vartheta_bar = 0.05
 # vartheta_bar = 0.056
 # vartheta_bar = 0.5
+
+phi_0 = args.phi_0
 vartheta_bar = args.phi_0
 
 
@@ -261,9 +265,9 @@ def simulate_pre(
     pi_c_o = np.array([temp * np.ones(K_mat.shape) for temp in pi_c_o])
     # theta_ell = np.array([temp * np.ones(K_mat.shape) for temp in theta_ell])
 
-    dL = finiteDiff_3D(v, 2,1,hL )
     dK = finiteDiff_3D(v, 0,1,hK )
     dY = finiteDiff_3D(v, 1,1,hY )
+    dL = finiteDiff_3D(v, 2,1,hL )
 
     print("dk={},{}".format(dK.min(),dK.max()))
     
@@ -280,6 +284,7 @@ def simulate_pre(
     h_func = RegularGridInterpolator(gridpoints, h)
     hk_func = RegularGridInterpolator(gridpoints, h_k)
     hj_func = RegularGridInterpolator(gridpoints, h_j)
+    dK_func   = RegularGridInterpolator(gridpoints, dK)
     dL_func   = RegularGridInterpolator(gridpoints, dL)
     dY_func   = RegularGridInterpolator(gridpoints, dY)
     ME_total_func = RegularGridInterpolator(gridpoints, ME_total)
@@ -337,6 +342,7 @@ def simulate_pre(
     ht   = np.zeros([pers])
     hkt   = np.zeros([pers])
     hjt   = np.zeros([pers])
+    dK_hist    = np.zeros([pers])
     dL_hist    = np.zeros([pers])
     dY_hist    = np.zeros([pers])
 
@@ -372,6 +378,7 @@ def simulate_pre(
             ht[0] = h_func(hist[0, :])
             hkt[0] = hk_func(hist[0, :])
             hjt[0] = hj_func(hist[0, :])
+            dK_hist[tm] = dK_func(hist[0,:])
             dL_hist[tm] = dL_func(hist[0,:])
             dY_hist[tm] = dY_func(hist[0,:])
 
@@ -402,6 +409,7 @@ def simulate_pre(
             ht[tm] = h_func(hist[tm-1, :])
             hkt[tm] = hk_func(hist[tm-1, :])
             hjt[tm] = hj_func(hist[tm-1, :])
+            dK_hist[tm] = dK_func(hist[tm-1,:])
             dL_hist[tm] = dL_func(hist[tm-1,:])
             dY_hist[tm] = dY_func(hist[tm-1,:])
 
@@ -498,11 +506,18 @@ def simulate_pre(
     RelativeEntropy_TechJump = xi_j * np.exp(hist[:, 2])/varrho * (1-gt_tech + gt_tech*np.log(gt_tech))
     RelativeEntropy_DamageJump = xi_d * Damage_Intensity(hist[:, 1]) * np.sum(1 - gt_dmg + gt_dmg*np.log(gt_dmg) , axis=0)/n_damage
 
+
+    iota = (1-e_hist/(beta*alpha*np.exp(hist[:, 0])))*(e_hist<beta*alpha*np.exp(hist[:, 0]))
+    
+    c_hist = alpha*np.exp(hist[:, 0])*(1-phi_0* iota**phi_1) - i_hist * np.exp(hist[:, 0]) - x_hist * np.exp(hist[:, 0])
+    
+    print(c_hist/(alpha*np.exp(hist[:,0])))
+    
     res = dict(
         states= hist, 
         i = i_hist * np.exp(hist[:, 0]), 
         e = e_hist,
-        # x = x_hist * np.exp(hist[:, 0]),
+        c = c_hist,
         x = x_hist * np.exp(hist[:, 0]),
         scc = scc_hist,
         scrd = scrd_hist,
@@ -543,7 +558,9 @@ def simulate_pre(
         RelativeEntropy_h = RelativeEntropy_h,
         RelativeEntropy_hj = RelativeEntropy_hj,
         RelativeEntropy_TechJump = RelativeEntropy_TechJump,
-        RelativeEntropy_DamageJump = RelativeEntropy_DamageJump
+        RelativeEntropy_DamageJump = RelativeEntropy_DamageJump,
+        dL = dL_hist,
+        dK = dK_hist
         )
     
 

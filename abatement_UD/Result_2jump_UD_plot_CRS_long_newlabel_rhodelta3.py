@@ -117,6 +117,16 @@ if len(xicarr)==4 and min(xikarr)==0.150:
     Filename = 'Uncertainty Channels Less'
     colors = ['blue','red', 'green', 'cyan', 'purple']
     
+if len(xicarr)==2 and min(xikarr)==0.150:
+    labellist = ['Productivity Uncertainty', 'Neutrality']
+    Filename = 'DoubleComparison'
+    colors = ['blue','red', 'green', 'cyan', 'purple']
+    
+# if len(xicarr)==3 and min(xikarr)==0.150:
+#     labellist = ['Productivity Uncertainty', 'Technology Uncertainty', 'Neutrality']
+#     Filename = 'TripleComparison'
+#     colors = ['blue','green', 'red', 'cyan', 'purple']
+    
 # # if len(xicarr)==5:
 # #     labellist = ['Capital Aversion', 'Climate Aversion', 'Technology Aversion', 'Damage Aversion', 'Full Aversion']
 # #     Filename = 'Uncertainty Channels'
@@ -129,8 +139,19 @@ if len(xicarr)==4 and min(xikarr)==0.150:
 
 # #     colors =['blue','red', 'green', 'cyan', 'purple']
     
+# if len(xicarr)==3 and min(xikarr)==0.025:
+#     labellist = ['More Aversion', 'Less Aversion', 'Neutrality']
+#     Filename = 'Aversion Intensity Intense'
+#     # Filename = 'Aversion Intensity_old'
+#     # Filename = 'Aversion Intensity_onlyj'
+#     # Filename = 'Aversion Intensity_onlyk'
+#     colors = ['blue','red', 'green', 'cyan', 'purple']
+#     colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+
 if len(xicarr)==3:
     labellist = ['More Aversion', 'Less Aversion', 'Neutrality']
+    # Filename = 'Uncertainty Channel Intense'
     Filename = 'Aversion Intensity'
     # Filename = 'Aversion Intensity_old'
     # Filename = 'Aversion Intensity_onlyj'
@@ -138,7 +159,54 @@ if len(xicarr)==3:
     colors = ['blue','red', 'green', 'cyan', 'purple']
     colors2 = ['blue','red', 'green', 'cyan', 'purple']
 
-    
+
+# if len(xicarr)==3 and min(xikarr)==0.005:
+#     labellist = ['More Aversion', 'Less Aversion', 'Neutrality']
+#     Filename = 'Aversion Intensity Extreme'
+#     # Filename = 'Aversion Intensity_old'
+#     # Filename = 'Aversion Intensity_onlyj'
+#     # Filename = 'Aversion Intensity_onlyk'
+#     colors = ['blue','red', 'green', 'cyan', 'purple']
+#     colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+
+if len(xicarr)==4 and min(xikarr)==0.005:
+    labellist = [r'$\gamma=201$', r'$\gamma=101$', r'$\gamma=41$', 'Neutrality']
+    Filename = 'Aversion Intensity 4'
+    # Filename = 'Aversion Intensity_old'
+    # Filename = 'Aversion Intensity_onlyj'
+    # Filename = 'Aversion Intensity_onlyk'
+    colors = ['blue','red', 'green', 'cyan', 'purple']
+    colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+# if len(xicarr)==5 and min(xijarr)==0.005:
+#     labellist = [r'$\gamma=201$', r'$\gamma=101$', r'$\gamma=41$', 'Neutrality']
+#     Filename = 'R&D Channel on 4'
+#     # Filename = 'Aversion Intensity_old'
+#     # Filename = 'Aversion Intensity_onlyj'
+#     # Filename = 'Aversion Intensity_onlyk'
+#     colors = ['blue','red', 'green', 'cyan', 'purple']
+#     colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+# if len(xicarr)==5 and min(xijarr)==0.005:
+#     labellist = [r'$\gamma=201$', r'$\gamma=101$', r'$\gamma=41$', r'$\gamma=21$','Neutrality']
+#     Filename = 'RD Channel2 on 5'
+#     # Filename = 'Aversion Intensity_old'
+#     # Filename = 'Aversion Intensity_onlyj'
+#     # Filename = 'Aversion Intensity_onlyk'
+#     colors = ['blue','red', 'green', 'cyan', 'purple']
+#     colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+if len(xicarr)==5 and min(xikarr)==0.005:
+    labellist = [r'$\gamma=201$', r'$\gamma=101$', r'$\gamma=41$', r'$\gamma=21$','Neutrality']
+    Filename = 'Aversion Intensity2 5'
+    # Filename = 'Aversion Intensity_old'
+    # Filename = 'Aversion Intensity_onlyj'
+    # Filename = 'Aversion Intensity_onlyk'
+    colors = ['blue','red', 'green', 'cyan', 'purple']
+    colors2 = ['blue','red', 'green', 'cyan', 'purple']
+
+
 # # if len(xicarr)==3 and min(xikarr)==0.075:
 # #     labellist = ['Even Less Aversion', 'Much Less Aversion', 'Neutrality']
 # #     Filename = 'Aversion Intensity'
@@ -238,7 +306,7 @@ plt.rcParams["figure.dpi"] = 500
 plt.rcParams["font.size"] = 12
 plt.rcParams["legend.frameon"] = False
 plt.rcParams["lines.linewidth"] = 5
-plt.rcParams['axes.prop_cycle'] = plt.cycler(color=['blue','red', 'green', 'cyan', 'purple']) 
+plt.rcParams['axes.prop_cycle'] = plt.cycler(color=colors) 
     # colors = ['blue','green', 'red', 'cyan', 'purple']
 
 print("After, figure default size is: ", plt.rcParams["savefig.bbox"])
@@ -284,17 +352,49 @@ for id_xiag in range(len(xiaarr)):
                 plt.ylabel('$\%$ of GDP')
                 # plt.title("R&D investment as percentage of  GDP")
                 # if auto==0:   
-                if vartheta_bar==0.1:
-                    plt.ylim(0,4)
+                # if vartheta_bar==0.1:
+                #     plt.ylim(0,4)
                 if vartheta_bar==0.5:
-                    plt.ylim(0,15)
-                plt.xlim(0,30)
+                    plt.ylim(0,12)
+                # plt.xlim(0,30)
+                plt.xlim(0,IntPeriod)
 
                 plt.legend(loc='upper left')        
 print(res.keys())
 plt.savefig(Plot_Dir+"/RD_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
 plt.savefig(Plot_Dir+"/RD_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
+
+
+# for id_xiag in range(len(xiaarr)): 
+#     for id_psi0 in range(len(psi0arr)):
+#         for id_psi1 in range(len(psi1arr)):
+#             for id_varrho in range(len(varrhoarr)):
+
+
+#                 res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+#                 if xiaarr[id_xiag]>10:
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["c"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+#                 else:
+#                     plt.plot(res["years"][res["states"][:, 1]<1.5], ((res["c"]/(alpha*np.exp(res["states"][:,0])))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+#                 plt.xlabel('Years')
+#                 plt.ylabel('$\%$ of GDP')
+#                 # plt.title("R&D investment as percentage of  GDP")
+#                 # if auto==0:   
+#                 # if vartheta_bar==0.1:
+#                 #     plt.ylim(0,4)
+#                 if vartheta_bar==0.5:
+#                     plt.ylim(20,40)
+#                 # plt.xlim(0,30)
+#                 plt.xlim(0,IntPeriod)
+
+#                 plt.legend(loc='upper left')        
+# print(res.keys())
+# plt.savefig(Plot_Dir+"/Cons_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+# plt.savefig(Plot_Dir+"/Cons_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+# plt.close()
+
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -386,18 +486,43 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["i"]/(alpha*np.exp(res["states"][:,0]))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["i"]/(np.exp(res["states"][:,0]))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["i"]/(alpha*np.exp(res["states"][:,0]))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["i"]/(np.exp(res["states"][:,0]))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
                 plt.xlabel('Years')
                 # plt.title("Capital investment as percentage of GDP")
                 # if auto==0:   
-                plt.ylim(50,80)
-                plt.xlim(0,30)
+                plt.ylim(5,15)
+                plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
 
 # plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
 plt.savefig(Plot_Dir+"/CapIRatio_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+plt.close()
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["i"]/(alpha*np.exp(res["states"][:,0]))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (res["i"]/(alpha*np.exp(res["states"][:,0]))*100)[res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                plt.xlabel('Years')
+                plt.ylabel('$\%$ of GDP')
+                # plt.title("Capital investment as percentage of GDP")
+                # if auto==0:   
+                plt.ylim(50,80)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+# plt.savefig(Plot_Dir+"/CapI_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/CapIRatioOutput_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
 
@@ -425,6 +550,33 @@ for id_xiag in range(len(xiaarr)):
 plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
 plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+                if xiaarr[id_xiag]>10:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], 886+np.cumsum(res["e"][res["states"][:, 1]<1.5])*timespan,label=labellist[id_xiag],linewidth=5.0)
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], 886+np.cumsum(res["e"][res["states"][:, 1]<1.5])*timespan,label=labellist[id_xiag],linewidth=5.0)
+                # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
+                # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
+                plt.xlabel('Years')
+                # plt.title("Carbon Emissions")
+                # if auto==0:   
+                # plt.ylim(6.0,15.0)
+                plt.xlim(0,30)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/ECum_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/ECum_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+plt.close()
+
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -467,7 +619,7 @@ for id_xiag in range(len(xiaarr)):
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
                 plt.xlabel('Years')
-                plt.title("Temperature Anomaly")
+                # plt.title("Temperature Anomaly")
                 # if auto==0:   
                 plt.ylim(1.1,1.5)
                 plt.xlim(0,30)
@@ -476,6 +628,33 @@ for id_xiag in range(len(xiaarr)):
 plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
 plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
+                # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
+                plt.xlabel('Years')
+                # plt.title("Temperature Anomaly")
+                # if auto==0:   
+                plt.ylim(1.1,1.5)
+                plt.xlim(0,30)
+                plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/TAF_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/TAF_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+plt.close()
+
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -1243,6 +1422,104 @@ for id_xiag in range(len(xiaarr)):
 plt.savefig(Plot_Dir+"/RE_J_{}_".format(IntPeriod)+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
 plt.close()
 
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+                
+                
+                if xigarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (  res["dL"])[res["states"][:, 1]<1.5],label=labellist[id_xiag]  )
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (  res["dL"])[res["states"][:, 1]<1.5],label=labellist[id_xiag]  )
+
+                plt.xlabel("Years")
+                # plt.title("Relative Entropy for Knowledge Capital")
+                plt.ticklabel_format(style='plain')
+                # plt.ylim(0,0.2)
+                plt.legend(loc='upper left')
+
+# plt.savefig(Plot_Dir+"/h2_{}_".format(IntPeriod)+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/dL_{}_".format(IntPeriod)+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+                
+                
+                if xigarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (  res["dK"])[res["states"][:, 1]<1.5],label=labellist[id_xiag]  )
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (  res["dK"])[res["states"][:, 1]<1.5],label=labellist[id_xiag]  )
+
+                plt.xlabel("Years")
+                # plt.title("Relative Entropy for Knowledge Capital")
+                plt.ticklabel_format(style='plain')
+                # plt.ylim(0.8,1)
+                plt.legend(loc='upper left')
+
+# plt.savefig(Plot_Dir+"/h2_{}_".format(IntPeriod)+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/dK_{}_".format(IntPeriod)+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+                
+                
+                if xigarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (  np.exp(res["dL"]))[res["states"][:, 1]<1.5],label=labellist[id_xiag]  )
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (  np.exp(res["dL"]))[res["states"][:, 1]<1.5],label=labellist[id_xiag]  )
+
+                plt.xlabel("Years")
+                # plt.title("Relative Entropy for Knowledge Capital")
+                plt.ticklabel_format(style='plain')
+                plt.ylim(1,1.2)
+                plt.legend(loc='upper left')
+
+# plt.savefig(Plot_Dir+"/h2_{}_".format(IntPeriod)+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/dL_exp_{}_".format(IntPeriod)+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+                
+                
+                if xigarr[id_xiag]>10:
+
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (  np.exp(res["dK"]))[res["states"][:, 1]<1.5],label=labellist[id_xiag]  )
+                else:
+                    plt.plot(res["years"][res["states"][:, 1]<1.5], (  np.exp(res["dK"]))[res["states"][:, 1]<1.5],label=labellist[id_xiag]  )
+
+                plt.xlabel("Years")
+                # plt.title("Relative Entropy for Knowledge Capital")
+                plt.ticklabel_format(style='plain')
+                plt.ylim(2.4,2.7)
+                plt.legend(loc='upper left')
+
+# plt.savefig(Plot_Dir+"/h2_{}_".format(IntPeriod)+Filename+".pdf".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.savefig(Plot_Dir+"/dK_exp_{}_".format(IntPeriod)+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png".format(IntPeriod, xiaarr,xicarr,xidarr,xigarr,psi0arr,psi1arr,varrhoarr))
+plt.close()
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):

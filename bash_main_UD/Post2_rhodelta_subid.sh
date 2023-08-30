@@ -4,8 +4,8 @@
 # epsilonarray=(0.05 0.01 0.005) 
 
 
-# epsilonarray=(0.0025) 
-epsilonarray=(0.005) 
+epsilonarray=(0.0025) 
+# epsilonarray=(0.005) 
 # epsilonarray=(0.025) 
 # epsilonarray=(0.1 0.05 0.01) 
 
@@ -44,8 +44,8 @@ declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
-hXarrays=(hXarr2)
+hXarrays=(hXarr1)
+# hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
@@ -112,12 +112,12 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 
 
 
-xi_a=(100000.)
-xi_k=(100000.)
-xi_c=(100000.)
-xi_j=(100000.)
-xi_d=(100000.)
-xi_g=(100000.)
+# xi_a=(100000.)
+# xi_k=(100000.)
+# xi_c=(100000.)
+# xi_j=(100000.)
+# xi_d=(100000.)
+# xi_g=(100000.)
 
 # xi_a=(100000.)
 # xi_k=(0.050)
@@ -125,6 +125,14 @@ xi_g=(100000.)
 # xi_j=(100000.)
 # xi_d=(100000.)
 # xi_g=(100000.)
+
+# xi_a=(100000.)
+# xi_k=(100000.)
+# xi_c=(0.050)
+# xi_j=(100000.)
+# xi_d=(100000.)
+# xi_g=(100000.)
+
 
 # xi_a=(100000.)
 # xi_k=(100000.)
@@ -137,10 +145,16 @@ xi_g=(100000.)
 # xi_a=(100000.)
 # xi_k=(100000.)
 # xi_c=(100000.)
-# xi_j=(0.050)
+# xi_j=(0.025)
 # xi_d=(100000.)
-# xi_g=(0.050)
+# xi_g=(0.025)
 
+xi_a=(100000.)
+xi_k=(100000.)
+xi_c=(100000.)
+xi_j=(0.010)
+xi_d=(100000.)
+xi_g=(0.010)
 
 varrhoarr=(1120)
 # varrhoarr=(448)
@@ -170,8 +184,8 @@ psi0arr=(0.105830)
 # phi0arr=(0.05 0.1 0.2 0.5)
 # phi0arr=(0.05 0.1 0.5)
 # phi0arr=(0.1 0.5)
-# phi0arr=(0.5)
-phi0arr=(0.1)
+phi0arr=(0.5)
+# phi0arr=(0.1)
 LENGTH_phi0=$((${#phi0arr[@]} - 1))
 
 
@@ -188,7 +202,7 @@ Xmaxarr_SG=(9.00 4.0 0.0 3.0)
 interp_action_name="2jump_step_0.2_0.2_0.2_LR_0.01"
 fstr_SG="NearestNDInterpolator"
 
-id_sub=10
+id_sub=2
 # id_sub=19
 
 for epsilon in ${epsilonarray[@]}; do
@@ -215,10 +229,10 @@ for epsilon in ${epsilonarray[@]}; do
 		# epsilonarr=(0.01 0.0025)
 		# fractionarr=(0.01 0.0025)
 
-		# i=1
+		i=1
 		# i=2
-		# i=17
-		for i in $(seq 11 $ID_MAX_DAMAGE); do
+		# i=19
+		# for i in $(seq 11 $ID_MAX_DAMAGE); do
 			for PSI_0 in ${psi0arr[@]}; do
 				for PSI_1 in ${psi1arr[@]}; do
 					for varrho in ${varrhoarr[@]}; do
@@ -281,4 +295,4 @@ EOF
 			done
 		done
 	done
-done
+# done

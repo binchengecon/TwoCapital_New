@@ -3,11 +3,11 @@
 actiontime=1
 # epsilonarraypost=(0.1) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05) # Computation of fine grid and psi10.8, post
-epsilonarraypost=(0.025) # Computation of fine grid and psi10.8, post
+# epsilonarraypost=(0.025) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.005) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.004) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.003) # Computation of fine grid and psi10.8, post
-# epsilonarraypost=(0.0025) # Computation of fine grid and psi10.8, post
+epsilonarraypost=(0.0025) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.001) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.01) # Computation of fine grid and psi10.8, post
 # epsilonarraypost=(0.05 0.01 0.005)  # 0.1
@@ -16,8 +16,8 @@ epsilonarraypost=(0.025) # Computation of fine grid and psi10.8, post
 
 
 # epsilonarraypre=(0.1) #
-epsilonarraypre=(0.025) #
-# epsilonarraypre=(0.005) #
+# epsilonarraypre=(0.025) #
+epsilonarraypre=(0.005) #
 # epsilonarraypre=(0.001) #
 
 # python_name="predamage_2jump_CRS2_delta_rho.py"
@@ -46,8 +46,8 @@ declare -A hXarr6=([0]=0.1 [1]=0.025 [2]=0.1)
 declare -A hXarr7=([0]=0.1 [1]=0.01 [2]=0.1)
 declare -A hXarr8=([0]=0.2 [1]=0.1 [2]=0.1)
 # hXarrays=(hXarr1 hXarr2 hXarr3)
-# hXarrays=(hXarr1)
-hXarrays=(hXarr2)
+hXarrays=(hXarr1)
+# hXarrays=(hXarr2)
 # hXarrays=(hXarr3)
 # hXarrays=(hXarr4)
 # hXarrays=(hXarr5)
@@ -99,14 +99,19 @@ Xmaxarr=(9.00 4.0 6.0 3.0)
 # xi_d=(100000. 100000. 100000. 0.075)
 # xi_g=(100000. 100000. 0.075 100000.)
 
-xi_a=(100000. 100000. 100000. 100000.)
-xi_k=(0.150 100000. 100000. 100000.)
-xi_c=(100000. 0.150 100000. 100000.)
-xi_j=(100000. 100000. 0.150 100000.)
-xi_d=(100000. 100000. 100000. 0.150)
-xi_g=(100000. 100000. 0.150 100000.)
+# xi_a=(100000. 100000. 100000. 100000.)
+# xi_k=(0.150 100000. 100000. 100000.)
+# xi_c=(100000. 0.150 100000. 100000.)
+# xi_j=(100000. 100000. 0.150 100000.)
+# xi_d=(100000. 100000. 100000. 0.150)
+# xi_g=(100000. 100000. 0.150 100000.)
 
-
+# xi_a=(100000. 100000. 100000.)
+# xi_k=(0.005  0.010  0.001)
+# xi_c=(0.005  0.010  0.001)
+# xi_j=(0.005  0.010  0.001)
+# xi_d=(0.005  0.010  0.001)
+# xi_g=(0.005  0.010  0.001)
 
 
 # xi_a=(100000.)
@@ -139,8 +144,15 @@ xi_g=(100000. 100000. 0.150 100000.)
 # xi_d=(100000. 100000. 0.050 0.050)
 # xi_g=(100000. 100000. 100000. 100000.)
 
+xi_a=(100000. 100000. 100000. 100000.)
+xi_k=(100000. 100000. 100000. 100000.)
+xi_c=(100000. 100000. 100000. 100000.)
+xi_j=(0.005  0.010 0.025 0.050)
+xi_d=(100000. 100000. 100000. 100000.)
+xi_g=(0.005  0.010 0.025 0.050)
 
 varrhoarr=(1120)
+# varrhoarr=(1120000)
 # varrhoarr=(448)
 
 
