@@ -92,7 +92,7 @@ HJB_solution = args.HJB_solution
 delta = args.delta
 alpha = 0.115
 kappa = 6.667
-mu_k  = -0.043
+mu_k  = -0.045
 # sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
 sigma_k = 0.0100
 beta_f = 1.86/1000
@@ -331,6 +331,7 @@ def simulate_pre(
     hist      = np.zeros([pers, 3])
     i_hist    = np.zeros([pers])
     e_hist    = np.zeros([pers])
+    e_annual_hist = np.zeros([T])
     x_hist    = np.zeros([pers])
     scc_hist  = np.zeros([pers])
     gt_tech   = np.zeros([pers])
@@ -395,7 +396,15 @@ def simulate_pre(
             ME_total_hist[0] = ME_total_func(hist[0,:])
             ME_base_hist[0] = ME_base_func(hist[0,:])
             theta_ell_hist[:,tm] = theta_ell + sigma_y*ht[tm]
+            
+            e_annual_hist[0] = get_e(hist[0, :])
+            ii=0
         else:
+            
+            if tm % 12 ==0
+                ii = ii+1 
+                e_annual_hist[ii] = get_e(hist[tm-1,:])
+                
             # other periods
             # print(hist[tm-1,:])
             i_hist[tm] = get_i(hist[tm-1,:])

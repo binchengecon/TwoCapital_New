@@ -92,7 +92,7 @@ rho = args.rho
 delta = args.delta
 alpha   = 0.115
 kappa   = 6.667
-mu_k    = -0.043
+mu_k    = -0.045
 # sigma_k = np.sqrt(0.0087**2 + 0.0038**2)
 sigma_k = 0.0100
 

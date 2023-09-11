@@ -156,8 +156,8 @@ if len(xicarr)==3:
     # Filename = 'Aversion Intensity_old'
     # Filename = 'Aversion Intensity_onlyj'
     # Filename = 'Aversion Intensity_onlyk'
-    colors = ['blue','red', 'green', 'cyan', 'purple']
-    colors2 = ['blue','red', 'green', 'cyan', 'purple']
+    colors = ['blue','red', 'green', 'cyan', 'purple', 'orange']
+    colors2 = ['blue','red', 'green', 'cyan', 'purple', 'orange']
 
 
 # if len(xicarr)==3 and min(xikarr)==0.005:
@@ -261,7 +261,7 @@ HJB_solution = args.HJB_solution
 delta = args.delta
 alpha = 0.115
 kappa = 6.667
-mu_k  = -0.043
+mu_k  = -0.045
 sigma_k = 0.01
 beta_f = 1.86/1000
 sigma_y = 1.2 * 1.86 / 1000
@@ -525,6 +525,8 @@ for id_xiag in range(len(xiaarr)):
 plt.savefig(Plot_Dir+"/CapIRatioOutput_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
+data = pd.read_csv("./data/emission.csv")
+
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -551,6 +553,77 @@ plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,
 plt.savefig(Plot_Dir+"/E_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+                if xiaarr[id_xiag]>10:
+                    plt.plot(res["years"], res["e"],label=labellist[id_xiag],linewidth=5.0)
+                else:
+                    plt.plot(res["years"], res["e"],label=labellist[id_xiag],linewidth=5.0)
+                # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
+                # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
+                plt.xlabel('Years')
+                # plt.title("Carbon Emissions")
+                # if auto==0:   
+                # plt.ylim(6.0,15.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+
+txt="""Annual emissions, initialized at the year 2020, in units of GtC. \n The three solid lines correspond to trajectories of annual emissions under three model misspecification scenarios: \n neutrality, less aversion and more aversion from Barnett, Brock, Hansen and Zhang (2023). \n The four dashed lines correspond to trajectories of emissions under four projected RCP scenarios: \n RCP 2.6, RCP 4.5, RCP 6.0 and RCP 8.5 from the 2017 Climate Science Special Report by the U.S. Global Change Research Program"""
+plt.figtext(0.5, -0.2, txt, wrap=True, horizontalalignment='center', fontsize=18)
+
+plt.plot(data.loc[13:17,"YEARS"]-2020,data.loc[13:17,"RCP3"],label="RCP2.6",linestyle="--", color="palegreen")
+plt.plot(data.loc[13:17,"YEARS"]-2020,data.loc[13:17,"RCP4.5"],label="RCP4.5",linestyle="--", color="lightskyblue")
+plt.plot(data.loc[13:17,"YEARS"]-2020,data.loc[13:17,"RCP6"],label="RCP6.0",linestyle="--", color = "orange")
+plt.plot(data.loc[13:17,"YEARS"]-2020,data.loc[13:17,"RCP8.5"],label="RCP8.5",linestyle="--", color="salmon")
+plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/E2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/E2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+plt.close()
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+                if xiaarr[id_xiag]>10:
+                    plt.plot(res["years"], res["e"]* (1-res["true_tech_prob"]),label=labellist[id_xiag],linewidth=5.0)
+                else:
+                    plt.plot(res["years"], res["e"]* (1-res["true_tech_prob"]),label=labellist[id_xiag],linewidth=5.0)
+                # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
+                # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
+                plt.xlabel('Years')
+                # plt.title("Carbon Emissions")
+                # if auto==0:   
+                # plt.ylim(6.0,15.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+
+txt="""Annual emissions, initialized at the year 2020, in units of GtC. \n The three solid lines correspond to trajectories of annual expected emissions under three model misspecification scenarios: \n neutrality, less aversion and more aversion from Barnett, Brock, Hansen and Zhang (2023). \n The four dashed lines correspond to trajectories of emissions under four projected RCP scenarios: \n RCP 2.6, RCP 4.5, RCP 6.0 and RCP 8.5 from the 2017 Climate Science Special Report by the U.S. Global Change Research Program"""
+plt.figtext(0.5, -0.2, txt, wrap=True, horizontalalignment='center', fontsize=18)
+
+plt.plot(data.loc[13:17,"YEARS"]-2020,data.loc[13:17,"RCP3"],label="RCP2.6",linestyle="--", color="palegreen")
+plt.plot(data.loc[13:17,"YEARS"]-2020,data.loc[13:17,"RCP4.5"],label="RCP4.5",linestyle="--", color="lightskyblue")
+plt.plot(data.loc[13:17,"YEARS"]-2020,data.loc[13:17,"RCP6"],label="RCP6.0",linestyle="--", color = "orange")
+plt.plot(data.loc[13:17,"YEARS"]-2020,data.loc[13:17,"RCP8.5"],label="RCP8.5",linestyle="--", color="salmon")
+plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/EExpec2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/EExpec2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+plt.close()
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
@@ -629,6 +702,11 @@ plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta
 plt.savefig(Plot_Dir+"/TA_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
+
+# data_cmip5= pd.read_csv("./data/cmip5.csv")
+data_back= pd.read_csv("./data/BackData.csv")
+
+
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
         for id_psi1 in range(len(psi1arr)):
@@ -639,22 +717,126 @@ for id_xiag in range(len(xiaarr)):
 
                 if xiaarr[id_xiag]>10:
 
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"], res["states"][:, 1],label=labellist[id_xiag],linewidth=5.0)
                 else:
-                    plt.plot(res["years"][res["states"][:, 1]<1.5], res["states"][:, 1][res["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=5.0)
+                    plt.plot(res["years"], res["states"][:, 1],label=labellist[id_xiag],linewidth=5.0)
                 # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
                 # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
                 plt.xlabel('Years')
                 # plt.title("Temperature Anomaly")
                 # if auto==0:   
-                plt.ylim(1.1,1.5)
-                plt.xlim(0,30)
+                plt.ylim(1,3)
+                plt.xlim(0,IntPeriod)
                 plt.legend(loc='upper left')
+
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP3"]*5/9,label="RCP2.6",linestyle="--")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP4.5"]*5/9,label="RCP4.5",linestyle="--")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP8"]*5/9,label="RCP8.5",linestyle="--")
+plt.legend(loc='upper left')
 
 plt.savefig(Plot_Dir+"/TAF_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
 plt.savefig(Plot_Dir+"/TAF_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
 plt.close()
 
+
+
+
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+                if xiaarr[id_xiag]>10:
+
+                    plt.plot(res["years"], res["states"][:, 1],label=labellist[id_xiag],linewidth=5.0)
+                else:
+                    plt.plot(res["years"], res["states"][:, 1],label=labellist[id_xiag],linewidth=5.0)
+                # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["states"][:, 1][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
+                # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["states"][:, 1][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
+                plt.xlabel('Years')
+                plt.title("Temperature Anomaly")
+                # if auto==0:   
+                plt.ylim(1,3)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP3"]*5/9,label="RCP2.6",linestyle="--", color="palegreen")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP4.5"]*5/9,label="RCP4.5",linestyle="--", color = "lightskyblue")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP8"]*5/9,label="RCP8.5",linestyle="--", color = "salmon")
+plt.legend(loc='upper left')
+
+txt="""Temperature anomaly, initialized at the year 2020, in units of degrees Celsius. \n The three solid lines correspond to trajectories of temperature anomaly under three model misspecification scenarios: \n neutrality, less aversion and more aversion from Barnett, Brock, Hansen and Zhang (2023). \n The three dashed lines correspond to trajectories of temperature anomaly under three projected RCP scenarios: \n RCP 2.6, RCP 4.5 and RCP 8.5 from the 2017 Climate Science Special Report by the U.S. Global Change Research Program"""
+plt.figtext(0.5, -0.2, txt, wrap=True, horizontalalignment='center', fontsize=18)
+
+plt.savefig(Plot_Dir+"/TAF2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/TAF2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+plt.close()
+
+
+    
+for id_xiag in range(len(xiaarr)): 
+    for id_psi0 in range(len(psi0arr)):
+        for id_psi1 in range(len(psi1arr)):
+            for id_varrho in range(len(varrhoarr)):
+
+
+                res = model_simulation_generate(xiaarr[id_xiag],xikarr[id_xiag],xicarr[id_xiag],xijarr[id_xiag],xidarr[id_xiag],xigarr[id_xiag],psi0arr[id_psi0],psi1arr[id_psi1], varrhoarr[id_varrho],rho)
+
+                e_annual = np.zeros([IntPeriod+1])
+                year_annual = np.zeros([IntPeriod+1])
+
+
+                for t in range(IntPeriod):
+    
+                    e_annual[t] = (res["e"]* (1-res["true_tech_prob"]))[t*12]
+                    year_annual[t] = t 
+                    
+                e_annual [-1] = (res["e"]* (1-res["true_tech_prob"]))[-1]
+                year_annual[-1] = IntPeriod
+
+    
+                if xiaarr[id_xiag]>10:
+                    plt.plot(year_annual, np.cumsum(e_annual)*0.00186+1.1,label=labellist[id_xiag],linewidth=5.0)
+                else:
+                    plt.plot(year_annual, np.cumsum(e_annual)*0.00186+1.1,label=labellist[id_xiag],linewidth=5.0)
+                # plt.plot(res2["years"][res2["states"][:, 1]<1.5], res2["e"][res2["states"][:, 1]<1.5],label=r'$\xi_a=\\xi_g=0.050$',linewidth=7.0)
+                # plt.plot(res3["years"][res3["states"][:, 1]<1.5], res3["e"][res3["states"][:, 1]<1.5],label=labellist[id_xiag],linewidth=7.0)
+                plt.xlabel('Years')
+                # plt.title("Carbon Emissions")
+                # if auto==0:   
+                # plt.ylim(6.0,15.0)
+                plt.xlim(0,IntPeriod)
+                plt.legend(loc='upper left')
+
+
+txt="""Temperature anomaly, initialized at the year 2020, in units of degrees Celsius. \n The three solid lines correspond to trajectories of temperature anomaly with expectation value under three model misspecification scenarios: \n neutrality, less aversion and more aversion from Barnett, Brock, Hansen and Zhang (2023). \n The three dashed lines correspond to trajectories of temperature anomaly under three projected RCP scenarios: \n RCP 2.6, RCP 4.5 and RCP 8.5 from the 2017 Climate Science Special Report by the U.S. Global Change Research Program"""
+plt.figtext(0.5, -0.2, txt, wrap=True, horizontalalignment='center', fontsize=18)
+
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP3"]*5/9,label="RCP2.6",linestyle="--", color="palegreen")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP4.5"]*5/9,label="RCP4.5",linestyle="--", color = "lightskyblue")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP8"]*5/9,label="RCP8.5",linestyle="--", color = "salmon")
+plt.legend(loc='upper left')
+
+plt.savefig(Plot_Dir+"/TA_TCREExpec2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".pdf")
+plt.savefig(Plot_Dir+"/TA_TCREExpec2_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+plt.close()
+
+
+plt.plot(data.loc[12:17,"YEARS"]-2010,(np.cumsum(data.loc[:,"RCP3"])*.00186*10)[12:18],label="RCP3-TCRE",color="blue")
+plt.plot(data.loc[12:17,"YEARS"]-2010,(np.cumsum(data.loc[:,"RCP4.5"])*.00186*10)[12:18],label="RCP4.5-TCRE",color="red")
+# plt.plot(data.loc[13:17,"YEARS"],(np.cumsum(data.loc[:,"RCP6"])*.00186*10)[13:18],label="RCP6")
+plt.plot(data.loc[12:17,"YEARS"]-2010,(np.cumsum(data.loc[:,"RCP8.5"])*.00186*10)[12:18],label="RCP8.5-TCRE",color="green")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP3"]*5/9,label="RCP3",linestyle="--",color="blue")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP4.5"]*5/9,label="RCP4.5",linestyle="--",color="red")
+plt.plot(data_back.loc[0:8,"YEARS"]-2020,data_back.loc[0:8,"RCP8"]*5/9,label="RCP8.5",linestyle="--",color="green")
+plt.legend(loc='upper left')
+plt.xlim(0,IntPeriod)
+plt.ylim(1,3)
+plt.savefig(Plot_Dir+"/TACompare_"+Filename+"_rho={}_delta={}_phi0={}".format(rho,delta,phi_0)+".png")
+plt.close()
 
 for id_xiag in range(len(xiaarr)): 
     for id_psi0 in range(len(psi0arr)):
